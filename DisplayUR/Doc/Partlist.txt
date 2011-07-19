@@ -1,0 +1,11 @@
+Partlist
+
+Part     		Bestellnr. Reichelt
+C1..C3       		Z5U-2,5 100N
+D1..D6                  SC 52-11 GN (7 Segmentanzeige grün)
+IC1			ATMEGA 8-16 DIP
+J1			PSS 254/5G
+Q1..Q6       		BC847
+R1..R7, R14, R15	1/4W 120
+R8..R13      		1/4W 1k
+R16			1/4W 10k

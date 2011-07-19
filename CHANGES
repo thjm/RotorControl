@@ -1,0 +1,11 @@
+$Id: CHANGES,v 1.1 2011/07/19 11:46:18 mathes Exp $
+
+CHANGES file for Projekte/RotorControl
+-----------------------------------------------------------------------------
+
+2011-07-19 (thjm) - project started with creating CVS folder
+                  - from U.Radig imported sources of PowerSupply
+                  - drawings and schemes go to DisplayUR/Doc
+
+=============================================================================
+
