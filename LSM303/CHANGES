@@ -1,0 +1,21 @@
+$Id: CHANGES,v 1.1 2011/09/05 13:27:23 mathes Exp $
+
+ToDo:
+-----
+- get rid of all Orangutan code
+  + use code by P.Fleury
+
+CHANGES file for RotorControl/LSM303 directory
+-----------------------------------------------------------------------------
+
+2011/09/05 (thjm) - compiling successfully for the first time
+                  - code for Orangutan from:
+		    ftp://tdata.atu.edu/Carlos%20Castillo/2011%20Spring/MICRO/Pololu%203pi%20robot/Installation%20Software/
+		    -> libpololu-avr-101104.zip
+		  
+2011/08/22 (thjm) - initial import of test code for LSM303DLH sensor
+                    taken from orangutan project, see also:
+                    http:
+
+=============================================================================
+
