@@ -1,4 +1,4 @@
-$Id: README,v 1.1 2011/07/19 11:46:18 mathes Exp $
+$Id: README,v 1.2 2011/09/05 13:27:58 mathes Exp $
 
 README file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -7,12 +7,24 @@ This is the README file for the rotator controller project.
 
 Directories:
 -------------
+
 - Eagle : contains drawings and schemes done with the Eagle layout program
 
 - DisplayUR : parts takes from Ulrich Radigs (http://www.ulrichradig.de)
           PowerSupply project. The display unit presented there seems to be
           quite usable for a simple display here, just software needs to be 
           adopted.
+
+- LSM303 : library and example for the Pololu LSM303DLH 6-axis sensor
+          breakout board. The boards contains a 3-axis magnetometer and a
+          3-axis accelerometer.
+          See also:
+          - http://www.lipoly.de/index.php?main_page=product_info&products_id=165628
+          - data sheet LSM303DLH.pdf
+          - LSM303DLH-compass-app-node.pdf
+          - LSM303DLH-orangutan-example-cde.zip
+          - UM10204.pdf (I2C-bus specification)
+          - https://github.com/ryantm/LSM303DLH (Arduino library)
 
 =============================================================================
 
