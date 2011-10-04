@@ -5,7 +5,10 @@
 # (GNU make, BSD make, SysV make)
 
 
-MCU = atmega168
+#MCU = atmega168
+#MCU = atmega88
+# this one will not work
+MCU = atmega8
 FORMAT = ihex
 TARGET = compass
 SRC = $(TARGET).c vector.c lcd.c
@@ -29,7 +32,9 @@ DEBUG = stabs
 CSTANDARD = -std=gnu99
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=8000000UL -DLIB_POLOLU
+#CDEFS = -DF_CPU=8000000UL -DLIB_POLOLU
+# U.Radig, ATmega8 test board with 12MHz
+CDEFS = -DF_CPU=12000000UL -DLIB_POLOLU
 
 # Place -I options here
 CINCS = 
@@ -64,6 +69,26 @@ SCANF_LIB_FLOAT = -Wl,-u,vfscanf -lscanf_flt
 SCANF_LIB = 
 
 MATH_LIB = -lm
+
+# UART library of P.Fleury
+UARTLIBDIR = $(FLEURYHOME)/uartlibrary
+CINCS += -I$(UARTLIBDIR)
+UARTLIB = uart.o
+
+uart.c: $(UARTLIBDIR)/uart.c
+	ln -s $< $@
+clean::
+	rm -f uart.c
+
+# I2CMASTER library of P.Fleury
+I2CLIBDIR = $(FLEURYHOME)/i2cmaster
+CINCS += -I$(I2CLIBDIR)
+I2CLIB = i2cmaster.o
+
+i2cmaster.c: $(I2CLIBDIR)/twimaster.c
+	ln -s $< $@
+clean::
+	rm -f i2cmaster.c
 
 # External memory options
 
@@ -190,6 +215,17 @@ $(TARGET).elf: $(OBJ)
 	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
 
 
+# Target: lsm303test.elf
+LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB)
+
+lsm303test.elf: $(LSM303TESTOBJS)
+	$(CC) $(ALL_CFLAGS) $(LSM303TESTOBJS) --output $@ \
+	-Wl,-Map=lsm303test.map,--cref
+
+clean::
+	$(RM) lsm303test.elf lsm303test.hex lsm303test.map
+	$(RM) $(LSM303TESTOBJS)
+
 # Compile: create object files from C source files.
 .c.o:
 	$(CC) -c $(ALL_CFLAGS) $< -o $@ 
@@ -212,7 +248,7 @@ $(TARGET).elf: $(OBJ)
 
 
 # Target: clean project.
-clean:
+clean::
 	$(REMOVE) $(TARGET).hex $(TARGET).eep $(TARGET).cof $(TARGET).elf \
 	$(TARGET).map $(TARGET).sym $(TARGET).lss \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d)
