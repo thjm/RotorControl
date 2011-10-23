@@ -4,7 +4,7 @@
  *
  * Purpose: Simple test program for AVR TWI interface with LSM303DLH
  *
- * $Id: lsm303test.c,v 1.1 2011/10/04 15:32:59 mathes Exp $
+ * $Id: lsm303test.c,v 1.2 2011/10/23 16:04:31 mathes Exp $
  *
  */
  
@@ -31,6 +31,13 @@
 #define UART_RX_BUFFER_SIZE 32
 
 #include <i2cmaster.h>
+
+#define I2C_DEV_LSM303DLH_ACC  0x30
+#define I2C_DEV_LSM303DLH_MAG  0x3C
+
+#define LSM303DLH_USE_ACC
+#define LSM303DLH_USE_MAG
+
 #ifdef USE_UART
 # include <uart.h>
 #endif // USE_UART
@@ -64,6 +71,13 @@ static char buffer[10];
 static void PrintA(uint8_t al, uint8_t ah, char *what) 
  {
 #ifdef USE_UART
+#if 1
+  int16_t a = al | (ah << 8);
+  uart_puts( what );
+  uart_puts_P("= ");
+  itoa(a, buffer, 10);
+  uart_puts( buffer );
+#else
   itoa(al, buffer, 10);
   uart_puts( what );
   uart_puts_P("= ");
@@ -71,20 +85,27 @@ static void PrintA(uint8_t al, uint8_t ah, char *what)
   uart_puts_P(" ");
   itoa(ah, buffer, 10);
   uart_puts( buffer );
+#endif
   uart_puts_P("\r\n");
 #endif // USE_UART
 }
 
 // --------------------------------------------------------------------------
 
-static void lsm303dlh_test(void)
+#ifdef LSM303DLH_USE_ACC
+static void LSM303DLHTestACC(void)
  {
   uint8_t ret;
   
-  // read accelerometer values
+#ifdef USE_UART
+  uart_puts_P("\r\n");
+#endif // USE_UART
+
+  // --- read accelerometer values
+
   //i2c_start();
   //i2c_write_byte(0x30); // write acc
-  ret = i2c_start( 0x30 | I2C_WRITE );
+  ret = i2c_start( I2C_DEV_LSM303DLH_ACC | I2C_WRITE );
   if ( ret ) {
     /* failed to issue start condition, possibly no device found */
     i2c_stop();
@@ -96,11 +117,12 @@ static void lsm303dlh_test(void)
   }
   else {
     /* issuing start condition ok, device accessible */
-    i2c_write(0xa8); // OUT_X_L_A, MSB set to enable auto-increment
+    //i2c_write_byte(0xa8); // OUT_X_L_A, MSB set to enable auto-increment
+    i2c_write(0xa8);
   
     //i2c_start();  	    // repeated start
     //i2c_write_byte(0x31); // read acc
-    ret = i2c_rep_start( 0x31 | I2C_READ );
+    ret = i2c_rep_start( I2C_DEV_LSM303DLH_ACC | I2C_READ );
     if ( ret ) {
       i2c_stop();
       YellowLEDOff();
@@ -123,23 +145,85 @@ static void lsm303dlh_test(void)
       PrintA( azl, azh, "AZ" );
     }
   }
-#if 0
-  // read magnetometer values
-  i2c_start(); 
-  i2c_write_byte(0x3C); // write mag
-  i2c_write_byte(0x03); // OUTXH_M
-  i2c_start();  	    // repeated start
-  i2c_write_byte(0x3D); // read mag
-  unsigned char mxh = i2c_read_byte();
-  unsigned char mxl = i2c_read_byte();
-  unsigned char myh = i2c_read_byte();
-  unsigned char myl = i2c_read_byte();
-  unsigned char mzh = i2c_read_byte();
-  unsigned char mzl = i2c_read_last_byte();
-  i2c_stop();
-#endif
 
-  delay_sec(2);
+  delay_sec(1);
+}
+#endif // LSM303DLH_USE_ACC
+
+// --------------------------------------------------------------------------
+
+#ifdef LSM303DLH_USE_MAG
+static void LSM303DLHTestMAG(void)
+ {
+  uint8_t ret;
+  
+#ifdef USE_UART
+  uart_puts_P("\r\n");
+#endif // USE_UART
+
+  // --- read magnetometer values
+  
+  //i2c_start(); 
+  //i2c_write_byte(0x3C); // write mag
+  ret = i2c_start( I2C_DEV_LSM303DLH_MAG | I2C_WRITE );
+  if ( ret ) {
+    /* failed to issue start condition, possibly no device found */
+    i2c_stop();
+    YellowLEDOff();
+    RedLEDOn(); 			     // show error */
+#ifdef USE_UART
+    uart_puts_P("Error 3!\r\n");
+#endif // USE_UART
+  }
+  else {
+    /* issuing start condition ok, device accessible */
+    //i2c_write_byte(0x03); // OUT_X_H_M
+    i2c_write(0x03);
+
+    //i2c_start();  	    // repeated start
+    //i2c_write_byte(0x3D); // read mag
+    ret = i2c_rep_start( I2C_DEV_LSM303DLH_MAG | I2C_READ );
+    if ( ret ) {
+      i2c_stop();
+      YellowLEDOff();
+      RedLEDOn(); 			     // show error */
+#ifdef USE_UART
+      uart_puts_P("Error 4!\r\n");
+#endif // USE_UART
+    }
+    else {
+      unsigned char mxh = i2c_readAck();
+      unsigned char mxl = i2c_readAck();
+      unsigned char myh = i2c_readAck();
+      unsigned char myl = i2c_readAck();
+      unsigned char mzh = i2c_readAck();
+      unsigned char mzl = i2c_readNak();
+      i2c_stop();
+  
+      PrintA( mxl, mxh, "MX" );
+      PrintA( myl, myh, "MY" );
+      PrintA( mzl, mzh, "MZ" );
+    }
+  }
+
+  delay_sec(1);
+}
+#endif // LSM303DLH_USE_MAG
+
+// --------------------------------------------------------------------------
+
+void LSM303Write(uint8_t addr,uint8_t sub_addr,uint8_t data)
+ {
+  if ( i2c_start( addr | I2C_WRITE ) ) {
+    /* failed to issue start condition, possibly no device found */
+    i2c_stop();
+  }
+  else {
+    /* issuing start condition ok, device accessible */
+    i2c_write(sub_addr);
+    i2c_write(data);
+    i2c_stop();
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -155,7 +239,7 @@ int main(void)
 
   delay_sec(2);
     
-  //i2c_init();                                // init I2C interface
+  i2c_init();                                // init I2C interface
 #ifdef USE_UART
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
   
@@ -163,13 +247,28 @@ int main(void)
 
   uart_puts_P("'lsm303test' ready!\r\n");
 #endif // USE_UART
-  
+
+#ifdef LSM303DLH_USE_ACC
+  LSM303Write( I2C_DEV_LSM303DLH_ACC, 0x20, 0x27 ); // CTRL_REG1_A
+  LSM303Write( I2C_DEV_LSM303DLH_ACC, 0x23, 0x40 ); // CTRL_REG4_A
+#endif // LSM303DLH_USE_ACC
+
+#ifdef LSM303DLH_USE_MAG
+  LSM303Write( I2C_DEV_LSM303DLH_MAG, 0x00, 0x14 ); // CRA_REG_M: ODR := 30 Hz
+  LSM303Write( I2C_DEV_LSM303DLH_MAG, 0x02, 0x00 ); // MR_REG_M: awake from sleep mode
+#endif // LSM303DLH_USE_MAG
+
   while ( 1 ) {
 #ifdef USE_UART
     uart_puts_P("Running test... ");
 #endif // USE_UART
-#if 0
-    lsm303dlh_test();    
+#if 1
+#ifdef LSM303DLH_USE_ACC
+    LSM303DLHTestACC();
+#endif // LSM303DLH_USE_ACC
+#ifdef LSM303DLH_USE_MAG
+    LSM303DLHTestMAG();
+#endif // LSM303DLH_USE_MAG
 #else
     uart_puts_P("\r\n");
     delay_sec(2);
