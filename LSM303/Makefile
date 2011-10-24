@@ -216,7 +216,7 @@ $(TARGET).elf: $(OBJ)
 
 
 # Target: lsm303test.elf
-LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB)
+LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB) LSM303DLH.o
 
 lsm303test.elf: $(LSM303TESTOBJS)
 	$(CC) $(ALL_CFLAGS) $(LSM303TESTOBJS) --output $@ \

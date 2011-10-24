@@ -4,7 +4,7 @@
  *
  * Purpose: Simple test program for AVR TWI interface with LSM303DLH
  *
- * $Id: lsm303test.c,v 1.2 2011/10/23 16:04:31 mathes Exp $
+ * $Id: lsm303test.c,v 1.3 2011/10/24 19:31:24 mathes Exp $
  *
  */
  
@@ -31,12 +31,7 @@
 #define UART_RX_BUFFER_SIZE 32
 
 #include <i2cmaster.h>
-
-#define I2C_DEV_LSM303DLH_ACC  0x30
-#define I2C_DEV_LSM303DLH_MAG  0x3C
-
-#define LSM303DLH_USE_ACC
-#define LSM303DLH_USE_MAG
+#include <LSM303DLH.h>
 
 #ifdef USE_UART
 # include <uart.h>
@@ -212,22 +207,6 @@ static void LSM303DLHTestMAG(void)
 
 // --------------------------------------------------------------------------
 
-void LSM303Write(uint8_t addr,uint8_t sub_addr,uint8_t data)
- {
-  if ( i2c_start( addr | I2C_WRITE ) ) {
-    /* failed to issue start condition, possibly no device found */
-    i2c_stop();
-  }
-  else {
-    /* issuing start condition ok, device accessible */
-    i2c_write(sub_addr);
-    i2c_write(data);
-    i2c_stop();
-  }
-}
-
-// --------------------------------------------------------------------------
-
 //
 // avrdude -p atmega8 -P /dev/parport1 -c stk200 -y -U flash:w:lsm303test.hex
 //
@@ -249,13 +228,11 @@ int main(void)
 #endif // USE_UART
 
 #ifdef LSM303DLH_USE_ACC
-  LSM303Write( I2C_DEV_LSM303DLH_ACC, 0x20, 0x27 ); // CTRL_REG1_A
-  LSM303Write( I2C_DEV_LSM303DLH_ACC, 0x23, 0x40 ); // CTRL_REG4_A
+  LSM303DLHInitACC( I2C_DEV_LSM303DLH_ACC1 );
 #endif // LSM303DLH_USE_ACC
 
 #ifdef LSM303DLH_USE_MAG
-  LSM303Write( I2C_DEV_LSM303DLH_MAG, 0x00, 0x14 ); // CRA_REG_M: ODR := 30 Hz
-  LSM303Write( I2C_DEV_LSM303DLH_MAG, 0x02, 0x00 ); // MR_REG_M: awake from sleep mode
+  LSM303DLHInitMAG( I2C_DEV_LSM303DLH_MAG );
 #endif // LSM303DLH_USE_MAG
 
   while ( 1 ) {
