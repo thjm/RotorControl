@@ -4,7 +4,7 @@
  *
  * Purpose: Implementation file for LSM303DLH specific routines.
  *
- * $Id: LSM303DLH.c,v 1.2 2011/10/24 19:31:24 mathes Exp $
+ * $Id: LSM303DLH.c,v 1.3 2011/10/24 20:33:00 mathes Exp $
  *
  */
 
@@ -82,6 +82,29 @@ int8_t LSM303DLHReadACC(uint8_t acc_addr,LSM303DLHData* data)
 
 int8_t LSM303DLHReadMAG(uint8_t mag_addr,LSM303DLHData* data)
  {
+  if ( i2c_start( mag_addr | I2C_WRITE ) ) {
+    /* failed to issue start condition, possibly no device found */
+    i2c_stop();
+    return I2C_ERR_NO_DEVICE;
+  }
+
+  /* issuing start condition ok, device accessible */
+  i2c_write(0x03); // OUT_X_H_M
+
+  if ( i2c_rep_start( mag_addr | I2C_READ ) ) {
+    i2c_stop();
+    return I2C_ERROR;
+  }
+
+  data->fSensorX = i2c_readAck() << 8;  // OUT_X_H_M
+  data->fSensorX |= i2c_readAck();      // OUT_X_L_M
+  data->fSensorY = i2c_readAck() << 8;  // OUT_Y_H_M
+  data->fSensorY |= i2c_readAck();      // OUT_Y_L_M
+  data->fSensorZ = i2c_readAck() << 8;  // OUT_Z_H_M
+  data->fSensorZ |= i2c_readNak();      // OUT_Z_L_M
+  
+  i2c_stop();
+   
   return I2C_NO_ERROR;
 }
 

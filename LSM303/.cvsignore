@@ -1,3 +1,6 @@
 compass.eep
 compass.elf
 compass.hex
+lsm303test.elf
+lsm303test.hex
+lsm303test.map

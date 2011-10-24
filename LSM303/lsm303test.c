@@ -4,7 +4,7 @@
  *
  * Purpose: Simple test program for AVR TWI interface with LSM303DLH
  *
- * $Id: lsm303test.c,v 1.3 2011/10/24 19:31:24 mathes Exp $
+ * $Id: lsm303test.c,v 1.4 2011/10/24 20:33:00 mathes Exp $
  *
  */
  
@@ -21,7 +21,6 @@
 /** @file lsm303test.c
   * Simple test program for AVR TWI interface with LSM303DLH.
   * This test program uses the I2Cmaster and the UART libraries of P.Fleury.
-  * It is coded in a similar way than the i2ctest.c program...
   * @author H.-J. Mathes <dc2ip@darc.de>
   */
 
@@ -32,6 +31,9 @@
 
 #include <i2cmaster.h>
 #include <LSM303DLH.h>
+
+#define LSM303DLH_USE_ACC
+#define LSM303DLH_USE_MAG
 
 #ifdef USE_UART
 # include <uart.h>
@@ -100,7 +102,7 @@ static void LSM303DLHTestACC(void)
 
   //i2c_start();
   //i2c_write_byte(0x30); // write acc
-  ret = i2c_start( I2C_DEV_LSM303DLH_ACC | I2C_WRITE );
+  ret = i2c_start( I2C_DEV_LSM303DLH_ACC1 | I2C_WRITE );
   if ( ret ) {
     /* failed to issue start condition, possibly no device found */
     i2c_stop();
@@ -117,7 +119,7 @@ static void LSM303DLHTestACC(void)
   
     //i2c_start();  	    // repeated start
     //i2c_write_byte(0x31); // read acc
-    ret = i2c_rep_start( I2C_DEV_LSM303DLH_ACC | I2C_READ );
+    ret = i2c_rep_start( I2C_DEV_LSM303DLH_ACC1 | I2C_READ );
     if ( ret ) {
       i2c_stop();
       YellowLEDOff();
@@ -150,56 +152,39 @@ static void LSM303DLHTestACC(void)
 #ifdef LSM303DLH_USE_MAG
 static void LSM303DLHTestMAG(void)
  {
-  uint8_t ret;
-  
 #ifdef USE_UART
   uart_puts_P("\r\n");
 #endif // USE_UART
 
+  LSM303DLHData mag_data;
+  
   // --- read magnetometer values
   
-  //i2c_start(); 
-  //i2c_write_byte(0x3C); // write mag
-  ret = i2c_start( I2C_DEV_LSM303DLH_MAG | I2C_WRITE );
-  if ( ret ) {
-    /* failed to issue start condition, possibly no device found */
-    i2c_stop();
-    YellowLEDOff();
-    RedLEDOn(); 			     // show error */
-#ifdef USE_UART
-    uart_puts_P("Error 3!\r\n");
-#endif // USE_UART
-  }
-  else {
-    /* issuing start condition ok, device accessible */
-    //i2c_write_byte(0x03); // OUT_X_H_M
-    i2c_write(0x03);
-
-    //i2c_start();  	    // repeated start
-    //i2c_write_byte(0x3D); // read mag
-    ret = i2c_rep_start( I2C_DEV_LSM303DLH_MAG | I2C_READ );
-    if ( ret ) {
-      i2c_stop();
-      YellowLEDOff();
-      RedLEDOn(); 			     // show error */
-#ifdef USE_UART
-      uart_puts_P("Error 4!\r\n");
-#endif // USE_UART
-    }
-    else {
-      unsigned char mxh = i2c_readAck();
-      unsigned char mxl = i2c_readAck();
-      unsigned char myh = i2c_readAck();
-      unsigned char myl = i2c_readAck();
-      unsigned char mzh = i2c_readAck();
-      unsigned char mzl = i2c_readNak();
-      i2c_stop();
+  uint8_t ret = LSM303DLHReadMAG( I2C_DEV_LSM303DLH_MAG, &mag_data );
   
-      PrintA( mxl, mxh, "MX" );
-      PrintA( myl, myh, "MY" );
-      PrintA( mzl, mzh, "MZ" );
-    }
+  if ( ret ) { 
+
+    YellowLEDOff();
+    RedLEDOn(); 			     // show error
+
+#ifdef USE_UART
+    if ( ret == I2C_ERR_NO_DEVICE ) uart_puts_P("MAG: I2C_ERR_NO_DEV\r\n");
+#endif // USE_UART
+
+#ifdef USE_UART
+    if ( ret == I2C_ERROR ) uart_puts_P("MAG: I2C_ERROR\r\n");
+#endif // USE_UART
+
+    return;
   }
+
+  
+  PrintA( mag_data.fSensorX & 0xff, 
+          (mag_data.fSensorX & 0xff00) >> 8, "MX" );
+  PrintA( mag_data.fSensorY & 0xff, 
+          (mag_data.fSensorY & 0xff00) >> 8, "MY" );
+  PrintA( mag_data.fSensorZ & 0xff, 
+          (mag_data.fSensorZ & 0xff00) >> 8, "MZ" );
 
   delay_sec(1);
 }
@@ -224,7 +209,7 @@ int main(void)
   
   sei();
 
-  uart_puts_P("'lsm303test' ready!\r\n");
+  uart_puts_P("\r\n'lsm303test' ready!\r\n");
 #endif // USE_UART
 
 #ifdef LSM303DLH_USE_ACC
@@ -239,17 +224,17 @@ int main(void)
 #ifdef USE_UART
     uart_puts_P("Running test... ");
 #endif // USE_UART
-#if 1
-#ifdef LSM303DLH_USE_ACC
+#if (defined LSM303DLH_USE_ACC) || (defined LSM303DLH_USE_MAG)
+# ifdef LSM303DLH_USE_ACC
     LSM303DLHTestACC();
-#endif // LSM303DLH_USE_ACC
-#ifdef LSM303DLH_USE_MAG
+# endif // LSM303DLH_USE_ACC
+# ifdef LSM303DLH_USE_MAG
     LSM303DLHTestMAG();
-#endif // LSM303DLH_USE_MAG
+# endif // LSM303DLH_USE_MAG
 #else
     uart_puts_P("\r\n");
     delay_sec(2);
-#endif
+#endif // LSM303DLH_USE_ACC || LSM303DLH_USE_MAG
   }
       
   return 0;
