@@ -253,17 +253,24 @@ clean::
 	$(TARGET).map $(TARGET).sym $(TARGET).lss \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d)
 
-depend:
-	if grep '^# DO NOT DELETE' $(MAKEFILE) >/dev/null; \
-	then \
-		sed -e '/^# DO NOT DELETE/,$$d' $(MAKEFILE) > \
-			$(MAKEFILE).$$$$ && \
-		$(MV) $(MAKEFILE).$$$$ $(MAKEFILE); \
-	fi
-	echo '# DO NOT DELETE THIS LINE -- make depend depends on it.' \
-		>> $(MAKEFILE); \
-	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) >> $(MAKEFILE)
-
 .PHONY:	all build elf hex eep lss sym program coff extcoff clean depend
+
+# ----- create the dependencies -----
+
+depend: .depend
+
+.depend: $(SRCS) $(HDRS)
+	@rm -f .depend
+	@touch .depend
+	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) > .depend
+
+clean::
+	@rm -f .depend
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif
+
+# --- end of Makefile ---
 
 

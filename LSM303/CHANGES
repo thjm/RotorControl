@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.3 2011/10/23 16:04:31 mathes Exp $
+$Id: CHANGES,v 1.4 2011/10/25 06:39:12 mathes Exp $
 
 ToDo:
 -----
@@ -7,6 +7,11 @@ ToDo:
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
+
+2011/10/24 (thjm) - vector.h/vector.c beautified (doxygen etc.)
+                  - LSM303DLH.h with register definitions
+		  - magnet sensor readout fixed (order: high byte, low byte)
+		  - 'depend' target modified, now in separate file
 
 2011/10/23 (thjm) - lsm303test.c: first readout of acc/mag raw values
                   - starting to move code to LSM303DLH.*
