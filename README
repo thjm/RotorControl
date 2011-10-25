@@ -1,4 +1,4 @@
-$Id: README,v 1.2 2011/09/05 13:27:58 mathes Exp $
+$Id: README,v 1.3 2011/10/25 06:18:06 mathes Exp $
 
 README file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -10,7 +10,7 @@ Directories:
 
 - Eagle : contains drawings and schemes done with the Eagle layout program
 
-- DisplayUR : parts takes from Ulrich Radigs (http://www.ulrichradig.de)
+- DisplayUR : parts takes from Ulrich Radig's (http://www.ulrichradig.de)
           PowerSupply project. The display unit presented there seems to be
           quite usable for a simple display here, just software needs to be 
           adopted.
