@@ -4,7 +4,7 @@
  *
  * Purpose: Simple test program for AVR TWI interface with LSM303DLH
  *
- * $Id: lsm303test.c,v 1.5 2011/10/26 12:52:57 mathes Exp $
+ * $Id: lsm303test.c,v 1.6 2011/10/26 21:09:01 mathes Exp $
  *
  */
  
@@ -48,6 +48,8 @@ static void delay_sec(uint8_t n_sec);
 
 // --------------------------------------------------------------------------
 
+static const char cBlank[] PROGMEM = " ";
+static const char cCRLF[] PROGMEM = "\r\n";
 static const char cEqualSign[] PROGMEM = "= ";
 
 static void PrintSensorData(const char *what,int data) 
@@ -56,6 +58,7 @@ static void PrintSensorData(const char *what,int data)
   uart_puts( what ); 
   uart_puts_p( cEqualSign );
   int2uart( data );
+  uart_puts_p( cBlank );
 #endif // UART_DEBUG
 }
 
@@ -93,6 +96,8 @@ static void LSM303DLHTestACC(void)
   PrintSensorData( "AX", acc_data.fSensorX );
   PrintSensorData( "AY", acc_data.fSensorY );
   PrintSensorData( "AZ", acc_data.fSensorZ );
+  
+  uart_puts_p( cCRLF );
   
   delay_sec(1);
 }
@@ -133,6 +138,8 @@ static void LSM303DLHTestMAG(void)
   PrintSensorData( "MY", mag_data.fSensorY );
   PrintSensorData( "MZ", mag_data.fSensorZ );
 
+  uart_puts_p( cCRLF );
+
   delay_sec(1);
 }
 #endif // LSM303DLH_USE_MAG
@@ -170,7 +177,7 @@ int main(void)
   while ( 1 ) {
 
 #ifdef UART_DEBUG
-    uart_puts_P("Running test... ");
+    uart_puts_P("\r\nRunning test... ");
 #endif // UART_DEBUG
 
 #if (defined LSM303DLH_USE_ACC) || (defined LSM303DLH_USE_MAG)
@@ -185,7 +192,7 @@ int main(void)
 #else
 
 # ifdef UART_DEBUG
-    uart_puts_P("\r\n");
+    uart_puts_p( cCRLF );
 # endif // UART_DEBUG
 
     delay_sec(2);
