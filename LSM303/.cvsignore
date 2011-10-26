@@ -1,7 +1,8 @@
 .depend
+*.elf
+*.lss
+*.map
 compass.eep
-compass.elf
 compass.hex
-lsm303test.elf
+lsm303read.hex
 lsm303test.hex
-lsm303test.map
