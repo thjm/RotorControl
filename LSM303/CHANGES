@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.4 2011/10/25 06:39:12 mathes Exp $
+$Id: CHANGES,v 1.5 2011/10/26 12:52:57 mathes Exp $
 
 ToDo:
 -----
@@ -7,6 +7,13 @@ ToDo:
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
+
+2011/10/25 (thjm) - Makefile slightly rearranged, new flags: UART_DEBUG, LED_DEBUG
+                  - reading ACC via LSM303DLH library function
+		  - added get8key4.c to read button inputs (P.Dannegger)
+		    + definition file global.h
+		  - lsm303read.c: read values and send via RS-232
+		  - added num2int.* to project, also in $CVSROOT/thjm/util
 
 2011/10/24 (thjm) - vector.h/vector.c beautified (doxygen etc.)
                   - LSM303DLH.h with register definitions

@@ -1,4 +1,7 @@
 # Hey Emacs, this is a -*- makefile -*-
+#
+# $Id: Makefile,v 1.5 2011/10/26 12:52:57 mathes Exp $
+#
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
 # is public domain), believed to be neutral to any flavor of "make"
@@ -11,9 +14,10 @@
 MCU = atmega8
 FORMAT = ihex
 TARGET = compass
-SRC = $(TARGET).c vector.c lcd.c
-CXXSRC = OrangutanTime.cpp OrangutanPushbuttons.cpp
-ASRC = 
+HDRS = vector.h lcd.h device.h
+SRCS = $(TARGET).c vector.c lcd.c
+CXXSRCS = OrangutanTime.cpp OrangutanPushbuttons.cpp
+ASRCS = 
 OPT = s
 
 # Name of this Makefile (used for "make depend").
@@ -34,10 +38,10 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here
 #CDEFS = -DF_CPU=8000000UL -DLIB_POLOLU
 # U.Radig, ATmega8 test board with 12MHz
-CDEFS = -DF_CPU=12000000UL -DLIB_POLOLU
+CDEFS = -DF_CPU=12000000UL -DLIB_POLOLU -DUART_DEBUG -ULED_DEBUG
 
 # Place -I options here
-CINCS = 
+CINCS = -I.
 
 
 CDEBUG = -g$(DEBUG)
@@ -69,26 +73,6 @@ SCANF_LIB_FLOAT = -Wl,-u,vfscanf -lscanf_flt
 SCANF_LIB = 
 
 MATH_LIB = -lm
-
-# UART library of P.Fleury
-UARTLIBDIR = $(FLEURYHOME)/uartlibrary
-CINCS += -I$(UARTLIBDIR)
-UARTLIB = uart.o
-
-uart.c: $(UARTLIBDIR)/uart.c
-	ln -s $< $@
-clean::
-	rm -f uart.c
-
-# I2CMASTER library of P.Fleury
-I2CLIBDIR = $(FLEURYHOME)/i2cmaster
-CINCS += -I$(I2CLIBDIR)
-I2CLIB = i2cmaster.o
-
-i2cmaster.c: $(I2CLIBDIR)/twimaster.c
-	ln -s $< $@
-clean::
-	rm -f i2cmaster.c
 
 # External memory options
 
@@ -144,10 +128,10 @@ REMOVE = rm -f
 MV = mv -f
 
 # Define all object files.
-OBJ = $(SRC:.c=.o) $(CXXSRC:.cpp=.o) $(ASRC:.S=.o) 
+OBJS = $(SRCS:.c=.o) $(CXXSRCS:.cpp=.o) $(ASRCS:.S=.o) 
 
 # Define all listing files.
-LST = $(ASRC:.S=.lst) $(SRC:.c=.lst)
+LST = $(ASRCS:.S=.lst) $(SRCS:.c=.lst)
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
@@ -168,10 +152,33 @@ lss: $(TARGET).lss
 sym: $(TARGET).sym
 
 
+# UART library of P.Fleury
+UARTLIBDIR = $(FLEURYHOME)/uartlibrary
+CINCS += -I$(UARTLIBDIR)
+UARTLIB = uart.o
+
+SRCS += uart.c
+
+uart.c: $(UARTLIBDIR)/uart.c
+	ln -s $< $@
+clean::
+	rm -f uart.c
+
+# I2CMASTER library of P.Fleury
+I2CLIBDIR = $(FLEURYHOME)/i2cmaster
+CINCS += -I$(I2CLIBDIR)
+I2CLIB = i2cmaster.o
+
+SRCS += i2cmaster.c
+
+i2cmaster.c: $(I2CLIBDIR)/twimaster.c
+	ln -s $< $@
+clean::
+	rm -f i2cmaster.c
+
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
-
 
 
 
@@ -212,19 +219,37 @@ extcoff: $(TARGET).elf
 
 # Link: create ELF output file from object files.
 $(TARGET).elf: $(OBJ)
-	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
+	$(CC) $(ALL_CFLAGS) $(OBJS) --output $@ $(LDFLAGS)
 
 
 # Target: lsm303test.elf
-LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB) LSM303DLH.o
+LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB) LSM303DLH.o num2uart.o
 
 lsm303test.elf: $(LSM303TESTOBJS)
 	$(CC) $(ALL_CFLAGS) $(LSM303TESTOBJS) --output $@ \
-	-Wl,-Map=lsm303test.map,--cref
+		-Wl,-Map=lsm303test.map,--cref
+	$(SIZE) $@
 
 clean::
-	$(RM) lsm303test.elf lsm303test.hex lsm303test.map
+	$(RM) lsm303test.elf lsm303test.hex lsm303test.map lsm303test.lss
 	$(RM) $(LSM303TESTOBJS)
+
+HDRS += global.h LSM303DLH.h num2uart.h
+SRCS += lsm303test.c LSM303DLH.c num2uart.c
+
+# Target: lsm303read.elf
+LSM303READOBJS = lsm303read.o $(UARTLIB) $(I2CLIB) LSM303DLH.o num2uart.o
+
+lsm303read.elf: $(LSM303READOBJS)
+	$(CC) $(ALL_CFLAGS) $(LSM303READOBJS) --output $@ \
+		-Wl,-Map=lsm303test.map,--cref
+	$(SIZE) $@
+
+clean::
+	$(RM) lsm303read.elf lsm303read.hex lsm303read.map lsm303read.lss
+	$(RM) $(LSM303READOBJS)
+
+SRCS += lsm303read.c LSM303DLH.c
 
 # Compile: create object files from C source files.
 .c.o:
@@ -251,7 +276,7 @@ clean::
 clean::
 	$(REMOVE) $(TARGET).hex $(TARGET).eep $(TARGET).cof $(TARGET).elf \
 	$(TARGET).map $(TARGET).sym $(TARGET).lss \
-	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d)
+	$(OBJS) $(LST) $(SRCS:.c=.s) $(SRCS:.c=.d)
 
 .PHONY:	all build elf hex eep lss sym program coff extcoff clean depend
 
@@ -262,7 +287,7 @@ depend: .depend
 .depend: $(SRCS) $(HDRS)
 	@rm -f .depend
 	@touch .depend
-	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) > .depend
+	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRCS) $(ASRCS) > .depend
 
 clean::
 	@rm -f .depend
