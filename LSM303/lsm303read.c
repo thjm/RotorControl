@@ -4,12 +4,13 @@
  *
  * Purpose: Program to readout the LSM303DLH sensor and send its data via UART.
  *
- * $Id: lsm303read.c,v 1.1 2011/10/26 12:52:57 mathes Exp $
+ * $Id: lsm303read.c,v 1.2 2011/10/27 12:40:04 mathes Exp $
  *
  */
  
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -32,11 +33,100 @@
 
 #include "LSM303DLH.h"
 
+#define NMEA_FORMAT
+
 // --------------------------------------------------------------------------
 
 static const char cBlank[] PROGMEM = " ";
 static const char cCRLF[] PROGMEM = "\r\n";
 
+#ifdef NMEA_FORMAT
+static char *strcat_p(char * dest,const char * progmem_src)
+ {
+  register char c;
+  char * dest2 = dest;
+  
+  while ( (c = pgm_read_byte(progmem_src++)) )
+    *dest2++ = c;
+  
+  *dest2 = 0;
+  
+  return dest;
+}
+
+// --------------------------------------------------------------------------
+
+static const char * int2string(int16_t data) 
+ {
+  static char buffer[8];
+  
+  itoa( data, buffer, 10 );
+  
+  return buffer;
+}
+
+// --------------------------------------------------------------------------
+
+const unsigned char HEX[] PROGMEM = {"0123456789ABCDEF"};
+
+static const char * hex2string(uint8_t val)
+ {
+  static char buffer[3];
+  
+  buffer[0] = pgm_read_byte(&HEX[val & 0x0F]);
+  buffer[1] = pgm_read_byte(&HEX[val >> 4]);
+  buffer[2] = 0;
+  
+  return buffer;
+}
+// --------------------------------------------------------------------------
+
+//
+// format of NMEA 0183 message string for LSM303DLH sensor raw data:
+//
+//  $ACRAW,acx,acy,acz,mx,my,mz*CHECKSUM
+//
+
+static const char cACRAW[] PROGMEM = "$ACRAW";
+//static const char cAsterisk[] PROGMEM = "*";
+static const char cComma[] PROGMEM = ",";
+
+static void UartSendLSM303DataNMEA(LSM303DLHData* acc_data,
+                                   LSM303DLHData* mag_data)
+ {
+  char message[60];
+  
+  strcat_p( message, cACRAW );
+  strcat_p( message, cComma );
+  strcat( message, int2string( acc_data->fSensorX ) );
+  strcat_p( message, cComma );
+  strcat( message, int2string( acc_data->fSensorY ) );
+  strcat_p( message, cComma );
+  strcat( message, int2string( acc_data->fSensorZ ) );
+  strcat_p( message, cComma );
+  strcat( message, int2string( mag_data->fSensorX ) );
+  strcat_p( message, cComma );
+  strcat( message, int2string( mag_data->fSensorY ) );
+  strcat_p( message, cComma );
+  strcat( message, int2string( mag_data->fSensorZ ) );
+  
+  strcat( message, "*" );
+  
+  uint8_t checksum = 0;
+  
+  for ( int8_t i=1; message[i] != '*'; ++i )
+    checksum ^= message[i];
+    
+  strcat( message, hex2string( checksum ) );
+  
+  uart_puts( message );
+  uart_puts_p( cCRLF );
+}
+#endif // NMEA_FORMAT
+
+// --------------------------------------------------------------------------
+
+#ifndef NMEA_FORMAT
 static void UartSendLSM303Data(LSM303DLHData* data)
  {
   if ( !data ) return;
@@ -51,6 +141,18 @@ static void UartSendLSM303Data(LSM303DLHData* data)
   uart_puts_p( cBlank );
 
   uart_puts_p( cCRLF );
+}
+#endif // NMEA_FORMAT
+
+// --------------------------------------------------------------------------
+
+static int8_t LSM303DLHInit(void)
+ {
+  int8_t err = LSM303DLHInitACC( I2C_DEV_LSM303DLH_ACC1 );
+  
+  if ( !err ) err = LSM303DLHInitMAG( I2C_DEV_LSM303DLH_MAG );
+  
+  return err;
 }
 
 // --------------------------------------------------------------------------
@@ -67,15 +169,21 @@ int main(void)
   
   sei();
   
+#ifdef NMEA_FORMAT
+  uart_puts_P("$ACOK*00");
+#else
   uart_puts_P("\r\nREADY\r\n");
+#endif // NMEA_FORMAT
 
-  int8_t err;
+  int8_t err = LSM303DLHInit();
   
-  err = LSM303DLHInitACC( I2C_DEV_LSM303DLH_ACC1 );
-  
-  if ( !err ) err = LSM303DLHInitMAG( I2C_DEV_LSM303DLH_MAG );
-  
-  if ( err ) uart_puts_P("ERROR\r\n");
+  if ( err ) {
+#ifdef NMEA_FORMAT
+    uart_puts_P("$ACERR*00");
+#else
+    uart_puts_P("ERROR\r\n");
+#endif // NMEA_FORMAT
+  }
 
   LSM303DLHData acc_data, mag_data;
   
@@ -86,14 +194,23 @@ int main(void)
     if ( !err ) LSM303DLHReadMAG( I2C_DEV_LSM303DLH_MAG, &mag_data );
     
     if ( err ) {
+#ifdef NMEA_FORMAT
+      uart_puts_P("$ACERR*00");
+#else
       uart_puts_P("ERROR\r\n");
+#endif // NMEA_FORMAT
+      
+      LSM303DLHInit();   // try to init the sensor again
     }
-    // send ACC & MAG data via UART
-    else {
+    else {  // send ACC & MAG data via UART
+#ifdef NMEA_FORMAT
+      UartSendLSM303DataNMEA( &acc_data, &mag_data );
+#else
       uart_puts_P("ADATA ");
       UartSendLSM303Data( &acc_data );
       uart_puts_P("MDATA ");
       UartSendLSM303Data( &mag_data );
+#endif // NMEA_FORMAT
     }
     
     // max. 10 measurements per second

@@ -10,7 +10,7 @@
  *
  * References: http://www.mikrocontroller.net/topic/12165#new
  *
- * $Id: num2uart.c,v 1.1 2011/10/26 12:52:57 mathes Exp $
+ * $Id: num2uart.c,v 1.2 2011/10/27 12:40:04 mathes Exp $
  *
  */
 
@@ -24,8 +24,8 @@
 #define uchar unsigned char
 #define uint unsigned int
 
-const unsigned char HEX[] PROGMEM = {"0123456789ABCDEF"};
-const unsigned int TEST[] PROGMEM = { 10, 100, 1000, 10000 };
+static const unsigned char HEX[] PROGMEM = {"0123456789ABCDEF"};
+static const unsigned int TEST[] PROGMEM = { 10, 100, 1000, 10000 };
 
 // --------------------------------------------------------------------------
 
