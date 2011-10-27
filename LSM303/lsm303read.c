@@ -4,7 +4,7 @@
  *
  * Purpose: Program to readout the LSM303DLH sensor and send its data via UART.
  *
- * $Id: lsm303read.c,v 1.2 2011/10/27 12:40:04 mathes Exp $
+ * $Id: lsm303read.c,v 1.3 2011/10/27 22:27:58 mathes Exp $
  *
  */
  
@@ -41,10 +41,10 @@ static const char cBlank[] PROGMEM = " ";
 static const char cCRLF[] PROGMEM = "\r\n";
 
 #ifdef NMEA_FORMAT
-static char *strcat_p(char * dest,const char * progmem_src)
+static char *strcat_p(char *dest,const char *progmem_src)
  {
   register char c;
-  char * dest2 = dest;
+  char *dest2 = &dest[strlen(dest)];
   
   while ( (c = pgm_read_byte(progmem_src++)) )
     *dest2++ = c;
@@ -94,7 +94,7 @@ static const char cComma[] PROGMEM = ",";
 static void UartSendLSM303DataNMEA(LSM303DLHData* acc_data,
                                    LSM303DLHData* mag_data)
  {
-  char message[60];
+  char message[60] = { 0 };
   
   strcat_p( message, cACRAW );
   strcat_p( message, cComma );
@@ -170,7 +170,7 @@ int main(void)
   sei();
   
 #ifdef NMEA_FORMAT
-  uart_puts_P("$ACOK*00");
+  uart_puts_P("$ACOK*00\r\n");
 #else
   uart_puts_P("\r\nREADY\r\n");
 #endif // NMEA_FORMAT
@@ -179,7 +179,7 @@ int main(void)
   
   if ( err ) {
 #ifdef NMEA_FORMAT
-    uart_puts_P("$ACERR*00");
+    uart_puts_P("$ACERR*00\r\n");
 #else
     uart_puts_P("ERROR\r\n");
 #endif // NMEA_FORMAT
@@ -195,7 +195,7 @@ int main(void)
     
     if ( err ) {
 #ifdef NMEA_FORMAT
-      uart_puts_P("$ACERR*00");
+      uart_puts_P("$ACERR*00\r\n");
 #else
       uart_puts_P("ERROR\r\n");
 #endif // NMEA_FORMAT
