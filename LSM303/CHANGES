@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.6 2011/10/27 12:40:04 mathes Exp $
+$Id: CHANGES,v 1.7 2011/10/29 10:46:23 mathes Exp $
 
 ToDo:
 -----
@@ -7,6 +7,8 @@ ToDo:
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
+
+2011/10/28 (thjm) - files lsm303-raw.dat and lsm303-nmea.dat; example data logs
 
 2011/10/27 (thjm) - lsm303read.c:
                     - code slightly rearranged, to be tested
