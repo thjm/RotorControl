@@ -2,6 +2,7 @@
 *.elf
 *.lss
 *.map
+analyze
 compass.eep
 compass.hex
 lsm303read.hex
