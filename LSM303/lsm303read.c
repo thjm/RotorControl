@@ -4,7 +4,7 @@
  *
  * Purpose: Program to readout the LSM303DLH sensor and send its data via UART.
  *
- * $Id: lsm303read.c,v 1.3 2011/10/27 22:27:58 mathes Exp $
+ * $Id: lsm303read.c,v 1.4 2011/11/02 22:22:37 mathes Exp $
  *
  */
  
@@ -159,6 +159,8 @@ static int8_t LSM303DLHInit(void)
 
 //
 // avrdude -p atmega8 -P /dev/parport1 -c stk200 -y -U flash:w:lsm303read.hex
+//
+// avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:lsm303read.hex
 //
 
 int main(void)
