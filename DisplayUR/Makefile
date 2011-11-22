@@ -137,11 +137,13 @@ LDFLAGS += -lm
 # Type: avrdude -c ?
 # to get a full listing.
 #
-AVRDUDE_PROGRAMMER = stk200
+#AVRDUDE_PROGRAMMER = stk200
+AVRDUDE_PROGRAMMER = usbasp
 
 
 #AVRDUDE_PORT = com1	   # programmer connected to serial device
 AVRDUDE_PORT = lpt1	# programmer connected to parallel port
+AVRDUDE_PORT = usb	# programmer connected to USB
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
@@ -151,7 +153,7 @@ AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
 # Uncomment the following if you want avrdude's erase cycle counter.
 # Note that this counter needs to be initialized first using -Yn,
 # see avrdude manual.
-#AVRDUDE_ERASE += -y
+AVRDUDE_ERASE += -y
 
 # Uncomment the following if you do /not/ wish a verification to be
 # performed after programming the device.
