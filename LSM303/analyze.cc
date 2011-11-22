@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH stored in file
 //
-// $Id: analyze.cc,v 1.1 2011/11/01 16:18:08 mathes Exp $
+// $Id: analyze.cc,v 1.2 2011/11/22 08:03:52 mathes Exp $
 //
 
 
@@ -24,6 +24,7 @@
 using namespace std;
 
 #include "vector.c"
+#include "common.cc"
 
 #define USE_NMEA_FORMAT   1
 
@@ -32,60 +33,6 @@ using namespace std;
 //
 // g++ -g -Wall -o analyze analyze.cc
 //
-
-// Returns a heading (in degrees) given an acceleration vector a due to gravity, a magnetic vector m, and a facing vector p.
-int GetHeading3D(const vector *a, const vector *m, const vector *p)
- {
-  vector E;
-  vector N;
-
-  // cross magnetic vector (magnetic north + inclination) with "down" (acceleration vector) to produce "east"
-  vector_cross(m, a, &E);
-  vector_normalize(&E);
-
-  // cross "down" with "east" to produce "north" (parallel to the ground)
-  vector_cross(a, &E, &N);
-  vector_normalize(&N);
-
-  // compute heading
-  int heading = round(atan2(vector_dot(&E, p), vector_dot(&N, p)) * 180 / M_PI);
-  if ( heading < 0 )
-    heading += 360;
-  
-  return heading;
-}
-
-// ---------------------------------------------------------------------------
-
-bool ReadNMEAFormat(FILE *file,vector *a,vector *m)
- {
-  if ( feof(file) ) return false;
-  
-  if ( !a || !m ) return false;
-  
-  bool status = true;
-  char line[80];
-
-  do {
-    
-    fgets( line, sizeof(line)-1, file );
-    
-    if ( feof(file) ) return false;
-  
-    if ( strstr(line,"$ACRAW") != NULL ) {
-      if ( sscanf( line, "$ACRAW,%f,%f,%f,%f,%f,%f",
-                    &a->x, &a->y, &a->z, &m->x, &m->y, &m->z ) == 6 )
-        break;
-//      else
-//        status = false;
-    }
-    
-  } while ( !feof(file ) );
-  
-  return status;
-}
-
-// ---------------------------------------------------------------------------
 
 bool ReadTagFormat(FILE *file,vector *a,vector *m)
  {
@@ -177,7 +124,7 @@ int main(int argc,char **argv)
   
   // --- output minimum and maximum values
   
-  cout << "Reading for magnetig field: " << endl;
+  cout << "Reading for magnetic field: " << endl;
   cout << "  min= " << m_min.x << " " << m_min.y 
        << " " << m_min.y << endl; 
   cout << "  max= " << m_max.x << " " << m_max.y 

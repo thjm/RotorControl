@@ -4,7 +4,7 @@
  *
  * Purpose: Program to readout the LSM303DLH sensor and send its data via UART.
  *
- * $Id: lsm303read.c,v 1.4 2011/11/02 22:22:37 mathes Exp $
+ * $Id: lsm303read.c,v 1.5 2011/11/22 08:03:52 mathes Exp $
  *
  */
  
@@ -36,6 +36,12 @@
 #define NMEA_FORMAT
 
 // --------------------------------------------------------------------------
+
+//
+// avrdude -p atmega8 -P /dev/parport1 -c stk200 -y -U flash:w:lsm303read.hex
+//
+// avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:lsm303read.hex
+//
 
 static const char cBlank[] PROGMEM = " ";
 static const char cCRLF[] PROGMEM = "\r\n";
@@ -156,12 +162,6 @@ static int8_t LSM303DLHInit(void)
 }
 
 // --------------------------------------------------------------------------
-
-//
-// avrdude -p atmega8 -P /dev/parport1 -c stk200 -y -U flash:w:lsm303read.hex
-//
-// avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:lsm303read.hex
-//
 
 int main(void)
  {

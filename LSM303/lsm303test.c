@@ -4,7 +4,7 @@
  *
  * Purpose: Simple test program for AVR TWI interface with LSM303DLH
  *
- * $Id: lsm303test.c,v 1.7 2011/11/02 22:22:37 mathes Exp $
+ * $Id: lsm303test.c,v 1.8 2011/11/22 08:03:52 mathes Exp $
  *
  */
  
@@ -47,6 +47,12 @@
 static void delay_sec(uint8_t n_sec);
 
 // --------------------------------------------------------------------------
+
+//
+// avrdude -p atmega8 -P /dev/parport1 -c stk200 -y -U flash:w:lsm303test.hex
+//
+// avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:lsm303test.hex
+//
 
 static const char cBlank[] PROGMEM = " ";
 static const char cCRLF[] PROGMEM = "\r\n";
@@ -145,12 +151,6 @@ static void LSM303DLHTestMAG(void)
 #endif // LSM303DLH_USE_MAG
 
 // --------------------------------------------------------------------------
-
-//
-// avrdude -p atmega8 -P /dev/parport1 -c stk200 -y -U flash:w:lsm303test.hex
-//
-// avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:lsm303test.hex
-//
 
 int main(void)
  {
