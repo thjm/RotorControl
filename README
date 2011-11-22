@@ -1,4 +1,4 @@
-$Id: README,v 1.4 2011/10/28 07:04:42 mathes Exp $
+$Id: README,v 1.5 2011/11/22 08:12:49 mathes Exp $
 
 README file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -25,6 +25,28 @@ Directories:
           - LSM303DLH-orangutan-example-cde.zip
           - UM10204.pdf (I2C-bus specification)
           - https://github.com/ryantm/LSM303DLH (Arduino library)
+
+Project layout (Rev. 1.1)
+-------------------------
+
+- the display of UR's PS1 project will be used to display the current and the
+  set value for the azimuth (directory DisplayUR)
+
+- a LSM303DLH accelerometer and compass module will be used to determine the
+  antenna direction. It will be copuled to the main electronics via a serial
+  interface (coupled via RS-485)
+
+- the main electronics module has the task to
+  - receive direction information from the LSM303DLH
+  - calculate/average the direction information and send it to the display 
+    module
+  - compare the current direction with the preset value and pass this
+    information to the rotator controller (software module)
+  - switch the rotator motor in an appropriate way to achieve the desired
+    direction; handle (optional) end-switches and a clutch/brake
+  - get users input via push buttons (attached to the main electronics or to
+    the display module?)
+  - ...
 
 =============================================================================
 
