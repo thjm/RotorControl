@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.5 2011/10/26 12:52:57 mathes Exp $
+# $Id: Makefile,v 1.6 2011/11/23 05:53:55 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -93,7 +93,7 @@ LDFLAGS = $(EXTMEMOPTS) $(LDMAP) $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # Programming support using avrdude. Settings and variables.
 
 AVRDUDE_PROGRAMMER = usbasp
-AVRDUDE_PORT = 
+AVRDUDE_PORT = usb
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
