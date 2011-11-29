@@ -37,7 +37,7 @@ MCU = atmega8
 FORMAT = ihex
 
 # Target file name (without extension).
-TARGET = main
+TARGET = i2cdisplay
 
 # Optimization level, can be [0, 1, 2, 3, s]. 0 turns off optimization.
 # (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
@@ -45,14 +45,14 @@ OPT = s
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c 
+SRCS = $(TARGET).c 
 
 # If there is more than one source file, append them above, or modify and
 # uncomment the following:
-SRC += multiplex.c adc.c
+SRCS += multiplex.c adc.c
 
 # You can also wrap lines by appending a backslash to the end of the line:
-#SRC += baz.c \
+#SRCS += baz.c \
 #xyzzy.c
 
 
@@ -64,7 +64,7 @@ SRC += multiplex.c adc.c
 # Even though the DOS/Win* filesystem matches both .s and .S the same,
 # it will preserve the spelling of the filenames, and gcc itself does
 # care about how the name is spelled on its command-line.
-ASRC = 
+ASRCS = 
 
 
 # List any extra directories to look for include files here.
@@ -221,10 +221,11 @@ MSG_CLEANING = Cleaning project:
 
 
 # Define all object files.
-OBJ = $(SRC:.c=.o) $(ASRC:.S=.o) 
+#OBJS = $(SRCS:.c=.o) $(ASRC:.S=.o)
+I2CDISPLAY_OBJS = i2cdisplay.o multiplex.o i2cslave.o
 
 # Define all listing files.
-LST = $(ASRC:.S=.lst) $(SRC:.c=.lst)
+LST = $(ASRCS:.S=.lst) $(SRCS:.c=.lst)
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
@@ -298,6 +299,17 @@ program: $(TARGET).hex $(TARGET).eep
 
 
 
+# target ur_main.elf
+URMAINOBJS = ur_main.o multiplex.o adc.o
+
+urdisplay.elf: $(URMAINOBJS)
+	$(CC) $(ALL_CFLAGS) $(URMAINOBJS) --output $@ \
+		-Wl,-Map=urdisplay.map,--cref
+	$(SIZE) $@
+
+clean::
+	$(RM) urdisplay.elf urdisplay.hex urdisplay.map urdisplay.lss
+	$(RM) $(URMAINOBJS)
 
 # Create final output files (.hex, .eep) from ELF output file.
 %.hex: %.elf
@@ -327,11 +339,11 @@ program: $(TARGET).hex $(TARGET).eep
 
 # Link: create ELF output file from object files.
 .SECONDARY : $(TARGET).elf
-.PRECIOUS : $(OBJ)
-%.elf: $(OBJ)
+.PRECIOUS : $(I2CDISPLAY_OBJS)
+%.elf: $(I2CDISPLAY_OBJS)
 	@echo
 	@echo $(MSG_LINKING) $@
-	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
+	$(CC) $(ALL_CFLAGS) $(I2CDISPLAY_OBJS) --output $@ $(LDFLAGS)
 
 
 # Compile: create object files from C source files.
@@ -353,12 +365,8 @@ program: $(TARGET).hex $(TARGET).eep
 	$(CC) -c $(ALL_ASFLAGS) $< -o $@
 
 
-
-
-
-
 # Target: clean project.
-clean: begin clean_list finished end
+clean:: begin clean_list finished end
 
 clean_list :
 	@echo
@@ -374,10 +382,10 @@ clean_list :
 	$(REMOVE) $(TARGET).sym
 	$(REMOVE) $(TARGET).lnk
 	$(REMOVE) $(TARGET).lss
-	$(REMOVE) $(OBJ)
+	$(REMOVE) $(OBJS)
 	$(REMOVE) $(LST)
-	$(REMOVE) $(SRC:.c=.s)
-	$(REMOVE) $(SRC:.c=.d)
+	$(REMOVE) $(SRCS:.c=.s)
+	$(REMOVE) $(SRCS:.c=.d)
 
 
 # Automatically generate C source code dependencies. 
@@ -395,7 +403,7 @@ clean_list :
 
 
 # Remove the '-' if you want to see the dependency files generated.
--include $(SRC:.c=.d)
+-include $(SRCS:.c=.d)
 
 
 

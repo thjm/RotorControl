@@ -23,19 +23,18 @@
 ----------------------------------------------------------------------------*/
 
 #ifndef _ADC_H
- #define _ADC_H
+#define _ADC_H
 
-	#include <avr/interrupt.h>
-	#include <avr/io.h>
+#include <avr/io.h>
 
-	volatile unsigned long display_value_1;
-	volatile unsigned long display_value_2;
-	volatile unsigned int adc_count;
-	
-	void adc_init (void);
+volatile unsigned long display_value_1;
+volatile unsigned long display_value_2;
+volatile unsigned int adc_count;
 
-	#define ADC_ON		ADCSRA = (1<<ADEN)|(1<<ADSC)|(1<<ADFR)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADIE);	
-	#define ADC_OFF		ADCSRA = 0;
+void adc_init (void);
+
+#define ADC_ON()	{ ADCSRA = (1<<ADEN)|(1<<ADSC)|(1<<ADFR)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADIE);}
+#define ADC_OFF()	{ ADCSRA = 0; }
 
 #endif //_ADC_H
 

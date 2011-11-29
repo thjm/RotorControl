@@ -22,6 +22,9 @@
  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. 
 ----------------------------------------------------------------------------*/
 
+#include <avr/interrupt.h>
+#include <avr/io.h>
+
 #include "adc.h"
 
 volatile unsigned long display_value_1;

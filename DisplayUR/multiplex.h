@@ -23,11 +23,7 @@
 ----------------------------------------------------------------------------*/
 
 #ifndef _MULTIPLEX_H
- #define _MULTIPLEX_H
-
-#include <avr/interrupt.h>
-#include <avr/io.h>
-#include <compat/deprecated.h>
+#define _MULTIPLEX_H
 
 volatile int display1;
 volatile int display2;

@@ -45,13 +45,13 @@ int main (void)
 	{		
 		if (adc_count > 400)
 		{
-			//ADC_OFF;
+			//ADC_OFF();
 			display1 = (display_value_1 / adc_count);
 			display2 = (display_value_2 / adc_count);
 			adc_count = 0;
 			display_value_1 = 0;
 			display_value_2 = 0;
-			//ADC_ON;
+			//ADC_ON();
 		}
 	}
 }

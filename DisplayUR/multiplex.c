@@ -22,7 +22,13 @@
  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. 
 ----------------------------------------------------------------------------*/
 
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <compat/deprecated.h>
+
+
 #include "multiplex.h"
+
 const char SEGMENTE[] = {119, 18, 107, 59, 30, 61, 125, 19, 127, 31};
 
 volatile unsigned char segcounter = 0;

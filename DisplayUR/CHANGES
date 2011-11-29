@@ -1,7 +1,11 @@
-$Id: CHANGES,v 1.2 2011/11/22 20:37:58 mathes Exp $
+$Id: CHANGES,v 1.3 2011/11/29 21:09:54 mathes Exp $
 
 CHANGES file for Projekte/RotorControl/DisplayUR
 -----------------------------------------------------------------------------
+
+2011/11/29 (thjm) - main.c -> ur_main.c, Makefile modified
+                  - UR's source files slightly beautified
+		  - started with i2cdisplay ... not yet compiling
 
 2011/11/22 (thjm) - modified Makefile for usbasb and '-y' option
                   - starting with (simple) code modifications...
