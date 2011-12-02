@@ -25,9 +25,26 @@
 #ifndef _MULTIPLEX_H
 #define _MULTIPLEX_H
 
-volatile int display1;
-volatile int display2;
+volatile int gMultiplexDisplay1;
+volatile int gMultiplexDisplay2;
 
-extern void  init_multiplex (void);
+/**  */
+extern void MultiplexInit(void);
+
+/**  */
+extern void MultiplexOn(void);
+extern void MultiplexOff(void);
+
+/**  */
+inline void MultiplexSet1(int val1)
+ { gMultiplexDisplay1 = val1; }
+
+/**  */
+inline void MultiplexSet2(int val2)
+ { gMultiplexDisplay2 = val2; }
+
+/**  */
+inline void MultiplexSet(int val1, int val2)
+ { gMultiplexDisplay1 = val1; gMultiplexDisplay2 = val2; }
 
 #endif //_MULTIPLEX_H

@@ -43,7 +43,6 @@ TARGET = i2cdisplay
 # (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
 OPT = s
 
-
 # List C source files here. (C dependencies are automatically generated.)
 SRCS = $(TARGET).c 
 
@@ -54,7 +53,6 @@ SRCS += multiplex.c adc.c
 # You can also wrap lines by appending a backslash to the end of the line:
 #SRCS += baz.c \
 #xyzzy.c
-
 
 
 # List Assembler source files here.
@@ -95,6 +93,9 @@ $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += -std=gnu99
 
 
+# Optional defines for the compiler.
+CFLAGS += -DF_CPU=12000000UL
+
 
 # Optional assembler flags.
 #  -Wa,...:   tell GCC to pass this to the assembler.
@@ -106,13 +107,11 @@ CFLAGS += -std=gnu99
 ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
 
 
-
 # Optional linker flags.
 #  -Wl,...:   tell GCC to pass this to linker.
 #  -Map:      create map file
 #  --cref:    add cross reference to  map file
 LDFLAGS = -Wl,-Map=$(TARGET).map,--cref
-
 
 
 # Additional libraries
@@ -125,8 +124,6 @@ LDFLAGS = -Wl,-Map=$(TARGET).map,--cref
 
 # -lm = math library
 LDFLAGS += -lm
-
-
 
 
 # Programming support using avrdude. Settings and variables.
@@ -165,8 +162,6 @@ AVRDUDE_ERASE += -y
 #AVRDUDE_FLAGS += -v -v
 
 
-
-
 # ---------------------------------------------------------------------------
 
 # Define directories, if needed.
@@ -186,17 +181,17 @@ OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
 SIZE = avr-size
 
-
 # Programming support using avrdude.
 AVRDUDE = avrdude
-
 
 REMOVE = rm -f
 COPY = cp
 
+# avr-size [option(s)] [file(s)]
+# -A|-B|-C  --format={sysv|berkeley|avr}  
+# Select output style (default is berkeley)
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
-ELFSIZE = $(SIZE) -A $(TARGET).elf
-
+ELFSIZE = $(SIZE) -B $(TARGET).elf
 
 
 # Define Messages
@@ -218,11 +213,24 @@ MSG_ASSEMBLING = Assembling:
 MSG_CLEANING = Cleaning project:
 
 
-
-
 # Define all object files.
+I2CDISPLAY_OBJS = i2cdisplay.o multiplex.o twislave.o
+OBJS = $(I2CDISPLAY_OBJS)
 #OBJS = $(SRCS:.c=.o) $(ASRC:.S=.o)
-I2CDISPLAY_OBJS = i2cdisplay.o multiplex.o i2cslave.o
+
+
+# Default target.
+all: begin gccversion sizebefore $(TARGET).elf $(TARGET).hex $(TARGET).eep \
+	$(TARGET).lss $(TARGET).sym sizeafter finished end
+
+SRCS += twislave.c
+
+EXTRAINCDIRS += /home/mathes/src/AVR/Library/twislave
+
+twislave.c: /home/mathes/src/AVR/Library/twislave/twislave.c
+	ln -s $< $@
+clean::
+	rm -f twislave.c twislave.o
 
 # Define all listing files.
 LST = $(ASRCS:.S=.lst) $(SRCS:.c=.lst)
@@ -231,12 +239,6 @@ LST = $(ASRCS:.S=.lst) $(SRCS:.c=.lst)
 # Add target processor to flags.
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
-
-
-
-# Default target.
-all: begin gccversion sizebefore $(TARGET).elf $(TARGET).hex $(TARGET).eep \
-	$(TARGET).lss $(TARGET).sym sizeafter finished end
 
 
 # Eye candy.
@@ -262,12 +264,9 @@ sizeafter:
 	@if [ -f $(TARGET).elf ]; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); echo; fi
 
 
-
 # Display compiler version information.
 gccversion : 
 	@$(CC) --version
-
-
 
 
 # Convert ELF to COFF for use in debugging / simulating in
@@ -291,12 +290,9 @@ extcoff: $(TARGET).elf
 	$(COFFCONVERT) -O coff-ext-avr $< $(TARGET).cof
 
 
-
-
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
-
 
 
 # target ur_main.elf
@@ -334,7 +330,6 @@ clean::
 	@echo
 	@echo $(MSG_SYMBOL_TABLE) $@
 	avr-nm -n $< > $@
-
 
 
 # Link: create ELF output file from object files.
@@ -404,7 +399,6 @@ clean_list :
 
 # Remove the '-' if you want to see the dependency files generated.
 -include $(SRCS:.c=.d)
-
 
 
 # Listing of phony targets.

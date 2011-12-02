@@ -32,8 +32,9 @@
 const char SEGMENTE[] = {119, 18, 107, 59, 30, 61, 125, 19, 127, 31};
 
 volatile unsigned char segcounter = 0;
-volatile int display1 = 0;
-volatile int display2 = 0;
+
+volatile int gMultiplexDisplay1 = 0;
+volatile int gMultiplexDisplay2 = 0;
 
 
 //############################################################################
@@ -47,22 +48,22 @@ ISR (TIMER2_OVF_vect)
 	switch (segcounter)
 	{	
 		case 0:
-			PORTD = SEGMENTE[(display1 % 1000 / 100)];
+			PORTD = SEGMENTE[(gMultiplexDisplay1 % 1000 / 100)];
 			break;	
 		case 1:
-			PORTD = SEGMENTE[(display1 % 100 / 10)];
+			PORTD = SEGMENTE[(gMultiplexDisplay1 % 100 / 10)];
 			break;		
 		case 2:
-			PORTD = SEGMENTE[(display1 % 10)];
+			PORTD = SEGMENTE[(gMultiplexDisplay1 % 10)];
 			break;
 		case 3:
-			PORTD = SEGMENTE[(display2 % 1000 / 100)];
+			PORTD = SEGMENTE[(gMultiplexDisplay2 % 1000 / 100)];
 			break;
 		case 4:
-			PORTD = SEGMENTE[(display2 % 100 / 10)];
+			PORTD = SEGMENTE[(gMultiplexDisplay2 % 100 / 10)];
 			break;	
 		case 5:
-			PORTD = SEGMENTE[(display2 % 10)];
+			PORTD = SEGMENTE[(gMultiplexDisplay2 % 10)];
 			break;
 	}
 	if ((segcounter++)>5) segcounter = 0;	
@@ -70,15 +71,17 @@ ISR (TIMER2_OVF_vect)
 	
 
 //############################################################################
-//Diese Routine startet und inizialisiert den Timer
-void init_multiplex (void)
+//Diese Routine startet und initialisiert den Timer
+void MultiplexInit(void)
 //############################################################################
 {
-	//Interrupt for the Clock enable  
-    TIMSK |= (1 << TOIE2);
-	//Setzen des Prescaler auf 1024 
-	TCCR2 |= (1<<CS22); 
-	return;
+  //Interrupt for the Clock enable  
+  TIMSK |= (1 << TOIE2);
+  
+  // Setzen des Prescaler auf 1024 
+  TCCR2 |= (1<<CS22); 
+
+  return;
 }
 
 
