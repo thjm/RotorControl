@@ -6,3 +6,9 @@ main.hex
 main.lss
 main.map
 main.sym
+i2cdisplay.eep
+i2cdisplay.elf
+i2cdisplay.hex
+i2cdisplay.lss
+i2cdisplay.map
+i2cdisplay.sym
