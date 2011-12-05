@@ -4,7 +4,7 @@
  *
  * Purpose: Program to display data received via I2C on UR's display board.
  *
- * $Id: i2cdisplay.c,v 1.2 2011/12/02 17:27:06 mathes Exp $
+ * $Id: i2cdisplay.c,v 1.3 2011/12/05 16:19:00 mathes Exp $
  *
  */
  
@@ -41,6 +41,13 @@ static void delay_sec(uint8_t n_sec);
 //
 // avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:i2cdisplay.hex
 //
+// the board is supposed to run with 8 MHz internal oscillator
+//
+// 8 MHz: avrdude -p atmega8 -P usb -c usbasp -U lfuse:w:0xe4:m
+// 4 MHz: avrdude -p atmega8 -P usb -c usbasp -U lfuse:w:0xe3:m
+// 1 MHz: avrdude -p atmega8 -P usb -c usbasp -U lfuse:w:0xe1:m
+//
+
 // --------------------------------------------------------------------------
 
 int main(void)
@@ -52,20 +59,29 @@ int main(void)
   MultiplexInit();
   
   // initialize the TWI slave
-  TWI_SlaveInit(SLAVE_ADRESS /*, enable_irq */);
+  //TWI_SlaveInit(SLAVE_ADRESS /*, enable_irq */);
   
   // enable interrupts globally
   sei();
   
-  int val1 = 0;
+  int data = 0;
   
   while ( 1 ) {
     
-    MultiplexSet( val1, val1 );
+#if 1
+    if ( data % 2 )
+      MultiplexOn();
+    else
+      MultiplexOff();
+#else
+    gMultiplexMode = kDisplayOn;
+#endif
+
+    MultiplexSet( data, data );
     
-    val1++;
+    data++;
     
-    if ( val1 == 1000 ) val1 = 0;
+    if ( data == 999 ) data = 0;
     
     delay_sec(1);
   }

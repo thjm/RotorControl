@@ -31,57 +31,79 @@
 
 const char SEGMENTE[] = {119, 18, 107, 59, 30, 61, 125, 19, 127, 31};
 
-volatile unsigned char segcounter = 0;
+volatile unsigned char gSegmentCounter = 0;
+volatile unsigned char gSegmentData[kNSegments] = { 0 };
 
 volatile int gMultiplexDisplay1 = 0;
 volatile int gMultiplexDisplay2 = 0;
+volatile unsigned char gMultiplexMode;
 
+// --------------------------------------------------------------------------
 
-//############################################################################
-//Timer3 Interrupt
+// Timer2 overflow interrupt
+//
+// port D drives the individual segments
+// port B selects the digits, PORTB = 0x01 -> left-most digit
+//
 ISR (TIMER2_OVF_vect)
-//############################################################################
-{	
-	PORTD = 0;
-	PORTB = (1<<segcounter);
-	
-	switch (segcounter)
-	{	
-		case 0:
-			PORTD = SEGMENTE[(gMultiplexDisplay1 % 1000 / 100)];
-			break;	
-		case 1:
-			PORTD = SEGMENTE[(gMultiplexDisplay1 % 100 / 10)];
-			break;		
-		case 2:
-			PORTD = SEGMENTE[(gMultiplexDisplay1 % 10)];
-			break;
-		case 3:
-			PORTD = SEGMENTE[(gMultiplexDisplay2 % 1000 / 100)];
-			break;
-		case 4:
-			PORTD = SEGMENTE[(gMultiplexDisplay2 % 100 / 10)];
-			break;	
-		case 5:
-			PORTD = SEGMENTE[(gMultiplexDisplay2 % 10)];
-			break;
-	}
-	if ((segcounter++)>5) segcounter = 0;	
+ {
+  PORTD = 0;
+  
+  if ( (gMultiplexMode & kDisplayOn) != kDisplayOn ) return;
+  
+  PORTB = (1<<gSegmentCounter);
+
+  switch (gSegmentCounter) {	  
+
+    case 0:
+  	    PORTD = SEGMENTE[(gMultiplexDisplay1 % 1000 / 100)];
+  	    break;  
+    case 1:
+  	    PORTD = SEGMENTE[(gMultiplexDisplay1 % 100 / 10)];
+  	    break;	    
+    case 2:
+  	    PORTD = SEGMENTE[(gMultiplexDisplay1 % 10)];
+  	    break;
+    case 3:
+  	    PORTD = SEGMENTE[(gMultiplexDisplay2 % 1000 / 100)];
+  	    break;
+    case 4:
+  	    PORTD = SEGMENTE[(gMultiplexDisplay2 % 100 / 10)];
+  	    break;  
+    case 5:
+  	    PORTD = SEGMENTE[(gMultiplexDisplay2 % 10)];
+  	    break;
+  }
+
+  if ( (gSegmentCounter++) >= kNSegments ) gSegmentCounter = 0;   
 }
 	
+// --------------------------------------------------------------------------
 
-//############################################################################
-//Diese Routine startet und initialisiert den Timer
 void MultiplexInit(void)
-//############################################################################
-{
-  //Interrupt for the Clock enable  
+ {
+  gMultiplexMode = kDataMode | kDisplayOn;
+  
+  //enable interrupt for Timer2 overflow 
   TIMSK |= (1 << TOIE2);
   
-  // Setzen des Prescaler auf 1024 
+  // set prescaler to 1024 
   TCCR2 |= (1<<CS22); 
 
   return;
 }
 
+// --------------------------------------------------------------------------
 
+void MultiplexSet(int data1, int data2)
+ {
+  gMultiplexDisplay1 = data1;
+  gMultiplexDisplay2 = data2;
+#if 0
+  if ( (gMultiplexMode & kDataMode) == kDataMode ) {
+  }
+#endif
+}
+
+// --------------------------------------------------------------------------
+// --------------------------------------------------------------------------

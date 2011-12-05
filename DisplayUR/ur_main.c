@@ -39,15 +39,15 @@ int main (void)
   
 	sei();
   
-	init_multiplex();
+	MultiplexInit();
   
 	while(1)
 	{		
 		if (adc_count > 400)
 		{
 			//ADC_OFF();
-			display1 = (display_value_1 / adc_count);
-			display2 = (display_value_2 / adc_count);
+			gMultiplexDisplay1 = (display_value_1 / adc_count);
+			gMultiplexDisplay2 = (display_value_2 / adc_count);
 			adc_count = 0;
 			display_value_1 = 0;
 			display_value_2 = 0;

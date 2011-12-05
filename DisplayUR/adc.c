@@ -34,33 +34,30 @@ volatile unsigned int adc_count;
 //---------------------------------------------------------------------------
 //ADC Interrupt
 void adc_init (void)
-{
-	//ADC initialisieren
-	ADMUX = (1 << MUX0);
-	//Free Running Mode, Division Factor 128, Interrupt on
-	ADCSRA=(1<<ADEN)|(1<<ADSC)|(1<<ADFR)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADIE);
+ {
+  //ADC initialisieren
+  ADMUX = (1 << MUX0);
+  //Free Running Mode, Division Factor 128, Interrupt on
+  ADCSRA=(1<<ADEN)|(1<<ADSC)|(1<<ADFR)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADIE);
 }
 
 //---------------------------------------------------------------------------
 //ADC Interrupt
 ISR (ADC_vect)
-{
-    ADCSRA = 0;
-    if ((ADMUX&0x0F) == 1)
-    {
-		//ADC (SPANNUNG)
-		ADMUX = 0;
-        display_value_1 += ADC*0.44;
-        
-    }
-    else
-    {
-		//ADC (STROM)
-		ADMUX = (1<<MUX0);
-        display_value_2 += ADC*0.9;	
-		adc_count++;
-    }
-    ADCSRA=(1<<ADEN)|(1<<ADSC)|(1<<ADFR)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADIE);
+ {
+  ADCSRA = 0;
+  if ((ADMUX&0x0F) == 1) {
+    //ADC (SPANNUNG)
+    ADMUX = 0;
+    display_value_1 += ADC*0.44;
+  }
+  else {
+    //ADC (STROM)
+    ADMUX = (1<<MUX0);
+    display_value_2 += ADC*0.9;     
+    adc_count++;
+  }
+  ADCSRA=(1<<ADEN)|(1<<ADSC)|(1<<ADFR)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADIE);
 }
 
 

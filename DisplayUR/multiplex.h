@@ -25,26 +25,44 @@
 #ifndef _MULTIPLEX_H
 #define _MULTIPLEX_H
 
-volatile int gMultiplexDisplay1;
-volatile int gMultiplexDisplay2;
+/** Number of segments to be displayed. */
+enum { kNSegments = 6 };
 
-/**  */
+enum {
+  kDisplayOff = 0x00,
+  kDisplayOn = 0x01,
+  
+  kDataMode = 0x00,      /// convert and display two integer values
+  kDirectMode = 0x10,    /// display content of display buffer
+};
+
+extern volatile int gMultiplexDisplay1;
+extern volatile int gMultiplexDisplay2;
+extern volatile unsigned char gMultiplexMode;
+
+/** This function initializes and starts the Timer2 which is used for
+  * 7-segment multiplexing. */
 extern void MultiplexInit(void);
 
 /**  */
-extern void MultiplexOn(void);
-extern void MultiplexOff(void);
+static inline void MultiplexOn(void)
+ { gMultiplexMode |= kDisplayOn; }
 
 /**  */
-inline void MultiplexSet1(int val1)
+static inline void MultiplexOff(void)
+ { gMultiplexMode &= ~kDisplayOn; }
+
+#if 0
+/**  */
+static inline void MultiplexSet1(int val1)
  { gMultiplexDisplay1 = val1; }
 
 /**  */
-inline void MultiplexSet2(int val2)
+static inline void MultiplexSet2(int val2)
  { gMultiplexDisplay2 = val2; }
+#endif
 
 /**  */
-inline void MultiplexSet(int val1, int val2)
- { gMultiplexDisplay1 = val1; gMultiplexDisplay2 = val2; }
+extern void MultiplexSet(int data1, int data2);
 
 #endif //_MULTIPLEX_H
