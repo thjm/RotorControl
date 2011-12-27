@@ -1,11 +1,16 @@
-$Id: CHANGES,v 1.3 2011/11/22 08:03:52 mathes Exp $
+$Id: CHANGES,v 1.4 2011/12/27 19:37:03 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
 
 ToDo next:
 ----------
-- adopt/modify DisplayUR for I2C-client and I2C driven display
+- extend I2C driven display with more possibilities
+- start with main program code
+
+2011-12-27 (thjm) - first working version for I2C based display
+                    -> i2cdisplay.h & i2cdisplay.c
+		    -> test master ist twitest.c
 
 2011-11-22 (thjm) - software in directory LSM303 now in 1st, acceptable state
 
