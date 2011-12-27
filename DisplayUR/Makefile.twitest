@@ -7,9 +7,9 @@
 
 MCU = atmega8
 FORMAT = ihex
-TARGET = i2cdisplay
-SRCS = $(TARGET).c  multiplex.c twislave.c
-HDRS = multiplex.h
+TARGET = twitest
+SRCS = $(TARGET).c  i2cmaster.c uart.c
+HDRS = 
 ASRCS = 
 OPT = s
 
@@ -29,11 +29,10 @@ MAKEFILE = Makefile
 CSTANDARD = -std=gnu99
 
 # Place -D or -U options here
-#CDEFS = -DF_CPU=8000000UL
 CDEFS = -DF_CPU=12000000UL
 
 # Place -I options here
-CINCS = -I/home/mathes/src/AVR/Library/twislave
+CINCS = 
 
 
 CDEBUG = -g$(DEBUG)
@@ -166,17 +165,10 @@ program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 
-
-# Additional source file twislave.c
-twislave.c: /home/mathes/src/AVR/Library/twislave/twislave.c
-	ln -s $< $@
-clean::
-	rm -f twislave.c twislave.o
-
 # I2CMASTER library of P.Fleury
 I2CLIBDIR = $(FLEURYHOME)/i2cmaster
 CINCS += -I$(I2CLIBDIR)
-#I2CLIB = i2cmaster.o
+I2CLIB = i2cmaster.o
 
 #SRCS += i2cmaster.c
 
@@ -225,19 +217,6 @@ $(TARGET).elf: $(OBJ)
 	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
 	$(SIZE) $@
 
-
-# Target: twitest.elf
-TWITEST_OPTS = -UF_CPU -DF_CPU=12000000UL
-TWITEST_OBJS = twitest.o i2cmaster.o uart.o
-
-twitest.elf: $(TWITEST_OBJS)
-	$(CC) $(ALL_CFLAGS) $(TWITEST_OBJS) --output $@ \
-		-Wl,-Map=twitest.map,--cref -lm
-	$(SIZE) $@
-
-clean::
-	$(RM) twitest.elf twitest.hex twitest.map twitest.lss
-	$(RM) $(TWITEST_OBJS)
 
 # this should be run on UR's ATmega8 test board (12 MHz)
 i2cmaster.o: i2cmaster.c

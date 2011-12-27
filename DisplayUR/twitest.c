@@ -4,7 +4,7 @@
  *
  * Purpose: Program to send test data via I2C to UR's display board (twi_slave).
  *
- * $Id: twitest.c,v 1.1 2011/12/27 12:34:29 mathes Exp $
+ * $Id: twitest.c,v 1.2 2011/12/27 19:34:42 mathes Exp $
  *
  */
  
@@ -33,9 +33,16 @@
 # include <uart.h>
 #endif // USE_UART
 
+#include "i2cdisplay.h"
+
 /** local prototypes */
 
 static void delay_sec(uint8_t n_sec);
+static void delay_msec10(uint8_t msec10);
+static uint8_t I2C_DisplayWrite(uint8_t cmd);
+#ifdef USE_UART
+static void int2uart(int val);
+#endif // USE_UART
 
 // --------------------------------------------------------------------------
 
@@ -64,7 +71,6 @@ int main(void)
   sei();
 #endif // USE_UART
   
-  uint16_t data = 0;
   uint8_t ret = 0;
   
   while ( 1 ) {
@@ -106,40 +112,15 @@ int main(void)
 #endif  // TEST_PCF8574A
 
 #if (TEST_DISP == 1 )
-    ret = i2c_start( 0x50 | I2C_WRITE);  // set device address and write mode
+    ret = I2C_DisplayWrite( I2C_DISP_DATA );
     
     if ( ret ) {
-      /* failed to issue start condition, possibly no device found */
-      i2c_stop();
- #ifdef USE_UART
-      uart_puts_P("Error - no DISP device!\r\n");
- #endif // USE_UART
-
       delay_sec(1);
-
       continue;
     }
-    else {
-      i2c_write(0x00); // write remote buffer address
-      
-      i2c_write(data & 0xff);  // write data bytes to remote buffer
-      i2c_write((data & 0xff00) >> 8);
-
-      i2c_write(data & 0xff);
-      i2c_write((data & 0xff00) >> 8);
-
-      i2c_stop();
- #ifdef USE_UART
-      uart_puts_P("Transmit OK\r\n");
- #endif // USE_UART
-    }
 #endif // TEST_DISP
-
-    data++;
     
-    if ( data == 999 ) data = 0;
-    
-    delay_sec(1);
+    delay_msec10(20);
   }
   
   return 0;
@@ -156,6 +137,102 @@ static void delay_sec(uint8_t n_sec)
     n_sec--;
   }
 }
+
+// --------------------------------------------------------------------------
+
+static void delay_msec10(uint8_t msec10)
+ {
+  while ( msec10 ) {
+    // inline in util/delay.h
+    _delay_ms( 10.0 );
+    msec10--;
+  }
+}
+
+// --------------------------------------------------------------------------
+
+#if (TEST_DISP == 1 )
+static uint8_t I2C_DisplayWrite(uint8_t cmd)
+ {
+  static uint16_t data = 0;
+  uint8_t ret = 0;
+  
+  ret = i2c_start( I2C_DISPLAY | I2C_WRITE);  // set device address and write mode
+  
+  if ( ret ) {
+    /* failed to issue start condition, possibly no device found */
+    i2c_stop();
+ #ifdef USE_UART
+    uart_puts_P("Error - no DISP device!\r\n");
+ #endif // USE_UART
+    return ret;
+  }
+  
+  i2c_write(0x00); // write remote buffer address (always)
+  i2c_write(cmd);  // write command
+      
+ #ifdef USE_UART
+  uart_puts_P("Data: ");
+  int2uart( data );
+  //uart_puts_P(" "); int2uart(data & 0xff);
+  //uart_puts_P(" "); int2uart((data & 0xff00) >> 8);
+  uart_puts_P("\r\n");
+ #endif // USE_UART
+      
+  i2c_write(data & 0xff);  // write data bytes to remote buffer
+  i2c_write((data & 0xff00) >> 8);
+
+  i2c_write(data & 0xff);
+  i2c_write((data & 0xff00) >> 8);
+
+  i2c_stop();
+ #ifdef USE_UART
+  uart_puts_P("Transmit OK\r\n");
+ #endif // USE_UART
+
+  data++;
+  
+  if ( data == 999 ) data = 0;
+
+  return ret;
+}
+
+#endif // TEST_DISP
+
+// --------------------------------------------------------------------------
+
+#ifdef USE_UART
+static const unsigned int TEST[] PROGMEM = { 10, 100, 1000, 10000 };
+
+void int2uart(int val)
+ {
+  unsigned char d, i;
+  unsigned char zero;
+  unsigned int uval = val;
+
+  if( val < 0 ){
+    uval = -val;
+    uart_putc( '-' );
+  }
+
+  zero = 1;
+  i = 4;
+  do{
+    i--;
+    for ( d = '0'; uval >= pgm_read_word(&TEST[i]); 
+                   uval -= pgm_read_word(&TEST[i]) ) {
+      d++;
+      zero = 0;
+    }
+
+    if( zero == 0 ) uart_putc( d );
+
+  } while( i );
+
+  uart_putc( (unsigned char)uval + '0' );
+}
+
+#endif // USE_UART
 
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
