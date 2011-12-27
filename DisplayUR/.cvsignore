@@ -1,3 +1,5 @@
+twislave.c
+i2cmaster.c
 *.d
 *.lst
 *.eep

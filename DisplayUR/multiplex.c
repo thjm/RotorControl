@@ -34,8 +34,8 @@ const char SEGMENTE[] = {119, 18, 107, 59, 30, 61, 125, 19, 127, 31};
 volatile unsigned char gSegmentCounter = 0;
 volatile unsigned char gSegmentData[kNSegments] = { 0 };
 
-volatile int gMultiplexDisplay1 = 0;
-volatile int gMultiplexDisplay2 = 0;
+volatile uint16_t gMultiplexDisplay1 = 0;
+volatile uint16_t gMultiplexDisplay2 = 0;
 volatile unsigned char gMultiplexMode;
 
 // --------------------------------------------------------------------------
@@ -45,7 +45,7 @@ volatile unsigned char gMultiplexMode;
 // port D drives the individual segments
 // port B selects the digits, PORTB = 0x01 -> left-most digit
 //
-ISR (TIMER2_OVF_vect)
+ISR(TIMER2_OVF_vect)
  {
   PORTD = 0;
   
@@ -53,27 +53,7 @@ ISR (TIMER2_OVF_vect)
   
   PORTB = (1<<gSegmentCounter);
 
-  switch (gSegmentCounter) {	  
-
-    case 0:
-  	    PORTD = SEGMENTE[(gMultiplexDisplay1 % 1000 / 100)];
-  	    break;  
-    case 1:
-  	    PORTD = SEGMENTE[(gMultiplexDisplay1 % 100 / 10)];
-  	    break;	    
-    case 2:
-  	    PORTD = SEGMENTE[(gMultiplexDisplay1 % 10)];
-  	    break;
-    case 3:
-  	    PORTD = SEGMENTE[(gMultiplexDisplay2 % 1000 / 100)];
-  	    break;
-    case 4:
-  	    PORTD = SEGMENTE[(gMultiplexDisplay2 % 100 / 10)];
-  	    break;  
-    case 5:
-  	    PORTD = SEGMENTE[(gMultiplexDisplay2 % 10)];
-  	    break;
-  }
+  PORTD = gSegmentData[gSegmentCounter];
 
   if ( (gSegmentCounter++) >= kNSegments ) gSegmentCounter = 0;   
 }
@@ -83,6 +63,7 @@ ISR (TIMER2_OVF_vect)
 void MultiplexInit(void)
  {
   gMultiplexMode = kDataMode | kDisplayOn;
+  gMultiplexDisplay1 = gMultiplexDisplay2 = 0;
   
   //enable interrupt for Timer2 overflow 
   TIMSK |= (1 << TOIE2);
@@ -95,14 +76,40 @@ void MultiplexInit(void)
 
 // --------------------------------------------------------------------------
 
-void MultiplexSet(int data1, int data2)
+void MultiplexSet(uint16_t data1,uint16_t data2)
  {
   gMultiplexDisplay1 = data1;
   gMultiplexDisplay2 = data2;
-#if 0
+
   if ( (gMultiplexMode & kDataMode) == kDataMode ) {
+    
+    for ( uint8_t segment=0; segment<kNSegments; segment++) {
+  
+      switch (segment) {	  
+
+        case 0:
+  	    gSegmentData[segment] = SEGMENTE[(gMultiplexDisplay1 % 1000 / 100)];
+  	    break;  
+        case 1:
+  	    gSegmentData[segment] = SEGMENTE[(gMultiplexDisplay1 % 100 / 10)];
+  	    break;	    
+        case 2:
+  	    gSegmentData[segment] = SEGMENTE[(gMultiplexDisplay1 % 10)];
+  	    break;
+        case 3:
+  	    gSegmentData[segment] = SEGMENTE[(gMultiplexDisplay2 % 1000 / 100)];
+  	    break;
+        case 4:
+  	    gSegmentData[segment] = SEGMENTE[(gMultiplexDisplay2 % 100 / 10)];
+  	    break;  
+        case 5:
+  	    gSegmentData[segment] = SEGMENTE[(gMultiplexDisplay2 % 10)];
+  	    break;
+      
+      } // switch ( segment ) ...
+      
+    } // for ( segment=... )
   }
-#endif
 }
 
 // --------------------------------------------------------------------------

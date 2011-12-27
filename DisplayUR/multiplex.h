@@ -25,6 +25,8 @@
 #ifndef _MULTIPLEX_H
 #define _MULTIPLEX_H
 
+#include <stdint.h>
+
 /** Number of segments to be displayed. */
 enum { kNSegments = 6 };
 
@@ -36,8 +38,8 @@ enum {
   kDirectMode = 0x10,    /// display content of display buffer
 };
 
-extern volatile int gMultiplexDisplay1;
-extern volatile int gMultiplexDisplay2;
+//extern int gMultiplexDisplay1;
+//extern int gMultiplexDisplay2;
 extern volatile unsigned char gMultiplexMode;
 
 /** This function initializes and starts the Timer2 which is used for
@@ -54,15 +56,15 @@ static inline void MultiplexOff(void)
 
 #if 0
 /**  */
-static inline void MultiplexSet1(int val1)
+static inline void MultiplexSet1(uint16_t val1)
  { gMultiplexDisplay1 = val1; }
 
 /**  */
-static inline void MultiplexSet2(int val2)
+static inline void MultiplexSet2(uint16_t val2)
  { gMultiplexDisplay2 = val2; }
 #endif
 
 /**  */
-extern void MultiplexSet(int data1, int data2);
+extern void MultiplexSet(uint16_t data1,uint16_t data2);
 
 #endif //_MULTIPLEX_H

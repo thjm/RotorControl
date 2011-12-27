@@ -4,7 +4,7 @@
  *
  * Purpose: Program to display data received via I2C on UR's display board.
  *
- * $Id: i2cdisplay.c,v 1.3 2011/12/05 16:19:00 mathes Exp $
+ * $Id: i2cdisplay.c,v 1.4 2011/12/27 12:34:29 mathes Exp $
  *
  */
  
@@ -59,30 +59,34 @@ int main(void)
   MultiplexInit();
   
   // initialize the TWI slave
-  //TWI_SlaveInit(SLAVE_ADRESS /*, enable_irq */);
+  TWI_SlaveInit(SLAVE_ADRESS, 0 /*, enable_irq */);
   
   // enable interrupts globally
   sei();
   
-  int data = 0;
+  // uint16_t data = 0;
+  uint16_t * data1 = (uint16_t *)&gTWI_SlaveRxBuffer[0];
+  uint16_t * data2 = (uint16_t *)&gTWI_SlaveRxBuffer[2];
+  
   
   while ( 1 ) {
     
-#if 1
-    if ( data % 2 )
-      MultiplexOn();
-    else
-      MultiplexOff();
-#else
-    gMultiplexMode = kDisplayOn;
-#endif
+// #if 1
+//     if ( data % 2 )
+//       MultiplexOn();
+//     else
+//       MultiplexOff();
+// #else
+//     gMultiplexMode = kDisplayOn;
+// #endif
 
-    MultiplexSet( data, data );
+    MultiplexSet( *data1, gTW_Status /* *data2 */ );
     
+#if 0
     data++;
     
     if ( data == 999 ) data = 0;
-    
+#endif    
     delay_sec(1);
   }
   

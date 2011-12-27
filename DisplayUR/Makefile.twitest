@@ -29,8 +29,8 @@ MAKEFILE = Makefile
 CSTANDARD = -std=gnu99
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=8000000UL
-#CDEFS = -DF_CPU=12000000UL
+#CDEFS = -DF_CPU=8000000UL
+CDEFS = -DF_CPU=12000000UL
 
 # Place -I options here
 CINCS = -I/home/mathes/src/AVR/Library/twislave
