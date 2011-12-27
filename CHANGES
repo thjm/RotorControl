@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.4 2011/12/27 19:37:03 mathes Exp $
+$Id: CHANGES,v 1.5 2011/12/27 20:00:16 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -11,6 +11,8 @@ ToDo next:
 2011-12-27 (thjm) - first working version for I2C based display
                     -> i2cdisplay.h & i2cdisplay.c
 		    -> test master ist twitest.c
+		  - start with files for main program code:
+		    rotorcontrol.c, global.h, Makefile ans symlinks
 
 2011-11-22 (thjm) - software in directory LSM303 now in 1st, acceptable state
 
