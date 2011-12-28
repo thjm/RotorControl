@@ -26,6 +26,7 @@
 #define _MULTIPLEX_H
 
 #include <stdint.h>
+#include <string.h>
 
 /** Number of segments to be displayed. */
 enum { kNSegments = 6 };
@@ -33,14 +34,10 @@ enum { kNSegments = 6 };
 enum {
   kDisplayOff = 0x00,
   kDisplayOn = 0x01,
-  
-  kDataMode = 0x00,      /// convert and display two integer values
-  kDirectMode = 0x10,    /// display content of display buffer
 };
 
-//extern int gMultiplexDisplay1;
-//extern int gMultiplexDisplay2;
 extern volatile unsigned char gMultiplexMode;
+extern volatile uint8_t gSegmentData[];
 
 /** This function initializes and starts the Timer2 which is used for
   * 7-segment multiplexing. */
@@ -54,17 +51,24 @@ static inline void MultiplexOn(void)
 static inline void MultiplexOff(void)
  { gMultiplexMode &= ~kDisplayOn; }
 
-#if 0
-/**  */
-static inline void MultiplexSet1(uint16_t val1)
- { gMultiplexDisplay1 = val1; }
+/** Set the value for the leftmost 3 digits. */
+extern void MultiplexSetL(uint16_t l_data);
 
-/**  */
-static inline void MultiplexSet2(uint16_t val2)
- { gMultiplexDisplay2 = val2; }
-#endif
+/** Set the value for the rightmost 3 digits. */
+extern void MultiplexSetR(uint16_t r_data);
 
-/**  */
-extern void MultiplexSet(uint16_t data1,uint16_t data2);
+/** Set the values for the display */
+static inline void MultiplexSet(uint16_t l_data,uint16_t r_data)
+ { MultiplexSetL( l_data ); MultiplexSetR( r_data ); }
+
+/** Write raw values to the leftmost 3 digits. */
+static inline void MultiplexSetLRaw(const uint8_t *l_raw)
+ { memcpy((void *)&gSegmentData[0], l_raw, 3 ); } 
+
+/** Write raw values to the rightmost 3 digits. */
+static inline void MultiplexSetRRaw(uint8_t *r_raw)
+ { memcpy((void *)&gSegmentData[3], r_raw, 3 ); } 
+
+/** Write raw values to the display. */
 
 #endif //_MULTIPLEX_H
