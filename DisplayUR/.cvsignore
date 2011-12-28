@@ -1,5 +1,7 @@
-twislave.c
+.depend
 i2cmaster.c
+twislave.c
+uart.c
 *.d
 *.lst
 *.eep
