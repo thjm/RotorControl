@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.2 2011/12/29 10:35:19 mathes Exp $
+ * $Id: global.h,v 1.3 2011/12/29 10:40:35 mathes Exp $
  */
 
 
@@ -43,8 +43,8 @@
 #define RELAY_CCW               (1<<PA1)
 #define RELAY_STOP              (1<<PA2)
 
-#define BrakeOn()               { RELAY_PORT |= RELAY_STOP; }
-#define BrakeOff()              { RELAY_PORT &= ~RELAY_STOP; }
+#define BrakeOn()               { RELAY_PORT &= ~RELAY_STOP; }
+#define BrakeOff()              { RELAY_PORT |= RELAY_STOP; }
 #define RotatorCW()             { RELAY_PORT |= RELAY_CW; } 
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
 #define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW); }
