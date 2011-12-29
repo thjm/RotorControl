@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.6 2011/11/23 05:53:55 mathes Exp $
+# $Id: Makefile,v 1.7 2011/12/29 11:39:57 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -8,9 +8,10 @@
 # (GNU make, BSD make, SysV make)
 
 
+#MCU = atmega2561
 #MCU = atmega168
 #MCU = atmega88
-# this one will not work
+# this one will not work for the Orangutan stuff ...
 MCU = atmega8
 FORMAT = ihex
 TARGET = compass
@@ -19,6 +20,8 @@ SRCS = $(TARGET).c vector.c lcd.c
 CXXSRCS = OrangutanTime.cpp OrangutanPushbuttons.cpp
 ASRCS = 
 OPT = s
+# for the ATmega256 the additional option '-mrelax' is recommended
+#OPT += -mrelax
 
 # Name of this Makefile (used for "make depend").
 MAKEFILE = Makefile
@@ -38,7 +41,7 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here
 #CDEFS = -DF_CPU=8000000UL -DLIB_POLOLU
 # U.Radig, ATmega8 test board with 12MHz
-CDEFS = -DF_CPU=12000000UL -DLIB_POLOLU -DUART_DEBUG -ULED_DEBUG
+CDEFS = -DF_CPU=12000000UL -DLIB_POLOLU -DUART_DEBUG -DLED_DEBUG
 
 # Place -I options here
 CINCS = -I.

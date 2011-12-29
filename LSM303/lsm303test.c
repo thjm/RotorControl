@@ -4,7 +4,7 @@
  *
  * Purpose: Simple test program for AVR TWI interface with LSM303DLH
  *
- * $Id: lsm303test.c,v 1.8 2011/11/22 08:03:52 mathes Exp $
+ * $Id: lsm303test.c,v 1.9 2011/12/29 11:39:57 mathes Exp $
  *
  */
  
@@ -155,9 +155,14 @@ static void LSM303DLHTestMAG(void)
 int main(void)
  {
   InitLEDPort();
+  
+  YellowLEDOn();
+  delay_sec(1);
+  YellowLEDOff();
+  delay_sec(1);
   YellowLEDOn();
 
-  delay_sec(2);
+  delay_sec(1);
     
   i2c_init();                                // init I2C interface
 #ifdef UART_DEBUG
