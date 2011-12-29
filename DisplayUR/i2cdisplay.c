@@ -4,7 +4,7 @@
  *
  * Purpose: Program to display data received via I2C on UR's display board.
  *
- * $Id: i2cdisplay.c,v 1.5 2011/12/27 19:34:42 mathes Exp $
+ * $Id: i2cdisplay.c,v 1.6 2011/12/29 09:19:33 mathes Exp $
  *
  */
  
@@ -20,9 +20,6 @@
   * Program to display data received via I2C on UR's display board.
   * @author H.-J. Mathes <dc2ip@darc.de>
   */
-
-/** TWI buffer size, will overwrite the settings in the header file. */
-#define TWI_SLAVE_BUFFERSIZE 10
 
 #include <twislave.h>
 

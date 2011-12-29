@@ -29,8 +29,7 @@ MAKEFILE = Makefile
 CSTANDARD = -std=gnu99
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=8000000UL
-#CDEFS = -DF_CPU=12000000UL
+CDEFS = -DF_CPU=8000000UL -DTWI_SLAVE_BUFFERSIZE=10
 
 # Place -I options here
 CINCS = -I/home/mathes/src/AVR/Library/twislave
