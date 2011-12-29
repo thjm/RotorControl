@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.5 2011/12/27 20:00:16 mathes Exp $
+$Id: CHANGES,v 1.6 2011/12/29 10:35:19 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -8,6 +8,10 @@ ToDo next:
 - extend I2C driven display with more possibilities
 - start with main program code
 
+2011-12-29 (thjm) - button control for LEFT/RIGHT added
+                  - timer controlled button query integrated
+		    -> not yet tested !
+		    
 2011-12-27 (thjm) - first working version for I2C based display
                     -> i2cdisplay.h & i2cdisplay.c
 		    -> test master ist twitest.c
