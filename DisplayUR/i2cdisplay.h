@@ -4,7 +4,7 @@
  *
  * Purpose: Declarations and definitions for the I2C based display on UR's board.
  *
- * $Id: i2cdisplay.h,v 1.1 2011/12/27 19:34:42 mathes Exp $
+ * $Id: i2cdisplay.h,v 1.2 2012/01/03 15:39:22 mathes Exp $
  *
  */
 
@@ -26,16 +26,42 @@
 #define I2C_DISP_OFF            0x00
 #define I2C_DISP_ON             0x01
 #define I2C_DISP_DATA           0x02
-#define I2C_DISP_DATA_LEFT      0x03
-#define I2C_DISP_DATA_RIGHT     0x04
-#define I2C_DISP_RAWDATA        0x04
-#define I2C_DISP_RAWDATA_LEFT   0x05
-#define I2C_DISP_RAWDATA_RIGHT  0x06
 //
 // byte 02 : data for left digit, lsb
 // byte 03 : data for left digit, msb
 // byte 04 : data for right digit, lsb
 // byte 05 : data for right digit, msb
+//
+#define I2C_DISP_DATA_LEFT      0x03
+//
+// byte 02 : data for left digit, lsb
+// byte 03 : data for left digit, msb
+//
+#define I2C_DISP_DATA_RIGHT     0x04
+//
+// byte 02 : data for right digit, lsb
+// byte 03 : data for right digit, msb
+//
+#define I2C_DISP_RAWDATA        0x05
+//
+// byte 02 : raw data for left most digit, = digit 01
+// byte 03 : raw data for digit 02
+// byte 04 : raw data for digit 03
+// byte 05 : raw data for digit 04
+// byte 06 : raw data for digit 05
+// byte 07 : raw data for right most digit, = digit 06
+//
+#define I2C_DISP_RAWDATA_LEFT   0x06
+//
+// byte 02 : raw data for left most digit, = digit 01
+// byte 03 : raw data for digit 02
+// byte 04 : raw data for digit 03
+//
+#define I2C_DISP_RAWDATA_RIGHT  0x07
+//
+// byte 02 : raw data for digit 04
+// byte 03 : raw data for digit 05
+// byte 04 : raw data for right most digit, = digit 06
 //
 
 #endif // _i2cdisplay_h_

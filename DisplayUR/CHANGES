@@ -1,8 +1,16 @@
-$Id: CHANGES,v 1.8 2011/12/28 21:35:53 mathes Exp $
+$Id: CHANGES,v 1.9 2012/01/03 15:39:22 mathes Exp $
 
 CHANGES file for Projekte/RotorControl/DisplayUR
 -----------------------------------------------------------------------------
 
+2012/01/03 (thjm) - twitest.c:
+                    - test of other command types implemented
+		  - i2cdisplay.*:
+		    - most of other command types implemented, too
+		    -> test successful!
+		    - completed protocol documentation
+		    - fix of command types (duplicate!)
+		    
 2011/12/28 (thjm) - multiplex.*:
                     - no more kDataMode/kDirectMode
                     - direct write to segment buffer now supported

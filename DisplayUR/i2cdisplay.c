@@ -4,7 +4,7 @@
  *
  * Purpose: Program to display data received via I2C on UR's display board.
  *
- * $Id: i2cdisplay.c,v 1.6 2011/12/29 09:19:33 mathes Exp $
+ * $Id: i2cdisplay.c,v 1.7 2012/01/03 15:39:22 mathes Exp $
  *
  */
  
@@ -74,12 +74,34 @@ int main(void)
            MultiplexOn();
            break;
 
+      case I2C_DISP_DATA_LEFT:
+           data_left = (uint16_t *)&gTWI_SlaveRxBuffer[1];
+	   MultiplexSetL( *data_left );
+           break;
+
+      case I2C_DISP_DATA_RIGHT:
+	   data_right = (uint16_t *)&gTWI_SlaveRxBuffer[1];
+	   MultiplexSetR( *data_right );
+           break;
+
       case I2C_DISP_DATA:
            data_left = (uint16_t *)&gTWI_SlaveRxBuffer[1];
 	   data_right = (uint16_t *)&gTWI_SlaveRxBuffer[3];
            MultiplexSet( *data_left, *data_right );
            break;
 
+      case I2C_DISP_RAWDATA:
+           MultiplexSetLRaw( (uint8_t *)&gTWI_SlaveRxBuffer[1] );
+           MultiplexSetRRaw( (uint8_t *)&gTWI_SlaveRxBuffer[4] );
+           break;
+
+      case I2C_DISP_RAWDATA_LEFT:
+           MultiplexSetLRaw( (uint8_t *)&gTWI_SlaveRxBuffer[1] );
+           break;
+
+      case I2C_DISP_RAWDATA_RIGHT:
+           MultiplexSetRRaw( (uint8_t *)&gTWI_SlaveRxBuffer[1] );
+           break;
     }
     
   } // while ( 1 ) ...
