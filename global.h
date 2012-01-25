@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.3 2011/12/29 10:40:35 mathes Exp $
+ * $Id: global.h,v 1.4 2012/01/25 22:31:19 mathes Exp $
  */
 
 
@@ -39,15 +39,17 @@
 #define RELAY_PORT              PORTA
 #define RELAY_DDR               DDRA
 
-#define RELAY_CW                (1<<PA0)
-#define RELAY_CCW               (1<<PA1)
-#define RELAY_STOP              (1<<PA2)
+#define RELAY_CW                (1<<PA0)  // turn clock wise
+#define RELAY_CCW               (1<<PA1)  // turn counter clock wise
+#define RELAY_STOP              (1<<PA2)  // open the brake
+#define RELAY_POWER             (1<<PA3)  // turn on rotor power
 
 #define BrakeOn()               { RELAY_PORT &= ~RELAY_STOP; }
 #define BrakeOff()              { RELAY_PORT |= RELAY_STOP; }
+#define RotatorOn()             { RELAY_PORT |= RELAY_POWER; }
 #define RotatorCW()             { RELAY_PORT |= RELAY_CW; } 
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
-#define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW); }
+#define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW | RELAY_POWER); }
 
 /* --- declaration of global vars: file get8key4.c --- */
 

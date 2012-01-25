@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.7 2011/12/29 11:39:57 mathes Exp $
+# $Id: Makefile,v 1.8 2012/01/25 22:31:19 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -287,7 +287,7 @@ clean::
 
 depend: .depend
 
-.depend: $(SRCS) $(HDRS)
+.depend: $(SRCS) $(ASRCS) $(HDRS)
 	@rm -f .depend
 	@touch .depend
 	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRCS) $(ASRCS) > .depend

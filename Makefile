@@ -29,7 +29,7 @@ DEBUG = stabs
 CSTANDARD = -std=c99
 
 # Place -D or -U options here
-CDEFS = -DFCPU=8000000UL
+CDEFS = -DFCPU=12000000UL
 
 # Place -I options here
 CINCS = -I. -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
