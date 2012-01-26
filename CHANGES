@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.7 2012/01/25 22:31:19 mathes Exp $
+$Id: CHANGES,v 1.8 2012/01/26 16:58:04 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -7,6 +7,9 @@ ToDo next:
 ----------
 - extend I2C driven display with more possibilities
 - start with main program code
+
+2012-01-26 (thjm) - circuit for relay board added
+                  - pin definitions changed for nicer circuit drawing
 
 2012-01-25 (thjm) - definition for rotor power relay
 
