@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.2 2011/12/29 10:35:19 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.3 2012/02/18 08:14:28 mathes Exp $
  *
  */
  
@@ -21,6 +21,11 @@
 #include <avr/interrupt.h>
 
 #include "global.h"
+
+// --- variable(s) for the rotator control
+
+volatile uint8_t gRotatorCommand;
+volatile uint8_t gRotatorState;
 
 // --------------------------------------------------------------------------
 

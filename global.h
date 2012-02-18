@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.5 2012/01/26 16:55:37 mathes Exp $
+ * $Id: global.h,v 1.6 2012/02/18 08:14:28 mathes Exp $
  */
 
 
@@ -35,6 +35,10 @@
 #define BUTTON_STOP             (1<<PB2)
 #define BUTTON_PRESET_RIGHT     (1<<PB3)
 #define BUTTON_RIGHT            (1<<PB4)
+
+#define LED_PORT
+#define LED_OVERLOAD
+#define LED_CALIBRATE
 
 #define RELAY_PORT              PORTA
 #define RELAY_DDR               DDRA
