@@ -337,17 +337,17 @@ UsedLibrary="/opt/eagle-6.1.0/lbr/zilog.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="0 0 599 399"
+Loc="646 0 1245 399"
 State=2
 Number=0
 
 [Win_2]
 Type="Schematic Editor"
-Loc="294 14 1652 858"
-State=2
+Loc="0 0 599 399"
+State=1
 Number=1
 File="RelayBoard.sch"
-View="-16.256 -14.986 168.656 103.886"
+View="-5.81901 -4.13096 270.354 184.263"
 WireWidths=" 0 0.3048 0.6096 0.8128 1.016 1.27 1.4224 1.6764 1.778 1.9304 2.1844 2.54 3.81 6.4516 0.4064 0.1524"
 PadDiameters=" 0.254 0.3048 0.4064 0.6096 0.8128 1.016 1.27 1.4224 1.6764 1.778 1.9304 2.1844 2.54 3.81 6.4516 0"
 PadDrills=" 0.5 0.6 0.7 0.9 1 1.1 1.2 1.3 1.4 1.5 1.6 2 2.2 2.8 3.2 0.8"
@@ -379,7 +379,7 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: -16.256 -14.986 168.656 103.886"
+Views=" 1: -5.81901 -4.13096 270.354 184.263"
 Sheet=1
 
 [Desktop]
