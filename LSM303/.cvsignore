@@ -3,6 +3,7 @@
 *.lss
 *.map
 analyze
+compass2
 compass.eep
 compass.hex
 lsm303read.hex
