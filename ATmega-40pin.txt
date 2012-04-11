@@ -1,0 +1,51 @@
+$Id: ATmega-40pin.txt,v 1.1 2012/04/11 21:29:31 mathes Exp $
+
+Pinouts for 40 pin ATmega uController
+------------------------------------------------------------------------------
+
+       16/32             644                  644A/644PA/1284/1284P
+---------------------------------------------------------------------
+  1  PB0 (XCK/T0)       (PCINT8/XCK0/T0)      (PCINT8/XCK0/T0)
+  2  PB1 (T1)           (PCINT9/CLK0/T1)      (PCINT9/CLK0/T1)
+  3  PB2 (INT2/AIN0)    (PCINT10/INT2/AIN0)   (PCINT10/INT2/AIN0)
+  4  PB3 (OC0/AIN1)     (PCINT11/OC0A/AIN1)   (PCINT11/OC0A/AIN1)
+  5  PB4 (!SS)          (PCINT12/OC0B/!SS)    (PCINT12/OC0B/!SS)
+  6  PB5 (MOSI)         (PCINT13/MOSI)        (PCINT13/MOSI)
+  7  PB6 (MISO)         (PCINT14/MISO)        (PCINT14/MISO)
+  8  PB7 (SCK)          (PCINT15/SCK)         (PCINT15/SCK)
+  9  !RESET
+ 10  VCC
+ 
+ 11  GND
+ 12  XTAL2
+ 13  XTAL1
+ 14  PD0 (RXD)          (PCINT24/RXD0)        (PCINT24/RXD0)
+ 15  PD1 (TXD)          (PCINT25/TXD0)        (PCINT25/TXD0)
+ 16  PD2 (INT0)         (PCINT26/INT0)        (PCINT26/RXD1/INT0)
+ 17  PD3 (INT1)         (PCINT27/INT1)        (PCINT27/TXD1/INT1)
+ 18  PD4 (OC1B)         (PCINT28/OC1B)        (PCINT28/XCK1/OC1B)
+ 19  PD5 (OC1A)         (PCINT29/OC1A)        (PCINT29/OC1A)
+ 20  PD6 (ICP1)         (PCINT30/OC2B/ICP1)   (PCINT30/OC2B/ICP1)
+ 
+ 21  PD7 (OC2)          (PCINT31/OC2A)
+ 22  PC0 (SCL)          (PCINT16/SCL)         (PCINT16/SCL)
+ 23  PC1 (SDA)          (PCINT17/SDA)         (PCINT17/SDA)
+ 24  PC2 (TCK)          (PCINT18/TCK)         (PCINT18/TCK)
+ 25  PC3 (TMS)          (PCINT19/TMS)         (PCINT19/TMS)
+ 26  PC4 (TDO)          (PCINT20/TDO)         (PCINT20/TDO)
+ 27  PC5 (TDI)          (PCINT21/TDI)         (PCINT21/TDI)
+ 28  PC6 (TOSC1)        (PCINT22/TOSC1)       (PCINT22/TOSC1)
+ 29  PC7 (TOSC2)        (PCINT23/TOSC2)       (PCINT23/TOSC2)
+ 30  AVCC
+ 
+ 31  GND
+ 32  AREF
+ 33  PA7 (ADC7)         (PCINT7/ADC7)         (PCINT7/ADC7)
+ 34  PA6 (ADC6)         (PCINT6/ADC6)         (PCINT6/ADC6)
+ 35  PA5 (ADC5)         (PCINT5/ADC5)         (PCINT5/ADC5)
+ 36  PA4 (ADC4)         (PCINT4/ADC4)         (PCINT4/ADC4)
+ 37  PA3 (ADC3)         (PCINT3/ADC3)         (PCINT3/ADC3)
+ 38  PA2 (ADC2)         (PCINT2/ADC2)         (PCINT2/ADC2)
+ 39  PA1 (ADC1)         (PCINT1/ADC1)         (PCINT1/ADC1)
+ 40  PA0 (ADC0)         (PCINT0/ADC0)         (PCINT0/ADC0)
+==============================================================================
