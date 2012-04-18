@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.3 2012/02/18 08:14:28 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.4 2012/04/18 19:45:43 mathes Exp $
  *
  */
  
@@ -13,7 +13,7 @@
 #include <string.h>
 
 /** @file rotorcontrol.c
-  * Program which performs the rotator control.
+  * main() of the rotator control program.
   * @author H.-J. Mathes <dc2ip@darc.de>
   */
 
@@ -56,9 +56,26 @@ static void InitHardware(void)
   // enable timer overflow interrupt
   TIMSK |= (1<<TOIE0);
 
-  // relay port initialisation
-  RELAY_PORT &= ~(RELAY_CW | RELAY_CCW | RELAY_STOP);
-  RELAY_DDR |= RELAY_CW | RELAY_CCW | RELAY_STOP;
+  uint8_t mask;
+  
+  // relay port initialisation, all relays off
+  mask = RELAY_POWER | RELAY_CW | RELAY_CCW | RELAY_STOP;
+  RELAY_PORT &= ~mask;
+  RELAY_DDR |= mask;
+  
+  // LED port initialisation, all LEDs off, RS485 RX enable
+  mask = LED_LEFT | LED_RIGHT | LED_CALIBRATE | LED_OVERLOAD | RS485_TX_ENABLE;
+  LED_PORT &= ~mask;
+  LED_DDR |= mask;
+  
+  // Buttons port initialisation, turn pull-ups on
+  mask = BUTTON_PRESET_LEFT | BUTTON_LEFT | BUTTON_STOP | BUTTON_RIGHT | BUTTON_PRESET_RIGHT;
+  BUTTON_PORT |= mask;
+  BUTTON_DDR &= ~mask;
+  
+  // initialize USART0 (receiving NMEA messages via RS485 from ACC/MAG sensor)
+  
+  // initialize USART1, for command/status exchange with HAM op (& debug)
   
   // enable interrupts globally
   sei();

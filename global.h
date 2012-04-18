@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.6 2012/02/18 08:14:28 mathes Exp $
+ * $Id: global.h,v 1.7 2012/04/18 19:45:43 mathes Exp $
  */
 
 
@@ -26,27 +26,36 @@
 // T_0 = 0.128 msec ==> * 78 = 9.984 msec = T_1
 #define CNT0_PRESET             (0xff - 78)
 
-#define BUTTON_PORT             PORTB
-#define BUTTON_PIN              PINB
-#define BUTTON_DDR              DDRB
+#define BUTTON_PORT             PORTA
+#define BUTTON_PIN              PINA
+#define BUTTON_DDR              DDRA
 
-#define BUTTON_LEFT             (1<<PB0)
-#define BUTTON_PRESET_LEFT      (1<<PB1)
-#define BUTTON_STOP             (1<<PB2)
-#define BUTTON_PRESET_RIGHT     (1<<PB3)
-#define BUTTON_RIGHT            (1<<PB4)
+#define BUTTON_PRESET_LEFT      (1<<PA3)
+#define BUTTON_LEFT             (1<<PA1)
+#define BUTTON_STOP             (1<<PA0)
+#define BUTTON_RIGHT            (1<<PA2)
+#define BUTTON_PRESET_RIGHT     (1<<PA4)
 
-#define LED_PORT
-#define LED_OVERLOAD
-#define LED_CALIBRATE
+#define LED_PORT                PORTC
+#define LED_DDR                 DDRC
 
-#define RELAY_PORT              PORTA
-#define RELAY_DDR               DDRA
+#define LED_CALIBRATE           (1<<PC2)  // green
+#define LED_OVERLOAD            (1<<PC3)  // yellow
+#define LED_LEFT                (1<<PC4)
+#define LED_RIGHT               (1<<PC5)
 
-#define RELAY_POWER             (1<<PA0)  // turn on rotor power
-#define RELAY_CW                (1<<PA1)  // turn clock wise
-#define RELAY_CCW               (1<<PA2)  // turn counter clock wise
-#define RELAY_STOP              (1<<PA3)  // open the brake
+#define RS485_TX_ENABLE         (1<<PC6)
+
+#define RS485EnableRx()         { LED_PORT &= ~RS485_TX_ENABLE; }
+#define RS485EnableTx()         { LED_PORT |= RS485_TX_ENABLE; }
+
+#define RELAY_PORT              PORTD
+#define RELAY_DDR               DDRD
+
+#define RELAY_POWER             (1<<PD4)  // turn on rotor power
+#define RELAY_CW                (1<<PD5)  // turn clock wise
+#define RELAY_CCW               (1<<PD6)  // turn counter clock wise
+#define RELAY_STOP              (1<<PD7)  // open the brake
 
 #define BrakeOn()               { RELAY_PORT &= ~RELAY_STOP; }
 #define BrakeOff()              { RELAY_PORT |= RELAY_STOP; }
