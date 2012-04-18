@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.10 2012/04/04 20:22:58 mathes Exp $
+$Id: CHANGES,v 1.11 2012/04/18 06:53:43 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -8,9 +8,11 @@ ToDo next:
 - extend I2C driven display with more possibilities
 - start with main program code
 
+2012-04-17 (thjm) - schematic for CPUBoard mostly complete
+
 2012-04-04 (thjm) - schematic (incomplete) for power supply added
 
-2012-03-30 (thjm) - circuit diagram for relay board renamed
+2012-03-30 (thjm) - schematic for relay board renamed
                   - second relay board added
 		  - button board added
 		  - main board (CPU) started
@@ -30,7 +32,7 @@ ToDo next:
                     -> i2cdisplay.h & i2cdisplay.c
 		    -> test master ist twitest.c
 		  - start with files for main program code:
-		    rotorcontrol.c, global.h, Makefile ans symlinks
+		    rotorcontrol.c, global.h, Makefile and symlinks
 
 2011-11-22 (thjm) - software in directory LSM303 now in 1st, acceptable state
 
