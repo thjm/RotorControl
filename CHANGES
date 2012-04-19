@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.12 2012/04/18 19:45:43 mathes Exp $
+$Id: CHANGES,v 1.13 2012/04/19 06:41:18 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -7,6 +7,8 @@ ToDo next:
 ----------
 - extend I2C driven display with more possibilities
 - start with main program code
+
+2012-04-19 (thjm) - CPUBoard: jumper block for serial interface, MAX232 | USB
 
 2012-04-18 (thjm) - changed global.h according to recent CPUboard schematic
                   - initialisation code for LEDs and BUTTONs added
