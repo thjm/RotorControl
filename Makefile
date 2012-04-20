@@ -5,6 +5,8 @@
 # (GNU make, BSD make, SysV make)
 
 
+#MCU = atmega1284p
+#MCU = atmega644p # doesn't compile
 MCU = atmega32
 FORMAT = ihex
 TARGET = rotorcontrol
