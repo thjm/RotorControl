@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.18 2012/05/06 18:21:42 mathes Exp $
+$Id: CHANGES,v 1.19 2012/05/07 14:33:20 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,17 @@ ToDo next:
 - start with main program code
   - rotator left/right via key-press
   - display position
+
+2012-05-07 (thjm) - corrections for RelayBoard1:
+                    - using right connectors from library con-molex
+		    - single sided routing
+		  - corrections for ButtonBoard:
+		    - using right connector from library con-molex
+		    - using right switches from library switch-misc (SRK/SRKL)
+		  - component placement & board layout for ButtonBoard done
+		  - CPUBoard:
+		    - some components moved around the board
+		    - re-routing (partially)
 
 2012-05-06 (thjm) - corrections for CPUBoard:
                     - RS-485 need termination resistors etc.
