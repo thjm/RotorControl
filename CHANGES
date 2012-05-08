@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.19 2012/05/07 14:33:20 mathes Exp $
+$Id: CHANGES,v 1.20 2012/05/08 20:32:12 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,12 @@ ToDo next:
 - start with main program code
   - rotator left/right via key-press
   - display position
+
+2012-05-08 (thjm) - CPUBoard:
+                    - another pin-header added for RS-485 UART
+		    - correct termination for RS-485 A/B lines
+		  - PowerSupply: terminals added
+		  - eagle_clean.sh: remove backup files of Eagle
 
 2012-05-07 (thjm) - corrections for RelayBoard1:
                     - using right connectors from library con-molex
