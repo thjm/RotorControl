@@ -12288,13 +12288,13 @@ In this library the device names are the same as the pin names of the symbols, t
 </class>
 </classes>
 <parts>
-<part name="FRAME1" library="frames" deviceset="DINA4_L" device=""/>
+<part name="FRAME1" library="frames" deviceset="DINA4_L" device="" value="PowerSupply"/>
 <part name="IC1" library="linear" deviceset="78*" device="T" technology="12"/>
 <part name="B1" library="rectifier" deviceset="B-DIL" device="" value="B80C800"/>
-<part name="C1" library="rcl" deviceset="CPOL-EU" device="E55-30AXIAL"/>
-<part name="C2" library="rcl" deviceset="CPOL-EU" device="E55-30AXIAL"/>
-<part name="C4" library="rcl" deviceset="C-EU" device="050-024X044"/>
-<part name="C5" library="rcl" deviceset="C-EU" device="050-024X044"/>
+<part name="C1" library="rcl" deviceset="CPOL-EU" device="E55-30AXIAL" value="2200u"/>
+<part name="C2" library="rcl" deviceset="CPOL-EU" device="E55-30AXIAL" value="2200u"/>
+<part name="C4" library="rcl" deviceset="C-EU" device="050-024X044" value="100n"/>
+<part name="C5" library="rcl" deviceset="C-EU" device="050-024X044" value="100n"/>
 <part name="F1" library="fuse" deviceset="FUSE" device="SHK20L"/>
 <part name="X1" library="con-phoenix-508" deviceset="MKDSN1,5/3-5,08" device=""/>
 <part name="TR1" library="trafo" deviceset="EI54-1B" device=""/>
@@ -12328,8 +12328,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="SUPPLY1" gate="0V" x="91.44" y="121.92"/>
 <instance part="SUPPLY2" gate="+12V" x="195.58" y="160.02"/>
 <instance part="SUPPLY3" gate="0V" x="195.58" y="121.92"/>
-<instance part="X2" gate="-1" x="231.14" y="162.56"/>
-<instance part="X2" gate="-2" x="231.14" y="154.94"/>
+<instance part="X2" gate="-1" x="231.14" y="157.48"/>
+<instance part="X2" gate="-2" x="231.14" y="149.86"/>
 <instance part="X3" gate="-1" x="231.14" y="137.16"/>
 <instance part="X3" gate="-2" x="231.14" y="129.54"/>
 <instance part="X4" gate="-1" x="231.14" y="96.52"/>
@@ -12414,12 +12414,11 @@ In this library the device names are the same as the pin names of the symbols, t
 <junction x="195.58" y="149.86"/>
 <wire x1="195.58" y1="149.86" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
 <pinref part="X2" gate="-1" pin="KL"/>
-<wire x1="228.6" y1="162.56" x2="215.9" y2="162.56" width="0.1524" layer="91"/>
-<wire x1="215.9" y1="162.56" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
-<wire x1="215.9" y1="149.86" x2="215.9" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="157.48" x2="215.9" y2="157.48" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="157.48" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
+<pinref part="X2" gate="-2" pin="KL"/>
+<wire x1="228.6" y1="149.86" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
 <junction x="215.9" y="149.86"/>
-<pinref part="X3" gate="-1" pin="KL"/>
-<wire x1="215.9" y1="137.16" x2="228.6" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="0V" class="0">
@@ -12453,37 +12452,41 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="172.72" y1="142.24" x2="172.72" y2="129.54" width="0.1524" layer="91"/>
 <junction x="172.72" y="129.54"/>
 <pinref part="X3" gate="-2" pin="KL"/>
-<wire x1="228.6" y1="129.54" x2="220.98" y2="129.54" width="0.1524" layer="91"/>
-<pinref part="X2" gate="-2" pin="KL"/>
-<wire x1="220.98" y1="129.54" x2="195.58" y2="129.54" width="0.1524" layer="91"/>
-<wire x1="228.6" y1="154.94" x2="220.98" y2="154.94" width="0.1524" layer="91"/>
-<wire x1="220.98" y1="154.94" x2="220.98" y2="129.54" width="0.1524" layer="91"/>
-<junction x="220.98" y="129.54"/>
+<wire x1="228.6" y1="129.54" x2="215.9" y2="129.54" width="0.1524" layer="91"/>
+<pinref part="X3" gate="-1" pin="KL"/>
+<wire x1="215.9" y1="129.54" x2="195.58" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="137.16" x2="215.9" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="137.16" x2="215.9" y2="129.54" width="0.1524" layer="91"/>
+<junction x="215.9" y="129.54"/>
 </segment>
 <segment>
 <pinref part="SUPPLY4" gate="0V" pin="0V"/>
 <wire x1="195.58" y1="68.58" x2="195.58" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="X5" gate="-2" pin="KL"/>
-<wire x1="195.58" y1="76.2" x2="220.98" y2="76.2" width="0.1524" layer="91"/>
-<wire x1="220.98" y1="76.2" x2="228.6" y2="76.2" width="0.1524" layer="91"/>
-<wire x1="220.98" y1="76.2" x2="220.98" y2="91.44" width="0.1524" layer="91"/>
-<junction x="220.98" y="76.2"/>
-<pinref part="X4" gate="-2" pin="KL"/>
-<wire x1="220.98" y1="91.44" x2="228.6" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="195.58" y1="76.2" x2="215.9" y2="76.2" width="0.1524" layer="91"/>
+<pinref part="X5" gate="-1" pin="KL"/>
+<wire x1="215.9" y1="76.2" x2="228.6" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="81.28" x2="215.9" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="81.28" x2="215.9" y2="76.2" width="0.1524" layer="91"/>
+<junction x="215.9" y="76.2"/>
 </segment>
 </net>
-<net name="N$9" class="0">
+<net name="N$7" class="0">
 <segment>
-<pinref part="X5" gate="-1" pin="KL"/>
-<wire x1="228.6" y1="81.28" x2="215.9" y2="81.28" width="0.1524" layer="91"/>
-<wire x1="215.9" y1="81.28" x2="215.9" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="X4" gate="-2" pin="KL"/>
+<wire x1="215.9" y1="91.44" x2="228.6" y2="91.44" width="0.1524" layer="91"/>
 <pinref part="X4" gate="-1" pin="KL"/>
 <wire x1="215.9" y1="96.52" x2="228.6" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="91.44" x2="215.9" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="101,1,20.32,149.86,X1-2,KL,,,,"/>
+<approved hash="115,1,131.976,90.066,FRAME1,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
