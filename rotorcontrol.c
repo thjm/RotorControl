@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.4 2012/04/18 19:45:43 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.5 2012/05/09 21:10:58 mathes Exp $
  *
  */
  
@@ -26,6 +26,30 @@
 
 volatile uint8_t gRotatorCommand;
 volatile uint8_t gRotatorState;
+
+// Fuses and programming:
+//
+// Factory settings:
+//  Device signature = 0x1e9502
+//  hfuse = 0x99
+//  lfuse = 0xE1
+//
+// avrdude -p atmega32 -P usb -c usbasp -y -Y 0
+//
+// avrdude -p atmega32 -P /dev/parport1 -c stk200 -y -U flash:w:rotorcontrol.hex
+//
+// avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:rotorcontrol.hex
+//
+// avrdude -p atmega32 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i 
+// avrdude -p atmega32 -P usb -c usbasp -y -U hfuse:w:0xC9:m
+//  - JTAG disabled
+//  - CKOPT enabled
+// avrdude -p atmega32 -P usb -c usbasp -y -U lfuse:w:0xEE:m
+//  - external crystal (CKSEL3..1 = 111)
+//
+// avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:avrledtest.hex
+// avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:twitest.hex
+//
 
 // --------------------------------------------------------------------------
 
