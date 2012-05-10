@@ -19666,13 +19666,6 @@ Metric Code Size 5664</description>
 <pinref part="J2" gate="-9" pin="S"/>
 </segment>
 </net>
-<net name="SPARE" class="0">
-<segment>
-<wire x1="241.3" y1="119.38" x2="220.98" y2="119.38" width="0.1524" layer="91"/>
-<label x="220.98" y="119.38" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J1" gate="-3" pin="S"/>
-</segment>
-</net>
 <net name="ENC_INT" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="AIN0/INT2/PCINT10"/>
@@ -19786,10 +19779,9 @@ Metric Code Size 5664</description>
 <junction x="116.84" y="55.88"/>
 </segment>
 <segment>
-<wire x1="241.3" y1="124.46" x2="238.76" y2="124.46" width="0.1524" layer="91"/>
-<label x="220.98" y="124.46" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J1" gate="-1" pin="S"/>
-<wire x1="238.76" y1="124.46" x2="220.98" y2="124.46" width="0.1524" layer="91"/>
+<label x="220.98" y="121.92" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<wire x1="241.3" y1="121.92" x2="220.98" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-2" pin="S"/>
 </segment>
 </net>
 <net name="SDA" class="0">
@@ -19803,9 +19795,9 @@ Metric Code Size 5664</description>
 <junction x="121.92" y="53.34"/>
 </segment>
 <segment>
-<wire x1="241.3" y1="121.92" x2="220.98" y2="121.92" width="0.1524" layer="91"/>
-<label x="220.98" y="121.92" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J1" gate="-2" pin="S"/>
+<label x="220.98" y="119.38" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<wire x1="241.3" y1="119.38" x2="220.98" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-3" pin="S"/>
 </segment>
 </net>
 <net name="N$12" class="0">
@@ -19938,6 +19930,13 @@ Metric Code Size 5664</description>
 <wire x1="162.56" y1="142.24" x2="162.56" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="IC3" gate="G$1" pin="DI"/>
 <wire x1="162.56" y1="142.24" x2="165.1" y2="142.24" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="DIO" class="0">
+<segment>
+<label x="220.98" y="124.46" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<wire x1="220.98" y1="124.46" x2="241.3" y2="124.46" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-1" pin="S"/>
 </segment>
 </net>
 </nets>
