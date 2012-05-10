@@ -19775,9 +19775,9 @@ Metric Code Size 5664</description>
 <junction x="116.84" y="55.88"/>
 </segment>
 <segment>
-<label x="220.98" y="121.92" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<wire x1="241.3" y1="121.92" x2="220.98" y2="121.92" width="0.1524" layer="91"/>
-<pinref part="J1" gate="-2" pin="S"/>
+<label x="220.98" y="119.38" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<wire x1="241.3" y1="119.38" x2="220.98" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-3" pin="S"/>
 </segment>
 </net>
 <net name="SDA" class="0">
@@ -19791,9 +19791,9 @@ Metric Code Size 5664</description>
 <junction x="121.92" y="53.34"/>
 </segment>
 <segment>
-<label x="220.98" y="119.38" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<wire x1="241.3" y1="119.38" x2="220.98" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="J1" gate="-3" pin="S"/>
+<label x="220.98" y="121.92" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<pinref part="J1" gate="-2" pin="S"/>
+<wire x1="220.98" y1="121.92" x2="241.3" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$12" class="0">
