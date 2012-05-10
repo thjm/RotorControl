@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.24 2012/05/10 16:12:54 mathes Exp $
+$Id: CHANGES,v 1.25 2012/05/10 20:09:12 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -13,6 +13,8 @@ ToDo next:
 2012-05-10 (thjm) - CPUBoard: fix connections to display, somehow mirrored
                   - wiring from/to MAX232 changed slightly
 		  - displaytest.c (from DisplayUR/twitest.c)
+		  - after another fix to TWI pins -> displaytest.c runs!!!
+		  - swapped connections to relay board1
 
 2012-05-09 (thjm) - ATmega32 put finally on board
                     -> fuse programming (see rotorcontrol.c)

@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.5 2012/05/09 21:10:58 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.6 2012/05/10 20:09:12 mathes Exp $
  *
  */
  
@@ -48,7 +48,7 @@ volatile uint8_t gRotatorState;
 //  - external crystal (CKSEL3..1 = 111)
 //
 // avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:avrledtest.hex
-// avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:twitest.hex
+// avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:displaytest.hex
 //
 
 // --------------------------------------------------------------------------
