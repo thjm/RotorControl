@@ -31,7 +31,7 @@ DEBUG = stabs
 CSTANDARD = -std=c99
 
 # Place -D or -U options here
-CDEFS = -DFCPU=12000000UL
+CDEFS = -DF_CPU=12000000UL
 
 # Place -I options here
 CINCS = -I. -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
@@ -142,6 +142,8 @@ eep: $(TARGET).eep
 lss: $(TARGET).lss 
 sym: $(TARGET).sym
 
+# Test target(s)
+test: displaytest.hex
 
 # UART library of P.Fleury
 uart.c: $(FLEURYHOME)/uartlibrary/uart.c
@@ -149,11 +151,15 @@ uart.c: $(FLEURYHOME)/uartlibrary/uart.c
 clean::
 	rm -f uart.c
 
+UARTLIB = uart.o
+
 # I2CMASTER library of P.Fleury
 i2cmaster.c: $(FLEURYHOME)/i2cmaster/twimaster.c
 	ln -s $< $@
 clean::
 	rm -f i2cmaster.c
+
+I2CLIB = i2cmaster.o
 
 # Debounced reading of up to 8 buttons (P.Danneger)
 get8key4.c: LSM303/get8key4.c
@@ -208,6 +214,23 @@ extcoff: $(TARGET).elf
 $(TARGET).elf: $(OBJ)
 	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
 	$(SIZE) $@
+
+
+# Test target: displaytest.elf
+
+DISPLAYTESTOBJS = displaytest.o $(I2CLIB) $(UARTLIB)
+
+displaytest.elf: $(DISPLAYTESTOBJS)
+	$(CC) $(ALL_CFLAGS) $(DISPLAYTESTOBJS) --output $@ \
+		-Wl,-Map=displaytest.map,--cref
+	$(SIZE) $@
+
+clean::
+	$(RM) displaytest.elf displaytest.hex displaytest.map displaytest.lss
+	$(RM) $(DISPLAYTESTOBJS)
+
+HDRS += 
+SRCS += displaytest.c
 
 
 # Compile: create object files from C source files.
