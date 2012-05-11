@@ -5,13 +5,11 @@
 # (GNU make, BSD make, SysV make)
 
 
-#MCU = atmega1284p
-#MCU = atmega644p # doesn't compile
 MCU = atmega32
 FORMAT = ihex
-TARGET = rotorcontrol
-HDR = global.h
-SRC = $(TARGET).c uart.c i2cmaster.c get8key4.c
+TARGET = 
+HDR = ../global.h
+SRC = uart.c i2cmaster.c get8key4.c
 ASRC = 
 OPT = s
 
@@ -34,7 +32,7 @@ CSTANDARD = -std=c99
 CDEFS = -DF_CPU=12000000UL
 
 # Place -I options here
-CINCS = -I. -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
+CINCS = -I. -I.. -I../DisplayUR -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
 
 
 CDEBUG = -g$(DEBUG)
@@ -132,23 +130,10 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 
 # Default target.
-all: build
+all: test
 
-build: elf hex eep
-
-elf: $(TARGET).elf
-hex: $(TARGET).hex
-eep: $(TARGET).eep
-lss: $(TARGET).lss 
-sym: $(TARGET).sym
-
-# UART library of P.Fleury
-uart.c: $(FLEURYHOME)/uartlibrary/uart.c
-	ln -s $< $@
-clean::
-	rm -f uart.c
-
-UARTLIB = uart.o
+# (Test program) target(s)
+test: displaytest.hex blrtest.hex
 
 # I2CMASTER library of P.Fleury
 i2cmaster.c: $(FLEURYHOME)/i2cmaster/twimaster.c
@@ -158,16 +143,24 @@ clean::
 
 I2CLIB = i2cmaster.o
 
+# UART library of P.Fleury
+uart.c: $(FLEURYHOME)/uartlibrary/uart.c
+	ln -s $< $@
+clean::
+	rm -f uart.c
+
+UARTLIB = uart.o
+
 # Debounced reading of up to 8 buttons (P.Danneger)
-get8key4.c: LSM303/get8key4.c
+get8key4.c: ../LSM303/get8key4.c
 	ln -s $< $@
 clean::
 	rm -f get8key4.c
 
 
-# Program the device.  
-program: $(TARGET).hex $(TARGET).eep
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+# # Program the device.  
+# program: $(TARGET).hex $(TARGET).eep
+# 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 
 
@@ -180,13 +173,13 @@ COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .eeprom-0x810000 
 
 
-coff: $(TARGET).elf
-	$(COFFCONVERT) -O coff-avr $(TARGET).elf $(TARGET).cof
-
-
-extcoff: $(TARGET).elf
-	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
-
+# coff: $(TARGET).elf
+# 	$(COFFCONVERT) -O coff-avr $(TARGET).elf $(TARGET).cof
+# 
+# 
+# extcoff: $(TARGET).elf
+# 	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
+# 
 
 .SUFFIXES: .elf .hex .eep .lss .sym
 
@@ -207,11 +200,37 @@ extcoff: $(TARGET).elf
 
 
 
-# Link: create ELF output file from object files.
-$(TARGET).elf: $(OBJ)
-	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
+# Target: displaytest.elf
+
+DISPLAYTESTOBJS = displaytest.o $(I2CLIB) $(UARTLIB)
+
+displaytest.elf: $(DISPLAYTESTOBJS)
+	$(CC) $(ALL_CFLAGS) $(DISPLAYTESTOBJS) --output $@ \
+		-Wl,-Map=displaytest.map,--cref
 	$(SIZE) $@
 
+clean::
+	$(RM) displaytest.elf displaytest.hex displaytest.map displaytest.lss
+	$(RM) $(DISPLAYTESTOBJS)
+
+HDRS += 
+SRCS += displaytest.c
+
+# Target: blrtest.elf
+
+BLRTESTOBJS = blrtest.o get8key4.o
+
+blrtest.elf: $(BLRTESTOBJS)
+	$(CC) $(ALL_CFLAGS) $(BLRTESTOBJS) --output $@ \
+		-Wl,-Map=blrtest.map,--cref
+	$(SIZE) $@
+
+clean::
+	$(RM) blrtest.elf blrtest.hex blrtest.map blrtest.lss
+	$(RM) $(BLRTESTOBJS)
+
+HDRS += 
+SRCS += blrtest.c
 
 # Compile: create object files from C source files.
 .c.o:

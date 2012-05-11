@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.6 2012/05/10 20:09:12 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.7 2012/05/11 10:18:43 mathes Exp $
  *
  */
  
@@ -69,6 +69,8 @@ ISR(TIMER0_OVF_vect)
 
 static void InitHardware(void)
  {
+  uint8_t mask;
+  
   // set input for buttons
   BUTTON_DDR &= ~(BUTTON_LEFT | BUTTON_PRESET_LEFT | BUTTON_STOP 
                               | BUTTON_PRESET_RIGHT | BUTTON_RIGHT);
@@ -80,8 +82,6 @@ static void InitHardware(void)
   // enable timer overflow interrupt
   TIMSK |= (1<<TOIE0);
 
-  uint8_t mask;
-  
   // relay port initialisation, all relays off
   mask = RELAY_POWER | RELAY_CW | RELAY_CCW | RELAY_STOP;
   RELAY_PORT &= ~mask;

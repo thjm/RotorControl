@@ -1,0 +1,8 @@
+get8key4.c
+i2cmaster.c
+uart.c
+*.elf
+*.hex
+*.map
+*.lst
+*.lss

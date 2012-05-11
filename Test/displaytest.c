@@ -4,7 +4,7 @@
  *
  * Purpose: Program to send test data via I2C to UR's display board (twi_slave).
  *
- * $Id: displaytest.c,v 1.1 2012/05/10 16:14:12 mathes Exp $
+ * $Id: displaytest.c,v 1.1 2012/05/11 10:18:43 mathes Exp $
  *
  */
  
@@ -33,7 +33,7 @@
 # include <uart.h>
 #endif // USE_UART
 
-#include "DisplayUR/i2cdisplay.h"
+#include "i2cdisplay.h"
 
 /** local prototypes */
 
@@ -47,7 +47,7 @@ static void int2uart(int val);
 // --------------------------------------------------------------------------
 
 //
-// avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:twitest.hex
+// avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:displaytest.hex
 //
 // the board is supposed to run with 12 MHz crystal oscillator
 //
