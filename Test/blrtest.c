@@ -4,7 +4,7 @@
  *
  * Purpose: Program to test buttons, LEDs and relay wiring.
  *
- * $Id: blrtest.c,v 1.1 2012/05/11 10:18:43 mathes Exp $
+ * $Id: blrtest.c,v 1.2 2012/05/11 11:37:09 mathes Exp $
  *
  */
  
@@ -64,7 +64,7 @@ int main(void)
   BUTTON_DDR &= ~mask;
 
   // relay port initialisation, all relays off
-  mask = RELAY_POWER | RELAY_CW | RELAY_CCW | RELAY_STOP;
+  mask = RELAY1 | RELAY2 | RELAY3 | RELAY4;
 
   RELAY_PORT &= ~mask;
   RELAY_DDR |= mask;
@@ -85,22 +85,22 @@ int main(void)
     if ( gKeyState & BUTTON_LEFT ) {   // check BUTTON LEFT
       
       LED_PORT |= LED_CALIBRATE;
-      RELAY_PORT |= RELAY_POWER;
+      RELAY_PORT |= RELAY1;
       
       while ( gKeyState & BUTTON_LEFT );
       
-      RELAY_PORT &= ~RELAY_POWER;
+      RELAY_PORT &= ~RELAY1;
       LED_PORT &= ~LED_CALIBRATE;
     }
     
     if ( gKeyState & BUTTON_RIGHT ) {  // check BUTTON RIGHT
       
       LED_PORT |= LED_OVERLOAD;
-      RELAY_PORT |= RELAY_CW;
+      RELAY_PORT |= RELAY2;
       
       while ( gKeyState & BUTTON_RIGHT );
       
-      RELAY_PORT &= ~RELAY_CW;
+      RELAY_PORT &= ~RELAY2;
       LED_PORT &= ~LED_OVERLOAD;
     }
     
@@ -116,22 +116,22 @@ int main(void)
     if ( gKeyState & BUTTON_PRESET_LEFT ) { // check BUTTON PRESET LEFT
       
       LED_PORT |= LED_LEFT;
-      RELAY_PORT |= RELAY_CCW;
+      RELAY_PORT |= RELAY3;
       
       while ( gKeyState & BUTTON_PRESET_LEFT );
     
-      RELAY_PORT &= ~RELAY_CCW;
+      RELAY_PORT &= ~RELAY3;
       LED_PORT &= ~LED_LEFT;
     }
     
     if ( gKeyState & BUTTON_PRESET_RIGHT ) { // check BUTTON PRESET RIGHT
       
       LED_PORT |= LED_RIGHT;
-      RELAY_PORT |= RELAY_STOP;
+      RELAY_PORT |= RELAY4;
       
       while ( gKeyState & BUTTON_PRESET_RIGHT );
     
-      RELAY_PORT &= ~RELAY_STOP;
+      RELAY_PORT &= ~RELAY4;
       LED_PORT &= ~LED_RIGHT;
     }
 

@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.26 2012/05/11 10:18:43 mathes Exp $
+$Id: CHANGES,v 1.27 2012/05/11 11:37:09 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -13,6 +13,7 @@ ToDo next:
 2012-05-11 (thjm) - directory for test programs: Test
                     - displaytest.c etc. moved here
 		  - blrtest.c: test program for buttons, LEDs and relays
+		  - additional defines RELAY1 .. 4 introduced
 
 2012-05-10 (thjm) - CPUBoard: fix connections to display, somehow mirrored
                   - wiring from/to MAX232 changed slightly

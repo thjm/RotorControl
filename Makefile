@@ -142,6 +142,11 @@ eep: $(TARGET).eep
 lss: $(TARGET).lss 
 sym: $(TARGET).sym
 
+# Test target(s):
+
+test:
+	@(cd Test; make)
+
 # UART library of P.Fleury
 uart.c: $(FLEURYHOME)/uartlibrary/uart.c
 	ln -s $< $@
