@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.27 2012/05/11 11:37:09 mathes Exp $
+$Id: CHANGES,v 1.28 2012/05/11 15:50:39 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -14,6 +14,7 @@ ToDo next:
                     - displaytest.c etc. moved here
 		  - blrtest.c: test program for buttons, LEDs and relays
 		  - additional defines RELAY1 .. 4 introduced
+		  - started with AntennaBoard (need drawing for LSM303DLH)
 
 2012-05-10 (thjm) - CPUBoard: fix connections to display, somehow mirrored
                   - wiring from/to MAX232 changed slightly
