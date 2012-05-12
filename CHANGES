@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.31 2012/05/12 11:11:22 mathes Exp $
+$Id: CHANGES,v 1.32 2012/05/12 22:11:45 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -15,6 +15,7 @@ ToDo next:
 		  - swapped LED_L and LED_R in schematic and global.h
 		  - solder bridge between two buttons found and fixed
 		  - rotorstate.c
+		  - Test/uarttest.c, this is for USART0 (the only one on ATmega32)
 
 2012-05-11 (thjm) - directory for test programs: Test
                     - displaytest.c etc. moved here

@@ -133,7 +133,7 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 all: test
 
 # (Test program) target(s)
-test: displaytest.hex blrtest.hex
+test: displaytest.hex blrtest.hex uarttest.hex
 
 # I2CMASTER library of P.Fleury
 i2cmaster.c: $(FLEURYHOME)/i2cmaster/twimaster.c
@@ -231,6 +231,22 @@ clean::
 
 HDRS += 
 SRCS += blrtest.c
+
+# Target: uarttest.elf
+
+UARTTESTOBJS = uarttest.o $(UARTLIB)
+
+uarttest.elf: $(UARTTESTOBJS)
+	$(CC) $(ALL_CFLAGS) $(UARTTESTOBJS) --output $@ \
+		-Wl,-Map=uarttest.map,--cref
+	$(SIZE) $@
+
+clean::
+	$(RM) uarttest.elf uarttest.hex uarttest.map uarttest.lss
+	$(RM) $(UARTTESTOBJS)
+
+HDRS += 
+SRCS += uarttest.c
 
 # Compile: create object files from C source files.
 .c.o:
