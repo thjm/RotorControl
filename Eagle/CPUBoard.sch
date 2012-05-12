@@ -19591,27 +19591,27 @@ Metric Code Size 5664</description>
 </net>
 <net name="LED_L" class="0">
 <segment>
-<wire x1="241.3" y1="99.06" x2="238.76" y2="99.06" width="0.1524" layer="91"/>
-<label x="215.9" y="99.06" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J2" gate="-3" pin="S"/>
-<wire x1="238.76" y1="99.06" x2="215.9" y2="99.06" width="0.1524" layer="91"/>
+<label x="124.46" y="43.18" size="1.778" layer="95" xref="yes"/>
+<pinref part="IC1" gate="G$1" pin="TDI/PCINT21"/>
+<wire x1="91.44" y1="43.18" x2="124.46" y2="43.18" width="0.1524" layer="91"/>
 </segment>
-<segment>
-<wire x1="91.44" y1="45.72" x2="124.46" y2="45.72" width="0.1524" layer="91"/>
-<label x="124.46" y="45.72" size="1.778" layer="95" xref="yes"/>
-<pinref part="IC1" gate="G$1" pin="TDO/PCINT20"/>
-</segment>
-</net>
-<net name="LED_R" class="0">
 <segment>
 <wire x1="241.3" y1="96.52" x2="215.9" y2="96.52" width="0.1524" layer="91"/>
 <label x="215.9" y="96.52" size="1.778" layer="95" rot="MR0" xref="yes"/>
 <pinref part="J2" gate="-4" pin="S"/>
 </segment>
+</net>
+<net name="LED_R" class="0">
 <segment>
-<label x="124.46" y="43.18" size="1.778" layer="95" xref="yes"/>
-<pinref part="IC1" gate="G$1" pin="TDI/PCINT21"/>
-<wire x1="91.44" y1="43.18" x2="124.46" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="91.44" y1="45.72" x2="124.46" y2="45.72" width="0.1524" layer="91"/>
+<label x="124.46" y="45.72" size="1.778" layer="95" xref="yes"/>
+<pinref part="IC1" gate="G$1" pin="TDO/PCINT20"/>
+</segment>
+<segment>
+<wire x1="241.3" y1="99.06" x2="238.76" y2="99.06" width="0.1524" layer="91"/>
+<label x="215.9" y="99.06" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<pinref part="J2" gate="-3" pin="S"/>
+<wire x1="238.76" y1="99.06" x2="215.9" y2="99.06" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PRESET_LEFT" class="0">

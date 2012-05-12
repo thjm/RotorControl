@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.9 2012/05/12 05:43:05 mathes Exp $
+ * $Id: global.h,v 1.10 2012/05/12 08:28:09 mathes Exp $
  */
 
 
@@ -41,8 +41,8 @@
 
 #define LED_CALIBRATE           (1<<PC2)  // green
 #define LED_OVERLOAD            (1<<PC3)  // yellow
-#define LED_LEFT                (1<<PC4)
-#define LED_RIGHT               (1<<PC5)
+#define LED_RIGHT               (1<<PC4)
+#define LED_LEFT                (1<<PC5)
 
 #define RS485_PORT              LED_PORT
 #define RS485_DDR               LED_DDR

@@ -147,6 +147,9 @@ sym: $(TARGET).sym
 test:
 	@(cd Test; make)
 
+clean::
+	@(cd Test; make clean)
+
 # UART library of P.Fleury
 uart.c: $(FLEURYHOME)/uartlibrary/uart.c
 	ln -s $< $@

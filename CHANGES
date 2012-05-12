@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.29 2012/05/12 05:43:05 mathes Exp $
+$Id: CHANGES,v 1.30 2012/05/12 08:28:09 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -12,6 +12,8 @@ ToDo next:
 
 2012-05-12 (thjm) - RS485_PORT defined separately
                   - CNT0_PRESET recalculated for 12 MHz
+		  - swapped LED_L and LED_R in schematic and global.h
+		  - solder bridge between two buttons found and fixed
 
 2012-05-11 (thjm) - directory for test programs: Test
                     - displaytest.c etc. moved here
