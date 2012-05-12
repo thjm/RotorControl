@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.11 2012/05/12 11:11:22 mathes Exp $
+ * $Id: global.h,v 1.12 2012/05/12 11:56:26 mathes Exp $
  */
 
 
@@ -90,14 +90,18 @@ extern volatile uint8_t gRotatorState;
 typedef enum {
 
   kIdle,
-  kTurnCCW,
-  kTurnCW,
+  kTurningCCW,
+  kTurningCW,
   
 } ERotorState;
 
 /** The commands to the rotor control. */
 typedef enum {
 
+  kStop,
+  kTurnCCW,
+  kTurnCW,
+  
 } ERotorCommand;
 
 #endif /* _global_h_ */
