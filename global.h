@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.8 2012/05/11 11:37:09 mathes Exp $
+ * $Id: global.h,v 1.9 2012/05/12 05:43:05 mathes Exp $
  */
 
 
@@ -22,9 +22,9 @@
 
 /* --- my program constants --- */
 
-// 8 MHz internal osc ==> CLK/1024 = 7.8125 kHz
-// T_0 = 0.128 msec ==> * 78 = 9.984 msec = T_1
-#define CNT0_PRESET             (0xff - 78)
+// 12 MHz crystal ==> CLK/1024 = 11.71875 kHz
+// T_0 = 0.0853 msec ==> * 117 = 9.984 msec = T_1
+#define CNT0_PRESET             (0xff - 117)
 
 #define BUTTON_PORT             PORTA
 #define BUTTON_PIN              PINA
@@ -44,10 +44,13 @@
 #define LED_LEFT                (1<<PC4)
 #define LED_RIGHT               (1<<PC5)
 
+#define RS485_PORT              LED_PORT
+#define RS485_DDR               LED_DDR
+
 #define RS485_TX_ENABLE         (1<<PC6)
 
-#define RS485EnableRx()         { LED_PORT &= ~RS485_TX_ENABLE; }
-#define RS485EnableTx()         { LED_PORT |= RS485_TX_ENABLE; }
+#define RS485EnableRx()         { RS485_PORT &= ~RS485_TX_ENABLE; }
+#define RS485EnableTx()         { RS485_PORT |= RS485_TX_ENABLE; }
 
 #define RELAY_PORT              PORTD
 #define RELAY_DDR               DDRD
@@ -69,7 +72,7 @@
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
 #define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW | RELAY_POWER); }
 
-/* --- declaration of global vars: file get8key4.c --- */
+/* --- from file get8key4.c --- */
 
 extern volatile uint8_t gKeyState;
 extern volatile uint8_t gKeyPress;

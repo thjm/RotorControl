@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.7 2012/05/11 10:18:43 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.8 2012/05/12 05:43:05 mathes Exp $
  *
  */
  
@@ -69,12 +69,6 @@ ISR(TIMER0_OVF_vect)
 
 static void InitHardware(void)
  {
-  uint8_t mask;
-  
-  // set input for buttons
-  BUTTON_DDR &= ~(BUTTON_LEFT | BUTTON_PRESET_LEFT | BUTTON_STOP 
-                              | BUTTON_PRESET_RIGHT | BUTTON_RIGHT);
-  
   // timer 0 initialisation
   TCNT0 = CNT0_PRESET;
   TCCR0 = (1<<CS02)|(1<<CS00);  // CK/1024 -> 1 tick each .128 msec
@@ -82,18 +76,26 @@ static void InitHardware(void)
   // enable timer overflow interrupt
   TIMSK |= (1<<TOIE0);
 
+  uint8_t mask;
+  
   // relay port initialisation, all relays off
   mask = RELAY_POWER | RELAY_CW | RELAY_CCW | RELAY_STOP;
+
   RELAY_PORT &= ~mask;
   RELAY_DDR |= mask;
   
   // LED port initialisation, all LEDs off, RS485 RX enable
-  mask = LED_LEFT | LED_RIGHT | LED_CALIBRATE | LED_OVERLOAD | RS485_TX_ENABLE;
+  mask = LED_LEFT | LED_RIGHT | LED_CALIBRATE | LED_OVERLOAD;
+
   LED_PORT &= ~mask;
   LED_DDR |= mask;
   
+  RS485_PORT &= ~RS485_TX_ENABLE;
+  RS485_DDR |= RS485_TX_ENABLE;
+  
   // Buttons port initialisation, turn pull-ups on
   mask = BUTTON_PRESET_LEFT | BUTTON_LEFT | BUTTON_STOP | BUTTON_RIGHT | BUTTON_PRESET_RIGHT;
+
   BUTTON_PORT |= mask;
   BUTTON_DDR &= ~mask;
   
