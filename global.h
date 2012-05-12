@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.10 2012/05/12 08:28:09 mathes Exp $
+ * $Id: global.h,v 1.11 2012/05/12 11:11:22 mathes Exp $
  */
 
 
@@ -72,7 +72,7 @@
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
 #define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW | RELAY_POWER); }
 
-/* --- from file get8key4.c --- */
+/* --- declaration(s) for file get8key4.c --- */
 
 extern volatile uint8_t gKeyState;
 extern volatile uint8_t gKeyPress;
@@ -80,5 +80,24 @@ extern volatile uint8_t gKeyPress;
 extern void CheckKeys(void);
 extern uint8_t GetKeyPress(uint8_t key_mask);
 extern uint8_t GetKeyShort(uint8_t key_mask);
+
+/* --- declaration(s) for file rotorstate.c --- */
+
+extern volatile uint8_t gRotatorState;
+
+/** States the rotor control might be in. */
+
+typedef enum {
+
+  kIdle,
+  kTurnCCW,
+  kTurnCW,
+  
+} ERotorState;
+
+/** The commands to the rotor control. */
+typedef enum {
+
+} ERotorCommand;
 
 #endif /* _global_h_ */

@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.8 2012/05/12 05:43:05 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.9 2012/05/12 11:11:22 mathes Exp $
  *
  */
  
@@ -25,7 +25,6 @@
 // --- variable(s) for the rotator control
 
 volatile uint8_t gRotatorCommand;
-volatile uint8_t gRotatorState;
 
 // Fuses and programming:
 //
