@@ -3429,48 +3429,14 @@ design rules under a new name.</description>
 <wire x1="38.1" y1="74.93" x2="38.1" y2="77.47" width="0.254" layer="1"/>
 <wire x1="36.83" y1="73.66" x2="38.1" y2="74.93" width="0.254" layer="1"/>
 </signal>
-<signal name="LED_GREEN">
-<contactref element="IC1" pad="24"/>
-<contactref element="J2" pad="1"/>
-<wire x1="43.18" y1="12.7" x2="33.02" y2="22.86" width="0.254" layer="1"/>
-<wire x1="43.18" y1="8.89" x2="43.18" y2="12.7" width="0.254" layer="1"/>
-<wire x1="50.8" y1="1.27" x2="43.18" y2="8.89" width="0.254" layer="1"/>
-<wire x1="72.39" y1="1.27" x2="50.8" y2="1.27" width="0.254" layer="1"/>
-<wire x1="72.39" y1="6.35" x2="72.39" y2="1.27" width="0.254" layer="1"/>
-</signal>
-<signal name="LED_YELLOW">
-<contactref element="IC1" pad="25"/>
-<contactref element="J2" pad="2"/>
-<wire x1="44.45" y1="13.97" x2="35.56" y2="22.86" width="0.254" layer="1"/>
-<wire x1="44.45" y1="8.89" x2="44.45" y2="13.97" width="0.254" layer="1"/>
-<wire x1="50.8" y1="2.54" x2="44.45" y2="8.89" width="0.254" layer="1"/>
-<wire x1="69.85" y1="2.54" x2="50.8" y2="2.54" width="0.254" layer="1"/>
-<wire x1="69.85" y1="6.35" x2="69.85" y2="2.54" width="0.254" layer="1"/>
-</signal>
-<signal name="LED_L">
-<contactref element="IC1" pad="27"/>
-<contactref element="J2" pad="4"/>
-<wire x1="40.64" y1="10.16" x2="40.64" y2="22.86" width="0.254" layer="16"/>
-<wire x1="67.31" y1="10.16" x2="40.64" y2="10.16" width="0.254" layer="16"/>
-<wire x1="64.77" y1="7.62" x2="67.31" y2="10.16" width="0.254" layer="1"/>
-<wire x1="64.77" y1="6.35" x2="64.77" y2="7.62" width="0.254" layer="1"/>
-<via x="67.31" y="10.16" extent="1-16" drill="0.6096"/>
-</signal>
-<signal name="LED_R">
-<contactref element="IC1" pad="26"/>
-<contactref element="J2" pad="3"/>
-<wire x1="38.1" y1="3.81" x2="38.1" y2="22.86" width="0.254" layer="16"/>
-<wire x1="64.77" y1="3.81" x2="38.1" y2="3.81" width="0.254" layer="16"/>
-<wire x1="67.31" y1="6.35" x2="64.77" y2="3.81" width="0.254" layer="16"/>
-</signal>
-<signal name="PRESET_LEFT">
+<signal name="PRESET_RIGHT">
 <contactref element="IC1" pad="37"/>
 <contactref element="J2" pad="5"/>
 <wire x1="66.04" y1="11.43" x2="66.04" y2="22.86" width="0.254" layer="1"/>
 <wire x1="62.23" y1="7.62" x2="66.04" y2="11.43" width="0.254" layer="1"/>
 <wire x1="62.23" y1="6.35" x2="62.23" y2="7.62" width="0.254" layer="1"/>
 </signal>
-<signal name="LEFT">
+<signal name="RIGHT">
 <contactref element="IC1" pad="39"/>
 <contactref element="J2" pad="6"/>
 <wire x1="71.12" y1="8.89" x2="71.12" y2="22.86" width="0.254" layer="16"/>
@@ -3485,7 +3451,7 @@ design rules under a new name.</description>
 <wire x1="64.77" y1="13.97" x2="64.77" y2="25.4" width="0.254" layer="1"/>
 <wire x1="57.15" y1="6.35" x2="64.77" y2="13.97" width="0.254" layer="1"/>
 </signal>
-<signal name="RIGHT">
+<signal name="LEFT">
 <contactref element="IC1" pad="38"/>
 <contactref element="J2" pad="8"/>
 <wire x1="67.31" y1="21.59" x2="68.58" y2="22.86" width="0.254" layer="1"/>
@@ -3496,7 +3462,7 @@ design rules under a new name.</description>
 <wire x1="54.61" y1="3.81" x2="62.23" y2="3.81" width="0.254" layer="1"/>
 <wire x1="54.61" y1="6.35" x2="54.61" y2="3.81" width="0.254" layer="1"/>
 </signal>
-<signal name="PRESET_RIGHT">
+<signal name="PRESET_LEFT">
 <contactref element="IC1" pad="36"/>
 <contactref element="J2" pad="9"/>
 <wire x1="52.07" y1="11.43" x2="63.5" y2="22.86" width="0.254" layer="1"/>
@@ -3724,6 +3690,41 @@ design rules under a new name.</description>
 <wire x1="27.94" y1="54.61" x2="30.48" y2="54.61" width="0.254" layer="16"/>
 <wire x1="27.94" y1="58.42" x2="27.94" y2="54.61" width="0.254" layer="16"/>
 <wire x1="29.21" y1="58.42" x2="27.94" y2="58.42" width="0.254" layer="16"/>
+</signal>
+<signal name="LED_R">
+<contactref element="J2" pad="4"/>
+<contactref element="IC1" pad="27"/>
+<wire x1="40.64" y1="10.16" x2="40.64" y2="22.86" width="0.254" layer="16"/>
+<wire x1="67.31" y1="10.16" x2="40.64" y2="10.16" width="0.254" layer="16"/>
+<wire x1="64.77" y1="7.62" x2="67.31" y2="10.16" width="0.254" layer="1"/>
+<via x="67.31" y="10.16" extent="1-16" drill="0.6096"/>
+<wire x1="64.77" y1="7.62" x2="64.77" y2="6.35" width="0.254" layer="1"/>
+</signal>
+<signal name="LED_L">
+<contactref element="IC1" pad="26"/>
+<contactref element="J2" pad="3"/>
+<wire x1="64.77" y1="3.81" x2="38.1" y2="3.81" width="0.254" layer="16"/>
+<wire x1="67.31" y1="6.35" x2="64.77" y2="3.81" width="0.254" layer="16"/>
+<wire x1="38.1" y1="3.81" x2="38.1" y2="22.86" width="0.254" layer="16"/>
+</signal>
+<signal name="LED_RED">
+<contactref element="IC1" pad="25"/>
+<contactref element="J2" pad="2"/>
+<wire x1="35.56" y1="2.54" x2="35.56" y2="22.86" width="0.254" layer="16"/>
+<wire x1="66.04" y1="2.54" x2="35.56" y2="2.54" width="0.254" layer="16"/>
+<wire x1="69.85" y1="6.35" x2="66.04" y2="2.54" width="0.254" layer="16"/>
+</signal>
+<signal name="LED_YELLOW">
+<contactref element="IC1" pad="24"/>
+<contactref element="J2" pad="1"/>
+<wire x1="43.18" y1="8.89" x2="43.18" y2="12.7" width="0.254" layer="1"/>
+<wire x1="50.8" y1="1.27" x2="43.18" y2="8.89" width="0.254" layer="1"/>
+<wire x1="72.39" y1="1.27" x2="50.8" y2="1.27" width="0.254" layer="1"/>
+<wire x1="72.39" y1="6.35" x2="72.39" y2="1.27" width="0.254" layer="1"/>
+<wire x1="35.56" y1="25.4" x2="33.02" y2="22.86" width="0.254" layer="1"/>
+<wire x1="41.91" y1="25.4" x2="35.56" y2="25.4" width="0.254" layer="1"/>
+<wire x1="41.91" y1="13.97" x2="41.91" y2="25.4" width="0.254" layer="1"/>
+<wire x1="43.18" y1="12.7" x2="41.91" y2="13.97" width="0.254" layer="1"/>
 </signal>
 </signals>
 </board>

@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.13 2012/05/13 11:20:49 mathes Exp $
+ * $Id: global.h,v 1.14 2012/05/13 19:43:41 mathes Exp $
  */
 
 
@@ -30,19 +30,19 @@
 #define BUTTON_PIN              PINA
 #define BUTTON_DDR              DDRA
 
-#define BUTTON_PRESET_LEFT      (1<<PA3)
-#define BUTTON_LEFT             (1<<PA1)
+#define BUTTON_PRESET_LEFT      (1<<PA4)
+#define BUTTON_LEFT             (1<<PA2)
 #define BUTTON_STOP             (1<<PA0)
-#define BUTTON_RIGHT            (1<<PA2)
-#define BUTTON_PRESET_RIGHT     (1<<PA4)
+#define BUTTON_RIGHT            (1<<PA1)
+#define BUTTON_PRESET_RIGHT     (1<<PA3)
 
 #define LED_PORT                PORTC
 #define LED_DDR                 DDRC
 
-#define LED_CALIBRATE           (1<<PC2)  // green
-#define LED_OVERLOAD            (1<<PC3)  // yellow
-#define LED_RIGHT               (1<<PC4)
-#define LED_LEFT                (1<<PC5)
+#define LED_OVERLOAD            (1<<PC2)  // red
+#define LED_CALIBRATE           (1<<PC3)  // yellow
+#define LED_LEFT                (1<<PC4)
+#define LED_RIGHT               (1<<PC5)
 
 #define RS485_PORT              LED_PORT
 #define RS485_DDR               LED_DDR

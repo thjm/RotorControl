@@ -19563,58 +19563,7 @@ Metric Code Size 5664</description>
 <label x="124.46" y="66.04" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="LED_GREEN" class="0">
-<segment>
-<wire x1="241.3" y1="104.14" x2="215.9" y2="104.14" width="0.1524" layer="91"/>
-<label x="215.9" y="104.14" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J2" gate="-1" pin="S"/>
-</segment>
-<segment>
-<wire x1="91.44" y1="50.8" x2="124.46" y2="50.8" width="0.1524" layer="91"/>
-<label x="124.46" y="50.8" size="1.778" layer="95" xref="yes"/>
-<pinref part="IC1" gate="G$1" pin="TCK/PCINT18"/>
-</segment>
-</net>
-<net name="LED_YELLOW" class="0">
-<segment>
-<label x="215.9" y="101.6" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J2" gate="-2" pin="S"/>
-<wire x1="241.3" y1="101.6" x2="215.9" y2="101.6" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<wire x1="111.76" y1="48.26" x2="114.3" y2="48.26" width="0.1524" layer="91"/>
-<label x="124.46" y="48.26" size="1.778" layer="95" xref="yes"/>
-<pinref part="IC1" gate="G$1" pin="TMS/PCINT19"/>
-<wire x1="114.3" y1="48.26" x2="124.46" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="91.44" y1="48.26" x2="111.76" y2="48.26" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="LED_L" class="0">
-<segment>
-<label x="124.46" y="43.18" size="1.778" layer="95" xref="yes"/>
-<pinref part="IC1" gate="G$1" pin="TDI/PCINT21"/>
-<wire x1="91.44" y1="43.18" x2="124.46" y2="43.18" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<wire x1="241.3" y1="96.52" x2="215.9" y2="96.52" width="0.1524" layer="91"/>
-<label x="215.9" y="96.52" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J2" gate="-4" pin="S"/>
-</segment>
-</net>
-<net name="LED_R" class="0">
-<segment>
-<wire x1="91.44" y1="45.72" x2="124.46" y2="45.72" width="0.1524" layer="91"/>
-<label x="124.46" y="45.72" size="1.778" layer="95" xref="yes"/>
-<pinref part="IC1" gate="G$1" pin="TDO/PCINT20"/>
-</segment>
-<segment>
-<wire x1="241.3" y1="99.06" x2="238.76" y2="99.06" width="0.1524" layer="91"/>
-<label x="215.9" y="99.06" size="1.778" layer="95" rot="MR0" xref="yes"/>
-<pinref part="J2" gate="-3" pin="S"/>
-<wire x1="238.76" y1="99.06" x2="215.9" y2="99.06" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="PRESET_LEFT" class="0">
+<net name="PRESET_RIGHT" class="0">
 <segment>
 <label x="215.9" y="93.98" size="1.778" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="ADC3/PCINT3"/>
@@ -19622,7 +19571,7 @@ Metric Code Size 5664</description>
 <pinref part="J2" gate="-5" pin="S"/>
 </segment>
 </net>
-<net name="LEFT" class="0">
+<net name="RIGHT" class="0">
 <segment>
 <wire x1="241.3" y1="91.44" x2="187.96" y2="91.44" width="0.1524" layer="91"/>
 <label x="215.9" y="91.44" size="1.778" layer="95"/>
@@ -19642,7 +19591,7 @@ Metric Code Size 5664</description>
 <pinref part="J2" gate="-7" pin="S"/>
 </segment>
 </net>
-<net name="RIGHT" class="0">
+<net name="LEFT" class="0">
 <segment>
 <wire x1="241.3" y1="86.36" x2="182.88" y2="86.36" width="0.1524" layer="91"/>
 <label x="215.9" y="86.36" size="1.778" layer="95"/>
@@ -19652,7 +19601,7 @@ Metric Code Size 5664</description>
 <pinref part="J2" gate="-8" pin="S"/>
 </segment>
 </net>
-<net name="PRESET_RIGHT" class="0">
+<net name="PRESET_LEFT" class="0">
 <segment>
 <label x="215.9" y="83.82" size="1.778" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="ADC4/PCINT4"/>
@@ -19943,6 +19892,57 @@ Metric Code Size 5664</description>
 <wire x1="147.32" y1="139.7" x2="147.32" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="T1/CLK0/PCINT9"/>
 <wire x1="147.32" y1="76.2" x2="91.44" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED_R" class="0">
+<segment>
+<wire x1="241.3" y1="96.52" x2="215.9" y2="96.52" width="0.1524" layer="91"/>
+<label x="215.9" y="96.52" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<pinref part="J2" gate="-4" pin="S"/>
+</segment>
+<segment>
+<label x="124.46" y="43.18" size="1.778" layer="95" xref="yes"/>
+<pinref part="IC1" gate="G$1" pin="TDI/PCINT21"/>
+<wire x1="91.44" y1="43.18" x2="124.46" y2="43.18" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED_L" class="0">
+<segment>
+<wire x1="91.44" y1="45.72" x2="124.46" y2="45.72" width="0.1524" layer="91"/>
+<label x="124.46" y="45.72" size="1.778" layer="95" xref="yes"/>
+<pinref part="IC1" gate="G$1" pin="TDO/PCINT20"/>
+</segment>
+<segment>
+<wire x1="241.3" y1="99.06" x2="238.76" y2="99.06" width="0.1524" layer="91"/>
+<label x="215.9" y="99.06" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<pinref part="J2" gate="-3" pin="S"/>
+<wire x1="238.76" y1="99.06" x2="215.9" y2="99.06" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED_RED" class="0">
+<segment>
+<wire x1="111.76" y1="48.26" x2="114.3" y2="48.26" width="0.1524" layer="91"/>
+<label x="124.46" y="48.26" size="1.778" layer="95" xref="yes"/>
+<pinref part="IC1" gate="G$1" pin="TMS/PCINT19"/>
+<wire x1="114.3" y1="48.26" x2="124.46" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="91.44" y1="48.26" x2="111.76" y2="48.26" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<label x="215.9" y="101.6" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<pinref part="J2" gate="-2" pin="S"/>
+<wire x1="241.3" y1="101.6" x2="215.9" y2="101.6" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LED_YELLOW" class="0">
+<segment>
+<wire x1="91.44" y1="50.8" x2="124.46" y2="50.8" width="0.1524" layer="91"/>
+<label x="124.46" y="50.8" size="1.778" layer="95" xref="yes"/>
+<pinref part="IC1" gate="G$1" pin="TCK/PCINT18"/>
+</segment>
+<segment>
+<wire x1="241.3" y1="104.14" x2="215.9" y2="104.14" width="0.1524" layer="91"/>
+<label x="215.9" y="104.14" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<pinref part="J2" gate="-1" pin="S"/>
 </segment>
 </net>
 </nets>

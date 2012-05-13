@@ -4,7 +4,7 @@
  *
  * Purpose: Program to test buttons, LEDs and relay wiring.
  *
- * $Id: blrtest.c,v 1.3 2012/05/12 08:28:09 mathes Exp $
+ * $Id: blrtest.c,v 1.4 2012/05/13 19:43:41 mathes Exp $
  *
  */
  
@@ -82,37 +82,7 @@ int main(void)
 
   while ( 1 ) {
 
-    if ( gKeyState & BUTTON_LEFT ) {   // check BUTTON 'LEFT'
-      
-      LED_PORT |= LED_CALIBRATE;
-      RELAY_PORT |= RELAY1;
-      
-      while ( gKeyState & BUTTON_LEFT );
-      
-      RELAY_PORT &= ~RELAY1;
-      LED_PORT &= ~LED_CALIBRATE;
-    }
-    
-    if ( gKeyState & BUTTON_RIGHT ) {  // check BUTTON 'RIGHT'
-      
-      LED_PORT |= LED_OVERLOAD;
-      RELAY_PORT |= RELAY2;
-      
-      while ( gKeyState & BUTTON_RIGHT );
-      
-      RELAY_PORT &= ~RELAY2;
-      LED_PORT &= ~LED_OVERLOAD;
-    }
-    
-    if ( gKeyState & BUTTON_STOP ) {   // check BUTTON 'STOP'
-      
-      LED_PORT |= (LED_CALIBRATE | LED_OVERLOAD);
-    
-      while ( gKeyState & BUTTON_STOP );
-    
-      LED_PORT &= ~(LED_CALIBRATE | LED_OVERLOAD);
-    }
-    
+
     if ( gKeyState & BUTTON_PRESET_LEFT ) { // check BUTTON 'PRESET LEFT'
       
       LED_PORT |= LED_LEFT;
@@ -123,7 +93,38 @@ int main(void)
       RELAY_PORT &= ~RELAY3;
       LED_PORT &= ~LED_LEFT;
     }
+
+    if ( gKeyState & BUTTON_LEFT ) {   // check BUTTON 'LEFT'
+      
+      LED_PORT |= LED_CALIBRATE;
+      RELAY_PORT |= RELAY1;
+      
+      while ( gKeyState & BUTTON_LEFT );
+      
+      RELAY_PORT &= ~RELAY1;
+      LED_PORT &= ~LED_CALIBRATE;
+    }
+
+    if ( gKeyState & BUTTON_STOP ) {   // check BUTTON 'STOP'
+      
+      LED_PORT |= (LED_CALIBRATE | LED_OVERLOAD);
     
+      while ( gKeyState & BUTTON_STOP );
+    
+      LED_PORT &= ~(LED_CALIBRATE | LED_OVERLOAD);
+    }
+
+    if ( gKeyState & BUTTON_RIGHT ) {  // check BUTTON 'RIGHT'
+      
+      LED_PORT |= LED_OVERLOAD;
+      RELAY_PORT |= RELAY2;
+      
+      while ( gKeyState & BUTTON_RIGHT );
+      
+      RELAY_PORT &= ~RELAY2;
+      LED_PORT &= ~LED_OVERLOAD;
+    }
+
     if ( gKeyState & BUTTON_PRESET_RIGHT ) { // check BUTTON 'PRESET RIGHT'
       
       LED_PORT |= LED_RIGHT;

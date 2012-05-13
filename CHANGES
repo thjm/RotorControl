@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.33 2012/05/13 11:20:49 mathes Exp $
+$Id: CHANGES,v 1.34 2012/05/13 19:43:41 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,7 +9,10 @@ ToDo next:
 - start with main program code
   - rotator left/right via key-press
   - display position
-- change from TIMER0 to TIMER?, as soft uart needs TIMER0
+
+2012-05-13 (thjm) - cabling of RelayBoard1 partly changed
+                  - some pin-swaps to ButtonBoard
+		  -> blrtest.c finally works as expected
 
 2012-05-12 (thjm) - RS485_PORT defined separately
                   - CNT0_PRESET recalculated for 12 MHz
