@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.32 2012/05/12 22:11:45 mathes Exp $
+$Id: CHANGES,v 1.33 2012/05/13 11:20:49 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,7 @@ ToDo next:
 - start with main program code
   - rotator left/right via key-press
   - display position
+- change from TIMER0 to TIMER?, as soft uart needs TIMER0
 
 2012-05-12 (thjm) - RS485_PORT defined separately
                   - CNT0_PRESET recalculated for 12 MHz

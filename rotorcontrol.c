@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.9 2012/05/12 11:11:22 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.10 2012/05/13 11:20:49 mathes Exp $
  *
  */
  
@@ -21,10 +21,6 @@
 #include <avr/interrupt.h>
 
 #include "global.h"
-
-// --- variable(s) for the rotator control
-
-volatile uint8_t gRotatorCommand;
 
 // Fuses and programming:
 //
@@ -62,6 +58,13 @@ ISR(TIMER0_OVF_vect)
   
   // call button check routine
   CheckKeys();
+
+#if 0
+  if ( gRotatorCounter )
+    gRotatorCounter--;
+  else
+    DoRotator();
+#endif
 }
 
 // --------------------------------------------------------------------------
@@ -121,26 +124,26 @@ int main(void)
     
     if ( gKeyState & BUTTON_LEFT ) {
       
-      BrakeOff();
+      BrakeRelease();
       RotatorCCW();
       
       while ( gKeyState & BUTTON_LEFT );
       
       RotatorOff();
-      BrakeOn();
+      BrakeLock();
     }
     
     // --- check BUTTON RIGHT:
     
     if ( gKeyState & BUTTON_RIGHT ) {
       
-      BrakeOff();
+      BrakeRelease();
       RotatorCW();
       
       while ( gKeyState & BUTTON_RIGHT );
       
       RotatorOff();
-      BrakeOn();
+      BrakeLock();
     }
     
     // --- check BUTTON STOP:

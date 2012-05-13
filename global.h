@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.12 2012/05/12 11:56:26 mathes Exp $
+ * $Id: global.h,v 1.13 2012/05/13 11:20:49 mathes Exp $
  */
 
 
@@ -65,8 +65,8 @@
 #define RELAY_CCW               RELAY2    // turn counter clock wise
 #define RELAY_STOP              RELAY1    // open the brake
 
-#define BrakeOn()               { RELAY_PORT &= ~RELAY_STOP; }
-#define BrakeOff()              { RELAY_PORT |= RELAY_STOP; }
+#define BrakeLock()             { RELAY_PORT &= ~RELAY_STOP; }
+#define BrakeRelease()          { RELAY_PORT |= RELAY_STOP; }
 #define RotatorOn()             { RELAY_PORT |= RELAY_POWER; }
 #define RotatorCW()             { RELAY_PORT |= RELAY_CW; } 
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
@@ -83,13 +83,21 @@ extern uint8_t GetKeyShort(uint8_t key_mask);
 
 /* --- declaration(s) for file rotorstate.c --- */
 
+extern void DoRotator(void);
+
+extern volatile uint8_t gRotatorCommand;
 extern volatile uint8_t gRotatorState;
+extern volatile uint8_t gRotatorCounter;
 
 /** States the rotor control might be in. */
 
 typedef enum {
 
   kIdle,
+  kReleaseBreak,
+  kLockBreak,
+  kRotorRampup,
+  kRotorRampdown,
   kTurningCCW,
   kTurningCW,
   
@@ -98,6 +106,7 @@ typedef enum {
 /** The commands to the rotor control. */
 typedef enum {
 
+  kNone,
   kStop,
   kTurnCCW,
   kTurnCW,
