@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.14 2012/05/13 19:43:41 mathes Exp $
+ * $Id: global.h,v 1.15 2012/05/14 05:18:42 mathes Exp $
  */
 
 
@@ -61,9 +61,9 @@
 #define RELAY4                  (1<<PD4)
 
 #define RELAY_POWER             RELAY4    // turn on rotor power
-#define RELAY_CW                RELAY3    // turn clock wise
+#define RELAY_STOP              RELAY3    // open the brake
 #define RELAY_CCW               RELAY2    // turn counter clock wise
-#define RELAY_STOP              RELAY1    // open the brake
+#define RELAY_CW                RELAY1    // turn clock wise
 
 #define BrakeLock()             { RELAY_PORT &= ~RELAY_STOP; }
 #define BrakeRelease()          { RELAY_PORT |= RELAY_STOP; }
