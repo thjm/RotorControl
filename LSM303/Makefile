@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.8 2012/01/25 22:31:19 mathes Exp $
+# $Id: Makefile,v 1.9 2012/05/14 08:00:31 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -11,13 +11,12 @@
 #MCU = atmega2561
 #MCU = atmega168
 #MCU = atmega88
-# this one will not work for the Orangutan stuff ...
 MCU = atmega8
 FORMAT = ihex
-TARGET = compass
-HDRS = vector.h lcd.h device.h
-SRCS = $(TARGET).c vector.c lcd.c
-CXXSRCS = OrangutanTime.cpp OrangutanPushbuttons.cpp
+TARGET = lsm303read
+HDRS = vector.h
+SRCS = $(TARGET).c uart.c i2cmaster.c LSM303DLH.c num2uart.c
+CXXSRCS = 
 ASRCS = 
 OPT = s
 # for the ATmega256 the additional option '-mrelax' is recommended
@@ -41,7 +40,7 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here
 #CDEFS = -DF_CPU=8000000UL -DLIB_POLOLU
 # U.Radig, ATmega8 test board with 12MHz
-CDEFS = -DF_CPU=12000000UL -DLIB_POLOLU -DUART_DEBUG -DLED_DEBUG
+CDEFS = -DF_CPU=12000000UL -DUART_DEBUG -DLED_DEBUG
 
 # Place -I options here
 CINCS = -I.
@@ -131,7 +130,8 @@ REMOVE = rm -f
 MV = mv -f
 
 # Define all object files.
-OBJS = $(SRCS:.c=.o) $(CXXSRCS:.cpp=.o) $(ASRCS:.S=.o) 
+#OBJS = $(SRCS:.c=.o) $(CXXSRCS:.cpp=.o) $(ASRCS:.S=.o)
+OBJS = $(TARGET).o uart.o i2cmaster.o LSM303DLH.o num2uart.o
 
 # Define all listing files.
 LST = $(ASRCS:.S=.lst) $(SRCS:.c=.lst)
@@ -193,14 +193,6 @@ COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .eeprom-0x810000 
 
 
-coff: $(TARGET).elf
-	$(COFFCONVERT) -O coff-avr $(TARGET).elf $(TARGET).cof
-
-
-extcoff: $(TARGET).elf
-	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
-
-
 .SUFFIXES: .elf .hex .eep .lss .sym .cpp
 
 .elf.hex:
@@ -221,8 +213,9 @@ extcoff: $(TARGET).elf
 
 
 # Link: create ELF output file from object files.
-$(TARGET).elf: $(OBJ)
+$(TARGET).elf: $(OBJS)
 	$(CC) $(ALL_CFLAGS) $(OBJS) --output $@ $(LDFLAGS)
+	$(SIZE) $@
 
 
 # Target: lsm303test.elf
@@ -239,20 +232,6 @@ clean::
 
 HDRS += global.h LSM303DLH.h num2uart.h
 SRCS += lsm303test.c LSM303DLH.c num2uart.c
-
-# Target: lsm303read.elf
-LSM303READOBJS = lsm303read.o $(UARTLIB) $(I2CLIB) LSM303DLH.o num2uart.o
-
-lsm303read.elf: $(LSM303READOBJS)
-	$(CC) $(ALL_CFLAGS) $(LSM303READOBJS) --output $@ \
-		-Wl,-Map=lsm303test.map,--cref
-	$(SIZE) $@
-
-clean::
-	$(RM) lsm303read.elf lsm303read.hex lsm303read.map lsm303read.lss
-	$(RM) $(LSM303READOBJS)
-
-SRCS += lsm303read.c LSM303DLH.c
 
 # Compile: create object files from C source files.
 .c.o:

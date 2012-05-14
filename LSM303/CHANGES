@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.9 2011/11/22 08:03:52 mathes Exp $
+$Id: CHANGES,v 1.10 2012/05/14 08:00:31 mathes Exp $
 
 ToDo:
 -----
@@ -7,6 +7,12 @@ ToDo:
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
+
+2012/05/14 (thjm) - compass2.cc -> ../Linux/compass1.cc
+                  - analyze.cc -> ../Linux/analyzedat.cc
+		  - *.dat files moved to ../Linux directory
+		  - most Orangutan code removed, except compass1.c (as example)
+		  - some fixes to the Makefile
 
 2011/11/20 (thjm) - compass2.cc: read sensor data via RS232 and calc. heading;
                     -> probably names and organization will change...
