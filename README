@@ -1,4 +1,4 @@
-$Id: README,v 1.6 2012/05/11 10:18:43 mathes Exp $
+$Id: README,v 1.7 2012/05/16 16:55:08 mathes Exp $
 
 README file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -16,6 +16,8 @@ Directories:
           adopted.
 
 - Eagle : contains drawings and schemes done with the Eagle layout program
+
+- Linux : various test programs, to be run on Linux
 
 - LSM303 : library and example for the Pololu LSM303DLH 6-axis sensor
           breakout board. The boards contains a 3-axis magnetometer and a
@@ -38,7 +40,7 @@ Project layout (Rev. 1.1)
   set value for the azimuth (directory DisplayUR)
 
 - a LSM303DLH accelerometer and compass module will be used to determine the
-  antenna direction. It will be copuled to the main electronics via a serial
+  antenna direction. It will be coupled to the main electronics via a serial
   interface (coupled via RS-485)
 
 - the main electronics module has the task to

@@ -10,8 +10,8 @@
 MCU = atmega32
 FORMAT = ihex
 TARGET = rotorcontrol
-HDR = global.h
-SRC = $(TARGET).c rotorstate.c uart.c i2cmaster.c get8key4.c
+HDR = global.h i2cdisplay.h
+SRC = $(TARGET).c rotorstate.c uart.c i2cmaster.c i2cdisplay.c get8key4.c
 ASRC = 
 OPT = s
 
@@ -165,13 +165,6 @@ clean::
 	rm -f i2cmaster.c
 
 I2CLIB = i2cmaster.o
-
-# Debounced reading of up to 8 buttons (P.Danneger)
-get8key4.c: LSM303/get8key4.c
-	ln -s $< $@
-clean::
-	rm -f get8key4.c
-
 
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep

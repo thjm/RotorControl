@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.15 2012/05/14 05:18:42 mathes Exp $
+ * $Id: global.h,v 1.16 2012/05/16 16:55:08 mathes Exp $
  */
 
 
@@ -20,6 +20,13 @@
 #include <stdint.h>
 #include <avr/io.h>
 
+#ifndef TRUE
+ #define TRUE 	(1==1)
+#endif /* TRUE */
+#ifndef FALSE
+ #define FALSE  (1==0)
+#endif /* FALSE */
+ 
 /* --- my program constants --- */
 
 // 12 MHz crystal ==> CLK/1024 = 11.71875 kHz
@@ -72,6 +79,10 @@
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
 #define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW | RELAY_POWER); }
 
+/* ---  -- */
+
+extern volatile uint8_t gButtonPressCounter;
+
 /* --- declaration(s) for file get8key4.c --- */
 
 extern volatile uint8_t gKeyState;
@@ -83,11 +94,21 @@ extern uint8_t GetKeyShort(uint8_t key_mask);
 
 /* --- declaration(s) for file rotorstate.c --- */
 
+/**  */
 extern void DoRotator(void);
+/**  */
+extern void UpdateDisplay(void);
 
+/**  */
+extern void IncreasePreset(void);
+extern void DecreasePreset(void);
+
+extern volatile uint8_t gRotatorBusy;
 extern volatile uint8_t gRotatorCommand;
 extern volatile uint8_t gRotatorState;
 extern volatile uint8_t gRotatorCounter;
+
+#define IsRotatorBusy() (gRotatorBusy != 0)
 
 /** States the rotor control might be in. */
 
@@ -110,7 +131,12 @@ typedef enum {
   kStop,
   kTurnCCW,
   kTurnCW,
+  kFastStop,
   
 } ERotorCommand;
+
+/** Minimum and maximum angles. */
+#define MIN_ANGLE        0
+#define MAX_ANGLE      359
 
 #endif /* _global_h_ */
