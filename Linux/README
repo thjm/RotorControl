@@ -1,0 +1,21 @@
+$Id: README,v 1.1 2012/05/16 20:55:57 mathes Exp $
+
+README file for Projekte/RotorControl/Linux
+-----------------------------------------------------------------------------
+
+This is the README file for the Linux (host) based test software (algorithms,
+verification, etc.) of the rotator controller project.
+
+analyzedat.cc - reads a file containing logged NMEA strings ($ACRAW sentences)
+           acquired by the lsm303read.c program. The data are analyzed in two
+	   passes:
+	   
+	   1st pass: minimum and maximum values are determined
+	   2nd pass: the magnetic (3D) heading of the acquired data is 
+	             calculated
+	   
+	   The 3D heading is calculated using the MAG and ACC sensor readings.
+
+compass1.cc - 
+
+=============================================================================

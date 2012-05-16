@@ -1,7 +1,9 @@
-$Id: CHANGES,v 1.1 2012/05/14 08:03:29 mathes Exp $
+$Id: CHANGES,v 1.2 2012/05/16 20:55:57 mathes Exp $
 
 CHANGES file for RotorControl/Linux directory
 -----------------------------------------------------------------------------
+
+2012/05/17 (thjm) - file README created
 
 2012/05/14 (thjm) - compass1.cc & analyzedat.cc moved from LSM303 directory
                     -> all programs compile (& work) here, now
