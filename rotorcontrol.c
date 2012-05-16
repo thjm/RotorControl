@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.11 2012/05/16 16:55:08 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.12 2012/05/16 20:06:12 mathes Exp $
  *
  */
  
@@ -336,10 +336,6 @@ int main(void) {
     if ( gKeyState & BUTTON_PRESET_LEFT ) {
       
       DecreasePreset();
-      
-      //while ( gKeyState & BUTTON_PRESET_LEFT );
-      
-      /* ... */
     }
     
     // --- checks BUTTON PRESET RIGHT ---
@@ -347,10 +343,6 @@ int main(void) {
     if ( gKeyState & BUTTON_PRESET_RIGHT ) {
       
       IncreasePreset();
-      
-      //while ( gKeyState & BUTTON_PRESET_RIGHT );
-      
-      /* ... */
     }
     
   } // while ( 1 ) ...
