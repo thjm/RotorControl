@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.2 2012/05/16 19:48:37 mathes Exp $
+// $Id: compass1.cc,v 1.3 2012/05/16 21:05:47 mathes Exp $
 //
 
 
@@ -31,7 +31,7 @@ extern int kbhit(void);
 
 // will conflict with std::vector ...
 #include "../LSM303/vector.c"
-#include "../LSM303/common.cc"
+#include "common.cc"
 
 // using namespace std;
 using std::cout;
