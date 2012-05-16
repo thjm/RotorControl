@@ -1,10 +1,10 @@
 
 //
-// File   : compass2.cc
+// File   : compass1.cc
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.1 2012/05/14 08:03:29 mathes Exp $
+// $Id: compass1.cc,v 1.2 2012/05/16 19:48:37 mathes Exp $
 //
 
 
@@ -18,7 +18,7 @@
 #include <cstring>
 #include <cmath>
 
-/** @file compass2.cc
+/** @file compass1.cc
   * Evaluation of data of LSM303DLH read from serial port.
   * @author H.-J. Mathes <dc2ip@darc.de>
   */
