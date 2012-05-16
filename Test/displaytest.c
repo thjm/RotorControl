@@ -4,7 +4,7 @@
  *
  * Purpose: Program to send test data via I2C to UR's display board (twi_slave).
  *
- * $Id: displaytest.c,v 1.1 2012/05/11 10:18:43 mathes Exp $
+ * $Id: displaytest.c,v 1.2 2012/05/16 19:47:30 mathes Exp $
  *
  */
  
@@ -213,7 +213,7 @@ static uint8_t I2C_DisplayWrite(void)
     i2c_write(0x00);
     i2c_write(I2C_DISP_RAWDATA_RIGHT);  // write command
     
-    i2c_write( 0x08 );
+    i2c_write( 0x08 );   		// "---"
     i2c_write( 0x08 );
     i2c_write( 0x08 );
     
@@ -222,9 +222,9 @@ static uint8_t I2C_DisplayWrite(void)
   else if ( (data % 300) < 300 ) {
 
     i2c_write(0x00); // write remote buffer address (always)
-    i2c_write(I2C_DISP_RAWDATA_LEFT);  // write command
+    i2c_write(I2C_DISP_RAWDATA_LEFT);  	// write command
     
-    i2c_write( 0x08 );
+    i2c_write( 0x08 ); 			// "---"
     i2c_write( 0x08 );
     i2c_write( 0x08 );
     
