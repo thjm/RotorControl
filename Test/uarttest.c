@@ -4,7 +4,7 @@
  *
  * Purpose: Test the USART of ATmega32 by implementing an echo server.
  *
- * $Id: uarttest.c,v 1.1 2012/05/12 22:11:45 mathes Exp $
+ * $Id: uarttest.c,v 1.2 2012/05/16 19:47:57 mathes Exp $
  *
  */
 
@@ -29,9 +29,18 @@
 # warning F_CPU not set, setting it to 1 MHz (factory default)
 # define F_CPU 1000000UL  // 1 MHz
 #endif // F_CPU
+
 // --------------------------------------------------------------------------
- 
-int main( void )
+
+//
+// Note: This test program is using UART0 which must be either wired to the
+//       (standard) RS-485 adapter or to the MAX 232 which goes to a 9-pin male
+//       connector (in DCE configuration).
+//
+// avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:uarttest.hex
+//
+
+int main(void)
  {
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
 
