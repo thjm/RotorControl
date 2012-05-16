@@ -44,7 +44,8 @@
 //
 //                        '0'  '1' '2'  '3' '4' '5' '6'  '7' '8'  '9'
 const char SEGMENTE[] = { 119, 18, 107, 59, 30, 61, 125, 19, 127, 31 };
-//const char SEGMENTE[] = { 119, 18, 0x6b, 59, 30, 61, 125, 19, 0x7f, 0x1f };
+//                          '0'   '1'   '2'   '3'   '4'   '5'   '6'   '7'   '8'   '9'
+//const char SEGMENTE[] = { 0x77, 0x12, 0x6b, 0x3b, 0x1d, 0x3d, 0x7c, 0x13, 0x7f, 0x1f };
 
 volatile unsigned char gSegmentCounter = 0;
 volatile uint8_t gSegmentData[kNSegments] = { 0 };
