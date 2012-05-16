@@ -21,11 +21,10 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-//#include <pololu/orangutan.h>
-#include "OrangutanPushbuttons.h"
+#include "OrangutanPushbuttons.h"  // deleted in CVS
 
-#include "device.h"
-#include "lcd.h"
+#include "device.h"                // deleted in CVS
+#include "lcd.h"                   // deleted in CVS
 
 #include "vector.h"
 
