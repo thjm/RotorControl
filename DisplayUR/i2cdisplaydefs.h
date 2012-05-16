@@ -1,21 +1,21 @@
 
 /*
- * File   : i2cdisplay.h
+ * File   : i2cdisplaydefs.h
  *
  * Purpose: Declarations and definitions for the I2C based display on UR's board.
  *
- * $Id: i2cdisplay.h,v 1.2 2012/01/03 15:39:22 mathes Exp $
+ * $Id: i2cdisplaydefs.h,v 1.1 2012/05/16 15:00:48 mathes Exp $
  *
  */
 
 
-/** @file i2cdisplay.h
+/** @file i2cdisplaydefs.h
   * Declarations and definitions for the I2C based display on UR's board.
   * @author H.-J.Mathes <dc2ip@darc.de>
   */
 
-#ifndef _i2cdisplay_h_
-#define _i2cdisplay_h_
+#ifndef _i2cdisplaydefs_h_
+#define _i2cdisplaydefs_h_
 
 /** Address if the I2C slave */
 #define I2C_DISPLAY      0x50
@@ -64,4 +64,4 @@
 // byte 04 : raw data for right most digit, = digit 06
 //
 
-#endif // _i2cdisplay_h_
+#endif // _i2cdisplaydefs_h_

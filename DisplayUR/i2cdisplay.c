@@ -4,7 +4,7 @@
  *
  * Purpose: Program to display data received via I2C on UR's display board.
  *
- * $Id: i2cdisplay.c,v 1.7 2012/01/03 15:39:22 mathes Exp $
+ * $Id: i2cdisplay.c,v 1.8 2012/05/16 15:00:48 mathes Exp $
  *
  */
  
@@ -24,7 +24,7 @@
 #include <twislave.h>
 
 #include "multiplex.h"
-#include "i2cdisplay.h"
+#include "i2cdisplaydefs.h"
 
 // --------------------------------------------------------------------------
 

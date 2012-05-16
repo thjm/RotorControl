@@ -9,7 +9,7 @@ MCU = atmega8
 FORMAT = ihex
 TARGET = i2cdisplay
 SRCS = $(TARGET).c  multiplex.c twislave.c
-HDRS = multiplex.h
+HDRS = multiplex.h i2cdisplaydefs.h
 ASRCS = 
 OPT = s
 

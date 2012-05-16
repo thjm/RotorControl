@@ -29,7 +29,22 @@
 
 #include "multiplex.h"
 
-const char SEGMENTE[] = {119, 18, 107, 59, 30, 61, 125, 19, 127, 31};
+//
+// 7-segment display
+//
+//     ##a##       PD0 = a : 0x01
+//    #     #      PD1 = b : 0x02
+//    f     b      PD4 = c : 0x10
+//    #     #      PD5 = d : 0x20
+//     ##g##       PD6 = e : 0x40
+//    #     #      PD2 = f : 0x03
+//    e     c      PD3 = g : 0x04
+//    #     #
+//     ##d##
+//
+//                        '0'  '1' '2'  '3' '4' '5' '6'  '7' '8'  '9'
+const char SEGMENTE[] = { 119, 18, 107, 59, 30, 61, 125, 19, 127, 31 };
+//const char SEGMENTE[] = { 119, 18, 0x6b, 59, 30, 61, 125, 19, 0x7f, 0x1f };
 
 volatile unsigned char gSegmentCounter = 0;
 volatile uint8_t gSegmentData[kNSegments] = { 0 };

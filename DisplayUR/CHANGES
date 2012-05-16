@@ -1,7 +1,10 @@
-$Id: CHANGES,v 1.9 2012/01/03 15:39:22 mathes Exp $
+$Id: CHANGES,v 1.10 2012/05/16 15:00:48 mathes Exp $
 
 CHANGES file for Projekte/RotorControl/DisplayUR
 -----------------------------------------------------------------------------
+
+2012/05/16 (thjm) - multiplex.c: 7-segment to port mapping documented
+                  - i2cdisplay.h -> i2cdisplaydefs.h
 
 2012/01/03 (thjm) - twitest.c:
                     - test of other command types implemented
