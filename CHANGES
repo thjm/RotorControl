@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.37 2012/05/17 17:56:29 mathes Exp $
+$Id: CHANGES,v 1.38 2012/05/17 18:12:52 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -17,6 +17,7 @@ ToDo next:
 		  - some work already on preset counter
 		  - nested state machine, for CW, CCW and STOP command
 		  - state machine for preset commands implemented
+		  - auto power-off for preset display
 
 2012-05-14 (thjm) - simple rotator interaction moved to rotorstate.c
                   - get8key4.c recovered, was deleted in LSM303 directory

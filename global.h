@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.18 2012/05/17 17:56:29 mathes Exp $
+ * $Id: global.h,v 1.19 2012/05/17 18:12:52 mathes Exp $
  */
 
 
@@ -128,6 +128,8 @@ typedef enum {
 
 extern volatile uint8_t gPresetCommand;
 extern volatile uint8_t gPresetCounter;
+
+extern volatile uint16_t gPresetDisplayCounter;
 
 /**  */
 extern void PresetExec(void);

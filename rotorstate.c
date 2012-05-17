@@ -4,7 +4,7 @@
  *
  * Purpose: State machine for the rotator control program.
  *
- * $Id: rotorstate.c,v 1.6 2012/05/17 17:56:29 mathes Exp $
+ * $Id: rotorstate.c,v 1.7 2012/05/17 18:12:52 mathes Exp $
  *
  */
  
@@ -18,6 +18,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 #include <i2cmaster.h>   // P.Fleury's lib
 
@@ -170,6 +171,8 @@ void RotatorExec(void)
 
 // --------------------------------------------------------------------------
 
+volatile uint16_t gPresetDisplayCounter = 0;
+
 void UpdateDisplay(void) {
 
   static uint16_t old_cur_dir = 999;
@@ -203,9 +206,25 @@ void UpdateDisplay(void) {
       _delay_ms(10.0);
     }
 
-    ret =I2CDisplayWriteRData( gPresetDirection );
+    ret = I2CDisplayWriteRData( gPresetDirection );
     
     _delay_ms(1.0);
+
+    // 'PRESET' display should vanish after 5 sec if both are equal
+    if ( gCurrentDirection == gPresetDirection ) {
+    
+      // atomic set uint16_t type variable
+      cli();
+       gPresetDisplayCounter = 500;  
+      sei();
+    }
+  }
+  
+  // 'PRESET' display should vanish after 5 sec if both are equal
+  if ( gCurrentDirection == gPresetDirection ) {
+    
+    if ( gPresetDisplayCounter == 0 )
+      I2CDisplayWriteR( 3, "\000\000\000" );
   }
 }
 

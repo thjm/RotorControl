@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.15 2012/05/17 17:56:29 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.16 2012/05/17 18:12:52 mathes Exp $
  *
  */
  
@@ -78,6 +78,9 @@ ISR(TIMER0_OVF_vect) {
   
   //if ( gPresetCommand != kPresetNone ) 
   PresetExec();
+  
+  if ( gPresetDisplayCounter > 0 )
+    gPresetDisplayCounter--;
 }
 
 // --------------------------------------------------------------------------

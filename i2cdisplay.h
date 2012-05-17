@@ -5,7 +5,7 @@
  * Purpose: Declarations and definitions for the client interface to
  *          I2C based display on UR's board.
  *
- * $Id: i2cdisplay.h,v 1.1 2012/05/16 16:06:49 mathes Exp $
+ * $Id: i2cdisplay.h,v 1.2 2012/05/17 18:12:52 mathes Exp $
  *
  */
 
@@ -35,6 +35,10 @@ extern void I2CDisplayOff(void);
 extern uint8_t I2CDisplayWrite_p(uint8_t l_msg,const uint8_t *p_msg);
 /** Write string to segment buffer. */
 extern uint8_t I2CDisplayWrite(uint8_t l_msg,const uint8_t *p_msg);
+/** Write string to segment buffer, left group. */
+extern uint8_t I2CDisplayWriteL(uint8_t l_msg,const uint8_t *p_msg);
+/** Write string to segment buffer, right group. */
+extern uint8_t I2CDisplayWriteR(uint8_t l_msg,const uint8_t *p_msg);
 
 /** Write data to left group of digits of the I2C display. */
 extern uint8_t I2CDisplayWriteLData(int16_t data);
