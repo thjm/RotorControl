@@ -4,7 +4,7 @@
  *
  * Purpose: State machine for the rotator control program.
  *
- * $Id: rotorstate.c,v 1.4 2012/05/17 10:39:18 mathes Exp $
+ * $Id: rotorstate.c,v 1.5 2012/05/17 12:31:51 mathes Exp $
  *
  */
  
@@ -27,7 +27,7 @@
 volatile uint8_t gRotatorBusy = 0;
 volatile uint8_t gRotatorCommand = kNone;
 volatile uint8_t gRotatorState = kIdle;
-volatile uint8_t gRotatorCounter = 0;
+volatile uint8_t gRotatorBusyCounter = 0;
 
 #define SetBusy(_busy_) { gRotatorBusy = _busy_; }
 
@@ -41,62 +41,120 @@ void DoRotator(void)
   switch ( gRotatorCommand ) {
   
     case kStop:
-         RotatorOff();
-         BrakeLock();
-	 gRotatorCommand = kNone;
-         SetBusy(0);
+         
+	 SetBusy(1);
+	 
+	 switch ( gRotatorState ) {
+	 
+	   case kReleaseBrake: // ???
+	   case kTurningCW:
+	   case kTurningCCW:
+	        RotatorOff();
+		gRotatorBusyCounter = 5;
+		gRotatorState = kLockBrake;
+	        break;
+
+	   case kRotorRampup: // ???
+	   case kLockBrake:
+	        BrakeLock();
+		gRotatorBusyCounter = 5;
+		gRotatorState = kRotorRampdown;
+	        break;
+
+	   case kRotorRampdown:
+		PowerOff();
+	        gRotatorState = kIdle;
+		gRotatorBusyCounter = 10;
+	        break;
+
+	   case kIdle:
+		gRotatorCommand = kNone;
+		SetBusy(0);
+	        break;
+	 }
+
          break;
 
     case kTurnCW:
-         SetBusy(1);
-         RotatorOn();
-         BrakeRelease();
-         RotatorCW();
-	 gRotatorCommand = kNone;
+         
+	 SetBusy(1);
+	 
+	 switch ( gRotatorState ) {
+	 
+	   case kIdle: 
+	        PowerOn();
+		gRotatorState = kReleaseBrake;
+		gRotatorBusyCounter = 10;
+		break;
+	 
+	   case kReleaseBrake:
+	        BrakeRelease();
+		gRotatorState = kRotorRampup;
+		gRotatorBusyCounter = 5;
+		break;
+	 
+	   case kRotorRampup: 
+		gRotatorState = kTurningCW;
+         	RotatorCW();
+		gRotatorBusyCounter = 5;
+		break;
+	   
+	   case kTurningCW:
+		gRotatorState = kTurningCW;
+	        gRotatorCommand = kNone;
+		break;
+	 }
+	
          break;
 
     case kTurnCCW:
-         SetBusy(1);
-         RotatorOn();
-         BrakeRelease();
-         RotatorCCW();
-	 gRotatorCommand = kNone;
+         
+	 SetBusy(1);
+	 
+	 switch ( gRotatorState ) {
+	 
+	   case kIdle: 
+	        PowerOn();
+		gRotatorState = kReleaseBrake;
+		gRotatorBusyCounter = 10;
+		break;
+	 
+	   case kReleaseBrake:
+	        BrakeRelease();
+		gRotatorState = kRotorRampup;
+		gRotatorBusyCounter = 5;
+		break;
+	 
+	   case kRotorRampup: 
+		gRotatorState = kTurningCCW;
+         	RotatorCCW();
+		gRotatorBusyCounter = 5;
+		break;
+	   
+	   case kTurningCCW:
+		gRotatorState = kTurningCCW;
+	        gRotatorCommand = kNone;
+		break;
+	 }
+
          break;
 
     case kFastStop:
          RotatorOff();
          BrakeLock();
+	 PowerOff();
+	 
+	 // reset state machine and command variable
+	 gRotatorState = kIdle;
 	 gRotatorCommand = kNone;
-         SetBusy(0);
+         
+	 SetBusy(0);
       
          // clear preset data
          gPresetDirection = gCurrentDirection;
          break;
 
     default:
-         break;
-  }
-  
-  switch ( gRotatorState ) {
-  
-    case kIdle: return;
-    
-    case kReleaseBreak:
-         break;
-    
-    case kLockBreak:
-         break;
-    
-    case kRotorRampup:
-         break;
-    
-    case kRotorRampdown:
-         break;
-    
-    case kTurningCCW:
-         break;
-    
-    case kTurningCW:
          break;
   }
 }

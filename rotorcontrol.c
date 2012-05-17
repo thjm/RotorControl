@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.13 2012/05/17 10:39:18 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.14 2012/05/17 12:31:51 mathes Exp $
  *
  */
  
@@ -61,7 +61,7 @@ static void delay_sec(uint8_t);
 
 volatile uint8_t gButtonPressCounter = 0;
 
-// ISR for timer/counter 0: called every 10 ms
+// ISR for timer/counter 0 overflow: called every 10 ms
 // - load counter with initial constant
 // - call button check routine
 
@@ -72,8 +72,8 @@ ISR(TIMER0_OVF_vect) {
   // call button check routine
   CheckKeys();
 
-  if ( gRotatorCounter )
-    gRotatorCounter--;
+  if ( gRotatorBusyCounter )
+    gRotatorBusyCounter--;
   else
     DoRotator();
 
@@ -288,8 +288,8 @@ int main(void) {
   //CompassMessageDecode( 0 );
   //CompassMessageInit();
   
-  // display the start message, and leave it for 3 seconds on
-  StartMessage(3);
+  // display the start message, and leave it for # seconds on
+  StartMessage(2);
   
   // --- 5 button user interface to rotator control
   

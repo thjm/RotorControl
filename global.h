@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.16 2012/05/16 16:55:08 mathes Exp $
+ * $Id: global.h,v 1.17 2012/05/17 12:31:51 mathes Exp $
  */
 
 
@@ -74,10 +74,11 @@
 
 #define BrakeLock()             { RELAY_PORT &= ~RELAY_STOP; }
 #define BrakeRelease()          { RELAY_PORT |= RELAY_STOP; }
-#define RotatorOn()             { RELAY_PORT |= RELAY_POWER; }
+#define PowerOn()               { RELAY_PORT |= RELAY_POWER; }
+#define PowerOff()              { RELAY_PORT &= ~RELAY_POWER; }
 #define RotatorCW()             { RELAY_PORT |= RELAY_CW; } 
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
-#define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW | RELAY_POWER); }
+#define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW); }
 
 /* ---  -- */
 
@@ -106,7 +107,7 @@ extern void DecreasePreset(void);
 extern volatile uint8_t gRotatorBusy;
 extern volatile uint8_t gRotatorCommand;
 extern volatile uint8_t gRotatorState;
-extern volatile uint8_t gRotatorCounter;
+extern volatile uint8_t gRotatorBusyCounter;
 
 #define IsRotatorBusy() (gRotatorBusy != 0)
 
@@ -115,8 +116,8 @@ extern volatile uint8_t gRotatorCounter;
 typedef enum {
 
   kIdle,
-  kReleaseBreak,
-  kLockBreak,
+  kReleaseBrake,
+  kLockBrake,
   kRotorRampup,
   kRotorRampdown,
   kTurningCCW,
