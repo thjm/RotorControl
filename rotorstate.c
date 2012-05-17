@@ -4,7 +4,7 @@
  *
  * Purpose: State machine for the rotator control program.
  *
- * $Id: rotorstate.c,v 1.7 2012/05/17 18:12:52 mathes Exp $
+ * $Id: rotorstate.c,v 1.8 2012/05/17 18:14:32 mathes Exp $
  *
  */
  
@@ -224,7 +224,7 @@ void UpdateDisplay(void) {
   if ( gCurrentDirection == gPresetDirection ) {
     
     if ( gPresetDisplayCounter == 0 )
-      I2CDisplayWriteR( 3, "\000\000\000" );
+      I2CDisplayWriteR( 3, (uint8_t*)"\000\000\000" );
   }
 }
 

@@ -4,7 +4,7 @@
  *
  * Purpose: Functions for the I2C driven display unit (UR).
  *
- * $Id: i2cdisplay.c,v 1.2 2012/05/17 18:12:52 mathes Exp $
+ * $Id: i2cdisplay.c,v 1.3 2012/05/17 18:14:32 mathes Exp $
  *
  */
  
@@ -116,6 +116,29 @@ uint8_t I2CDisplayWrite(uint8_t l_msg,const uint8_t *p_msg) {
   
   i2c_write(0x00); 			// write remote buffer address
   i2c_write(I2C_DISP_RAWDATA);  	// write command
+  
+  for (uint8_t i=0; i<l_msg; ++i) {
+    i2c_write( p_msg[i] );
+  }
+  
+  i2c_stop();
+  
+  return 0;
+}
+
+// --------------------------------------------------------------------------
+
+uint8_t I2CDisplayWriteL(uint8_t l_msg,const uint8_t *p_msg) {
+
+  uint8_t ret = i2c_start( I2C_DISPLAY | I2C_WRITE);
+  
+  if ( ret ) {
+    i2c_stop();
+    return 1;
+  }
+  
+  i2c_write(0x00); 			// write remote buffer address
+  i2c_write(I2C_DISP_RAWDATA_LEFT);  	// write command
   
   for (uint8_t i=0; i<l_msg; ++i) {
     i2c_write( p_msg[i] );
