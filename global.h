@@ -4,7 +4,7 @@
  *
  * Purpose: Contains all global definitions of the 'rotorcontrol' project
  *
- * $Id: global.h,v 1.17 2012/05/17 12:31:51 mathes Exp $
+ * $Id: global.h,v 1.18 2012/05/17 17:56:29 mathes Exp $
  */
 
 
@@ -37,11 +37,11 @@
 #define BUTTON_PIN              PINA
 #define BUTTON_DDR              DDRA
 
-#define BUTTON_PRESET_LEFT      (1<<PA4)
-#define BUTTON_LEFT             (1<<PA2)
+#define BUTTON_PRESET_CCW       (1<<PA4)
+#define BUTTON_CCW              (1<<PA2)
 #define BUTTON_STOP             (1<<PA0)
-#define BUTTON_RIGHT            (1<<PA1)
-#define BUTTON_PRESET_RIGHT     (1<<PA3)
+#define BUTTON_CW               (1<<PA1)
+#define BUTTON_PRESET_CW        (1<<PA3)
 
 #define LED_PORT                PORTC
 #define LED_DDR                 DDRC
@@ -80,10 +80,6 @@
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
 #define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW); }
 
-/* ---  -- */
-
-extern volatile uint8_t gButtonPressCounter;
-
 /* --- declaration(s) for file get8key4.c --- */
 
 extern volatile uint8_t gKeyState;
@@ -96,13 +92,7 @@ extern uint8_t GetKeyShort(uint8_t key_mask);
 /* --- declaration(s) for file rotorstate.c --- */
 
 /**  */
-extern void DoRotator(void);
-/**  */
-extern void UpdateDisplay(void);
-
-/**  */
-extern void IncreasePreset(void);
-extern void DecreasePreset(void);
+extern void RotatorExec(void);
 
 extern volatile uint8_t gRotatorBusy;
 extern volatile uint8_t gRotatorCommand;
@@ -136,8 +126,28 @@ typedef enum {
   
 } ERotorCommand;
 
+extern volatile uint8_t gPresetCommand;
+extern volatile uint8_t gPresetCounter;
+
+/**  */
+extern void PresetExec(void);
+/**  */
+extern void UpdateDisplay(void);
+
 /** Minimum and maximum angles. */
 #define MIN_ANGLE        0
 #define MAX_ANGLE      359
+
+/** A mechanical stop where we cannot rotate further. */
+#define LIMIT_ANGLE    270
+
+typedef enum {
+
+  kPresetNone = 0,
+  kPresetCW,
+  kPresetCCW,
+  kPresetStop,
+  
+} EPresetCommand;
 
 #endif /* _global_h_ */

@@ -31,6 +31,7 @@ DEBUG = stabs
 CSTANDARD = -std=c99
 
 # Place -D or -U options here
+#CDEFS = -DF_CPU=14745600UL
 CDEFS = -DF_CPU=12000000UL
 
 # Place -I options here

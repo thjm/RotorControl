@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.36 2012/05/17 12:31:51 mathes Exp $
+$Id: CHANGES,v 1.37 2012/05/17 17:56:29 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -16,6 +16,7 @@ ToDo next:
 		    -> this message doesn't always appear at start !?
 		  - some work already on preset counter
 		  - nested state machine, for CW, CCW and STOP command
+		  - state machine for preset commands implemented
 
 2012-05-14 (thjm) - simple rotator interaction moved to rotorstate.c
                   - get8key4.c recovered, was deleted in LSM303 directory

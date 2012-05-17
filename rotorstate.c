@@ -4,7 +4,7 @@
  *
  * Purpose: State machine for the rotator control program.
  *
- * $Id: rotorstate.c,v 1.5 2012/05/17 12:31:51 mathes Exp $
+ * $Id: rotorstate.c,v 1.6 2012/05/17 17:56:29 mathes Exp $
  *
  */
  
@@ -34,9 +34,16 @@ volatile uint8_t gRotatorBusyCounter = 0;
 static int16_t gCurrentDirection = 0;
 static int16_t gPresetDirection = 0;
 
+#define PRESET_COUNTER_MAX           32
+#define PRESET_COUNTER_MIN           4
+
+volatile uint8_t gPresetCommand = kPresetNone;
+static uint8_t gPresetCounterStart = PRESET_COUNTER_MAX;
+volatile uint8_t gPresetCounter = 0;
+
 // --------------------------------------------------------------------------
 
-void DoRotator(void)
+void RotatorExec(void)
  {
   switch ( gRotatorCommand ) {
   
@@ -152,6 +159,8 @@ void DoRotator(void)
       
          // clear preset data
          gPresetDirection = gCurrentDirection;
+	 gPresetCounter = 0;
+	 gPresetCommand = kPresetNone;
          break;
 
     default:
@@ -202,30 +211,53 @@ void UpdateDisplay(void) {
 
 // --------------------------------------------------------------------------
 
-void IncreasePreset(void) {
+// is called for every 10ms
+void PresetExec(void) {
 
-  if ( gButtonPressCounter == 0 ) {
+  // nothing to do here...
+  if ( gPresetCommand == kPresetNone ) return;
+  
+  static uint16_t preset_duration = 0;
+  
+  // 'stop' requested, set everything to start values
+  
+  if ( gPresetCommand == kPresetStop ) {
+  
+    gPresetCounter = 0;
+    preset_duration = 0;
+    gPresetCounterStart = PRESET_COUNTER_MAX;
 
-    gPresetDirection++;
-    if ( gPresetDirection > MAX_ANGLE )
-      gPresetDirection = MIN_ANGLE;
-
-    gButtonPressCounter = 30;
+    return;
   }
-}
-
-// --------------------------------------------------------------------------
-
-void DecreasePreset(void) {
-
-  if ( gButtonPressCounter == 0 ) {
-
-    gPresetDirection--;
-    if ( gPresetDirection < MIN_ANGLE )
-      gPresetDirection = MAX_ANGLE;
-
-    gButtonPressCounter = 30;
+  
+  if ( preset_duration > 200 ) {
+    
+    preset_duration = 0;
+    
+    if ( gPresetCounterStart > PRESET_COUNTER_MIN )
+      gPresetCounterStart /= 2;
   }
+  
+  preset_duration++;
+  
+  if ( gPresetCounter-- != 0 ) return;
+  
+  switch ( gPresetCommand ) {
+  
+    case kPresetCW:
+         gPresetDirection++;
+         if ( gPresetDirection > MAX_ANGLE )
+           gPresetDirection = MIN_ANGLE;
+         break;
+  
+    case kPresetCCW:
+         gPresetDirection--;
+         if ( gPresetDirection < MIN_ANGLE )
+           gPresetDirection = MAX_ANGLE;
+         break;
+  }
+  
+  gPresetCounter = gPresetCounterStart;
 }
 
 // --------------------------------------------------------------------------

@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.14 2012/05/17 12:31:51 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.15 2012/05/17 17:56:29 mathes Exp $
  *
  */
  
@@ -59,8 +59,6 @@ static void delay_sec(uint8_t);
 
 // --------------------------------------------------------------------------
 
-volatile uint8_t gButtonPressCounter = 0;
-
 // ISR for timer/counter 0 overflow: called every 10 ms
 // - load counter with initial constant
 // - call button check routine
@@ -72,13 +70,14 @@ ISR(TIMER0_OVF_vect) {
   // call button check routine
   CheckKeys();
 
+  // rotator command interface
   if ( gRotatorBusyCounter )
     gRotatorBusyCounter--;
   else
-    DoRotator();
-
-  if ( gButtonPressCounter )
-    gButtonPressCounter--;
+    RotatorExec();
+  
+  //if ( gPresetCommand != kPresetNone ) 
+  PresetExec();
 }
 
 // --------------------------------------------------------------------------
@@ -112,7 +111,8 @@ static void InitHardware(void) {
   RS485_DDR |= RS485_TX_ENABLE;
   
   // Buttons port initialisation, turn pull-ups on
-  mask = BUTTON_PRESET_LEFT | BUTTON_LEFT | BUTTON_STOP | BUTTON_RIGHT | BUTTON_PRESET_RIGHT;
+  mask = BUTTON_PRESET_CCW | BUTTON_CCW | BUTTON_STOP | BUTTON_CW |
+  BUTTON_PRESET_CW;
 
   BUTTON_PORT |= mask;
   BUTTON_DDR &= ~mask;
@@ -279,6 +279,11 @@ static uint8_t gLastCommand = kNone;
   gRotatorCommand = _cmd_; \
 }
 
+#define SetPresetCommand(_cmd_) \
+ { \
+  gPresetCommand = _cmd_; \
+}
+
 int main(void) {
 
   // initialize the hardware ...
@@ -297,32 +302,32 @@ int main(void) {
 
     UpdateDisplay();
     
-    // --- checks for BUTTON LEFT ---
+    // --- checks for BUTTON CCW ---
     
-    if ( (gKeyState & BUTTON_LEFT) && !(gKeyState & BUTTON_STOP)
+    if ( (gKeyState & BUTTON_CCW) && !(gKeyState & BUTTON_STOP)
                                    && !IsRotatorBusy() ) {
       
       SetCommand( kTurnCCW );
     }
     
-    // was BUTTON LEFT released ?
+    // was BUTTON CCW released ?
     
-    if ( (gLastCommand == kTurnCCW) && !(gKeyState & BUTTON_LEFT) ) {
+    if ( (gLastCommand == kTurnCCW) && !(gKeyState & BUTTON_CCW) ) {
 
       SetCommand( kStop );
     }
     
-    // --- checks for BUTTON RIGHT ---
+    // --- checks for BUTTON CW ---
     
-    if ( (gKeyState & BUTTON_RIGHT) && !(gKeyState & BUTTON_STOP)
+    if ( (gKeyState & BUTTON_CW) && !(gKeyState & BUTTON_STOP)
                                     && !IsRotatorBusy() ) {
       
       SetCommand( kTurnCW );
     }
 
-    // was BUTTON RIGHT released ?
+    // was BUTTON CW released ?
     
-    if ( (gLastCommand == kTurnCW) && !(gKeyState & BUTTON_RIGHT) ) {
+    if ( (gLastCommand == kTurnCW) && !(gKeyState & BUTTON_CW) ) {
       
       SetCommand( kStop );
     }
@@ -334,18 +339,28 @@ int main(void) {
       SetCommand( kFastStop );
     }
     
-    // --- checks for BUTTON PRESET LEFT ---
+    // --- checks for BUTTON PRESET CCW ---
     
-    if ( gKeyState & BUTTON_PRESET_LEFT ) {
+    if ( gKeyState & BUTTON_PRESET_CCW ) {
       
-      DecreasePreset();
+      SetPresetCommand( kPresetCCW );
     }
     
-    // --- checks BUTTON PRESET RIGHT ---
-    
-    if ( gKeyState & BUTTON_PRESET_RIGHT ) {
+    if ( (gPresetCommand == kPresetCCW) && !(gKeyState & BUTTON_PRESET_CCW) ) {
       
-      IncreasePreset();
+      SetPresetCommand( kPresetStop );
+    }
+    
+    // --- checks BUTTON PRESET CW ---
+    
+    if ( gKeyState & BUTTON_PRESET_CW ) {
+      
+      SetPresetCommand( kPresetCW );
+    }
+    
+    if ( (gPresetCommand == kPresetCW) && !(gKeyState & BUTTON_PRESET_CW) ) {
+      
+      SetPresetCommand( kPresetStop );
     }
     
   } // while ( 1 ) ...
