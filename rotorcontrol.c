@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.12 2012/05/16 20:06:12 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.13 2012/05/17 10:39:18 mathes Exp $
  *
  */
  
@@ -299,10 +299,13 @@ int main(void) {
     
     // --- checks for BUTTON LEFT ---
     
-    if ( (gKeyState & BUTTON_LEFT) && !IsRotatorBusy() ) {
+    if ( (gKeyState & BUTTON_LEFT) && !(gKeyState & BUTTON_STOP)
+                                   && !IsRotatorBusy() ) {
       
       SetCommand( kTurnCCW );
     }
+    
+    // was BUTTON LEFT released ?
     
     if ( (gLastCommand == kTurnCCW) && !(gKeyState & BUTTON_LEFT) ) {
 
@@ -311,11 +314,14 @@ int main(void) {
     
     // --- checks for BUTTON RIGHT ---
     
-    if ( (gKeyState & BUTTON_RIGHT) && !IsRotatorBusy() ) {
+    if ( (gKeyState & BUTTON_RIGHT) && !(gKeyState & BUTTON_STOP)
+                                    && !IsRotatorBusy() ) {
       
       SetCommand( kTurnCW );
     }
 
+    // was BUTTON RIGHT released ?
+    
     if ( (gLastCommand == kTurnCW) && !(gKeyState & BUTTON_RIGHT) ) {
       
       SetCommand( kStop );
@@ -325,10 +331,7 @@ int main(void) {
     
     if ( gKeyState & BUTTON_STOP ) {
       
-      //while ( gKeyState & BUTTON_STOP );
-      
-      SetCommand( kStop );
-      //SetCommand( kFastStop );
+      SetCommand( kFastStop );
     }
     
     // --- checks for BUTTON PRESET LEFT ---

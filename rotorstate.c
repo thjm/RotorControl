@@ -4,7 +4,7 @@
  *
  * Purpose: State machine for the rotator control program.
  *
- * $Id: rotorstate.c,v 1.3 2012/05/16 16:55:08 mathes Exp $
+ * $Id: rotorstate.c,v 1.4 2012/05/17 10:39:18 mathes Exp $
  *
  */
  
@@ -45,10 +45,6 @@ void DoRotator(void)
          BrakeLock();
 	 gRotatorCommand = kNone;
          SetBusy(0);
-	       
-         // clear preset data
-         gPresetDirection = gCurrentDirection;
-
          break;
 
     case kTurnCW:
