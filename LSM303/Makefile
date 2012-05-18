@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.9 2012/05/14 08:00:31 mathes Exp $
+# $Id: Makefile,v 1.10 2012/05/18 15:58:49 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -40,7 +40,11 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here
 #CDEFS = -DF_CPU=8000000UL -DLIB_POLOLU
 # U.Radig, ATmega8 test board with 12MHz
-CDEFS = -DF_CPU=12000000UL -DUART_DEBUG -DLED_DEBUG
+#CDEFS = -DF_CPU=12000000UL
+# ATmega with factory settings on bread board
+CDEFS = -DF_CPU=1000000UL
+
+CDEFS += -DUART_DEBUG -DLED_DEBUG
 
 # Place -I options here
 CINCS = -I.
