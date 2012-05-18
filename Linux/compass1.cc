@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.4 2012/05/18 15:58:13 mathes Exp $
+// $Id: compass1.cc,v 1.5 2012/05/18 16:24:36 mathes Exp $
 //
 
 
@@ -52,13 +52,16 @@ enum {
 static int gOperationMode = kMeasure;
 
 #if 1
-// at home
-vector gMinDefault = { -364, -535, -535 };
-vector gMaxDefault = { 202, -83, -83 };
+// // at home (shack, some time ago)
+// vector gMinDefault_MAG = { -364, -535, -535 };
+// vector gMaxDefault_MAG = {  202,  -83,  -83 };
+// at home (Ira's office, 2012-05-17, new setup)
+vector gMinDefault_MAG = { -480, -196, -196 };
+vector gMaxDefault_MAG = {   40,  284,  284 };
 #else
 // in the office ?
-vector gMinDefault = { -236, -135, -135 };
-vector gMaxDefault = { 83, 151, 151 };
+vector gMinDefault_MAG = { -236, -135, -135 };
+vector gMaxDefault_MAG = {   83,  151,  151 };
 #endif
 
 // ---------------------------------------------------------------------------
@@ -83,7 +86,7 @@ static void UiMenu()
 //  g++ -g -Wall -o compass1 -lserial compass1.cc
 //
 // run with:
-//  compass1 /dev/ttyUSB1
+//  ./compass1 /dev/ttyUSB1
 //
 
 int main(int argc, char** argv)
@@ -136,8 +139,8 @@ int main(int argc, char** argv)
   vector vMin = {  99999,  99999,  99999 };
   vector vMax = { -99999, -99999, -99999 };
   
-  vector m_min = gMinDefault;
-  vector m_max = gMaxDefault;
+  vector m_min = gMinDefault_MAG;
+  vector m_max = gMaxDefault_MAG;
   
   int last_average = 0; // last average
   std::list<int> headings;
