@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.3 2012/05/16 21:05:47 mathes Exp $
+// $Id: compass1.cc,v 1.4 2012/05/18 15:58:13 mathes Exp $
 //
 
 
@@ -51,7 +51,7 @@ enum {
 
 static int gOperationMode = kMeasure;
 
-#if 0
+#if 1
 // at home
 vector gMinDefault = { -364, -535, -535 };
 vector gMaxDefault = { 202, -83, -83 };
@@ -68,7 +68,8 @@ static void UiMenu()
   cout << "\nEnter your choice:" << endl << endl;
   cout << "C, c - enter Calibration mode" << endl;
   cout << "D, d - toggle Debug mode" << endl;
-  cout << "M, m . enter Measurement mode" << endl;
+  cout << "M, m - enter Measurement mode (default)" << endl;
+  cout << "O, o - toggle continous display" << endl;
   cout << endl;
   cout << "X, x - Exit from program" << endl;
   cout << endl;
@@ -142,6 +143,7 @@ int main(int argc, char** argv)
   std::list<int> headings;
   
   char choice;
+  bool display_on = false;
   bool leave = false;
   
   UiMenu();
@@ -172,16 +174,27 @@ int main(int argc, char** argv)
 		  // output most recent calibration constants
 		    
                   cout << "Reading for magnetic field: " << endl;
-                  cout << "  min= " << m_min.x << " " << m_min.y 
-                       << " " << m_min.y << endl; 
-                  cout << "  max= " << m_max.x << " " << m_max.y 
-                       << " " << m_max.y << endl; 
+                  cout << "  min= " << setw(5) << m_min.x 
+		       << " " << setw(5) << m_min.y 
+                       << " " << setw(5) << m_min.y << endl; 
+                  cout << "  max= " << setw(5) << m_max.x 
+		       << " " << setw(5) << m_max.y 
+                       << " " << setw(5) << m_max.y << endl; 
 
                   break;
 
-        case 'x': // exit
+        case 'o':
+	case 'O': display_on = !display_on;
+                  break;
+	
+	case 'x': // exit
         case 'X': leave = true;
+                  break;
+	
+	default: UiMenu();
       }
+      
+      cout << endl;
       
     } // if ( kbhit() ) ...
 
@@ -251,7 +264,8 @@ int main(int argc, char** argv)
     
              int heading3D = GetHeading3D(&a, &m, &p );
     
-             cout << "3D-Heading= " << setw(3) << heading3D;
+             if ( display_on )
+               cout << "3D-Heading= " << setw(3) << heading3D;
 	     
 	     headings.push_back( heading3D );
 
@@ -281,11 +295,12 @@ int main(int argc, char** argv)
 	       
 	       headings.pop_front();
 	       
-	       cout << " \t** " << setw(3) << average << " ** \t" 
-	            << setw(3) << 5 * ( average / 5);
+	       if ( display_on )
+	         cout << " \t** " << setw(3) << average << " ** \t" 
+	              << setw(3) << 5 * ( average / 5);
 	     }
 	     
-	     cout << endl;
+	     if ( display_on ) cout << endl;
 
 	     break;
       }
