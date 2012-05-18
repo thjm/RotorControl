@@ -7,4 +7,5 @@ compass2
 compass.eep
 compass.hex
 lsm303read.hex
+lsm303read.eep
 lsm303test.hex
