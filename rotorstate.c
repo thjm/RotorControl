@@ -4,7 +4,7 @@
  *
  * Purpose: State machine for the rotator control program.
  *
- * $Id: rotorstate.c,v 1.8 2012/05/17 18:14:32 mathes Exp $
+ * $Id: rotorstate.c,v 1.9 2012/05/18 07:38:53 mathes Exp $
  *
  */
  
@@ -277,6 +277,50 @@ void PresetExec(void) {
   }
   
   gPresetCounter = gPresetCounterStart;
+}
+
+// --------------------------------------------------------------------------
+
+/** This function calculates the direction into which the rotator has to be
+  * turned from the 'actual direction' to reach the 'nominal direction'.
+  *
+  * It takes the position of the mechanical limitation into account 
+  * (LIMIT_ANGLE).
+  *
+  * This is how it works:
+  * In a configuration where the limit is at 0 degrees (north), we have to
+  * @li rotate CCW if nominal direction < actual direction
+  * @li rotate CW if nominal direction > actual direction
+  * @li do nothing else.
+  * Thus, if we first rotate our system back into this simple configuration, we
+  * easily can decide what to do. The rotation angle is 360 degrees (MAX_ANGLE)
+  * minus the angular position of the bracket, it must always be a positive 
+  * value.
+  *
+  * Additionally, the angles obtained must be normalized, i.e. must be below 
+  * 360 degrees.
+  *
+  * @return either kTurnCW or kTurnCCW or kNone if no action is required.
+  *
+  * Note: This may not work for configurations where the total angular range is
+  * larger than 360 degrees.
+  */
+uint8_t GetDirection(uint16_t actual_dir,uint16_t nominal_dir) {
+
+  uint16_t rotation_angle = MAX_ANGLE - LIMIT_ANGLE;
+  
+  uint16_t actual_dir_rotated = actual_dir + rotation_angle;
+  if ( actual_dir_rotated > MAX_ANGLE ) actual_dir_rotated -= MAX_ANGLE;
+  
+  uint16_t nominal_dir_rotated = nominal_dir + rotation_angle;
+  if ( nominal_dir_rotated > MAX_ANGLE ) nominal_dir_rotated -= MAX_ANGLE;
+  
+  if ( nominal_dir_rotated < actual_dir_rotated )
+    return kTurnCCW;
+  else if ( nominal_dir_rotated > actual_dir_rotated )
+    return kTurnCW;
+  else
+    return kNone;
 }
 
 // --------------------------------------------------------------------------
