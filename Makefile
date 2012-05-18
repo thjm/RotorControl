@@ -114,7 +114,7 @@ AVRDUDE_FLAGS = $(AVRDUDE_BASIC) $(AVRDUDE_NO_VERIFY) $(AVRDUDE_VERBOSE) $(AVRDU
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
-SIZE = avr-size
+SIZE = avr-size --format=avr
 NM = avr-nm
 AVRDUDE = avrdude
 REMOVE = rm -f
@@ -133,7 +133,7 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 
 # Default target.
-all: build
+all: build subdirs
 
 build: elf hex eep
 
@@ -143,12 +143,17 @@ eep: $(TARGET).eep
 lss: $(TARGET).lss 
 sym: $(TARGET).sym
 
+# sub-directories
+subdirs:
+	@(cd DisplayUR; make)
+
 # Test target(s):
 
 test:
 	@(cd Test; make)
 
 clean::
+	@(cd DisplayUR; make clean)
 	@(cd Test; make clean)
 
 # UART library of P.Fleury
@@ -212,7 +217,7 @@ extcoff: $(TARGET).elf
 # Link: create ELF output file from object files.
 $(TARGET).elf: $(OBJ)
 	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
-	$(SIZE) $@
+	@$(SIZE) $@
 
 
 # Compile: create object files from C source files.

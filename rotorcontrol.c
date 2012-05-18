@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.16 2012/05/17 18:12:52 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.17 2012/05/18 16:00:05 mathes Exp $
  *
  */
  
@@ -20,6 +20,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
+#include <avr/eeprom.h>
 #include <util/delay.h>
 
 #include <i2cmaster.h>   // P.Fleury's lib
@@ -56,6 +57,20 @@
 // local prototypes
 
 static void delay_sec(uint8_t);
+
+// --------------------------------------------------------------------------
+
+typedef struct i_vector
+{
+	int16_t x, y, z;
+} i_vector_t;
+
+// configuration storage in EEPROM
+
+uint16_t gLimitAngle EEMEM = LIMIT_ANGLE;
+
+i_vector_t gMAG_min EEMEM = { -364, -535, -535 };
+i_vector_t gMAG_max EEMEM = { 202, -83, -83 };
 
 // --------------------------------------------------------------------------
 

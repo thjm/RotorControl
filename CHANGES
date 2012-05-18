@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.39 2012/05/18 07:38:53 mathes Exp $
+$Id: CHANGES,v 1.40 2012/05/18 16:00:05 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -19,6 +19,7 @@ ToDo next:
 		  - state machine for preset commands implemented
 		  - auto power-off for preset display
 		  - function (algorithm) to determine rotation direction
+		  - started with some configuration variables in EEPROM
 
 2012-05-14 (thjm) - simple rotator interaction moved to rotorstate.c
                   - get8key4.c recovered, was deleted in LSM303 directory
