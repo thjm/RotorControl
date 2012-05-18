@@ -114,7 +114,7 @@ AVRDUDE_FLAGS = $(AVRDUDE_BASIC) $(AVRDUDE_NO_VERIFY) $(AVRDUDE_VERBOSE) $(AVRDU
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
-SIZE = avr-size --format=avr
+SIZE = avr-size --format=avr --mcu=$(MCU)
 NM = avr-nm
 AVRDUDE = avrdude
 REMOVE = rm -f

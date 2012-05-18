@@ -4,7 +4,7 @@
  *
  * Purpose: Program which performs the rotator control.
  *
- * $Id: rotorcontrol.c,v 1.17 2012/05/18 16:00:05 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.18 2012/05/18 18:57:18 mathes Exp $
  *
  */
  
@@ -25,8 +25,15 @@
 
 #include <i2cmaster.h>   // P.Fleury's lib
 
+#define UART_TX_BUFFER_SIZE 32 
+#define UART_RX_BUFFER_SIZE 32
+
+#include <uart.h>        // P.Fleury's lib
+
 #include "global.h"
 #include "i2cdisplay.h"
+
+#define UART_BAUD_RATE 9600
 
 // Fuses and programming:
 //
@@ -60,9 +67,12 @@ static void delay_sec(uint8_t);
 
 // --------------------------------------------------------------------------
 
-typedef struct i_vector
-{
-	int16_t x, y, z;
+typedef struct i_vector {
+
+  int16_t  fX;
+  int16_t  fY;
+  int16_t  fZ;
+
 } i_vector_t;
 
 // configuration storage in EEPROM
@@ -136,7 +146,8 @@ static void InitHardware(void) {
   BUTTON_DDR &= ~mask;
   
   // initialize USART0 (receiving NMEA messages via RS485 from ACC/MAG sensor)
-  
+  uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
+
   // initialize USART1, for command/status exchange with HAM op (& debug)
   
   // enable interrupts globally
@@ -162,13 +173,13 @@ typedef enum {
 
 static uint8_t gSentenceType = kSENTENCE_TYPE_UNKNOWN;
 
-//static uint8_t gACC_x_raw[7];
-//static uint8_t gACC_y_raw[7];
-//static uint8_t gACC_z_raw[7];
+//static char gACC_x_raw[7];
+//static char gACC_y_raw[7];
+//static char gACC_z_raw[7];
 
-static uint8_t gMAG_x_raw[5];
-static uint8_t gMAG_y_raw[5];
-static uint8_t gMAG_z_raw[5];
+static char gMAG_x_raw[5];
+static char gMAG_y_raw[5];
+static char gMAG_z_raw[5];
 
 // inspired by G.Dion's (WhereAVR) MsgHandler() function
 //
@@ -201,7 +212,12 @@ static uint8_t CompassMessageDecode(uint8_t newchar) {
   //if ( newchar == '*' ) {			// If there is a '*' -> checksum
   //  return TRUE;
   //}
-  
+ 
+  if ( newchar == '\n' ) {			// If there is a linefeed character
+    gSentenceType = kSENTENCE_TYPE_UNKNOWN;	// Clear local parse variable
+    return TRUE;
+  }
+
   if ( commas == 0 ) {
   
     switch ( newchar ) {		       	// "AC" are simply skipped here
@@ -245,11 +261,26 @@ static uint8_t CompassMessageDecode(uint8_t newchar) {
     return FALSE;
   }
 
+  return FALSE;
+
 }  // end of CompassMessageDecode()
 
 // --------------------------------------------------------------------------
 
+static void CompassMessageConvert(i_vector_t* mag) {
+
+  if ( !mag ) return;
+
+  mag->fX = atoi( gMAG_x_raw );
+  mag->fY = atoi( gMAG_y_raw );
+  mag->fZ = atoi( gMAG_z_raw );
+}
+
+// --------------------------------------------------------------------------
+
 static void CompassMessageInit(void) {
+
+  CompassMessageDecode( 0 );
 
 //  for (uint8_t i=0; i<sizeof(gACC_x_raw); ++i) {
 //    gACC_x_raw[i] = 0;
@@ -308,18 +339,37 @@ int main(void) {
   InitHardware();
   
   // reset the message decoding engine
-  //CompassMessageDecode( 0 );
-  //CompassMessageInit();
+  CompassMessageInit();
   
   // display the start message, and leave it for # seconds on
   StartMessage(2);
   
-  // --- 5 button user interface to rotator control
+  unsigned int uart_data;
+  uint8_t msg_complete;
   
   while ( 1 ) {
 
+   // --- handle serial messages (from ACC/MAG sensor)
+
+   if ( (uart_data = uart_getc()) != UART_NO_DATA ) {
+
+     // HandleUartData( uart_data );
+
+     if ( (uart_data >> 8) == 0) {
+       msg_complete = CompassMessageDecode( uart_data & 0xff );
+       if ( msg_complete ) {
+       }
+     }
+     else { // UART receive error
+     }
+   }
+
+   // --- update of direction display
+
     UpdateDisplay();
     
+   // --- 5 button user interface to rotator control
+  
     // --- checks for BUTTON CCW ---
     
     if ( (gKeyState & BUTTON_CCW) && !(gKeyState & BUTTON_STOP)
