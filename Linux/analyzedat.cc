@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH stored in file
 //
-// $Id: analyzedat.cc,v 1.1 2012/05/14 08:03:29 mathes Exp $
+// $Id: analyzedat.cc,v 1.2 2012/05/19 11:29:49 mathes Exp $
 //
 
 
@@ -24,7 +24,7 @@
 using namespace std;
 
 #include "../LSM303/vector.c"
-#include "../LSM303/common.cc"
+#include "common.cc"
 
 #define USE_NMEA_FORMAT   1
 
