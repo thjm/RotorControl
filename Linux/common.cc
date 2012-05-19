@@ -4,7 +4,7 @@
 //
 // Purpose: Common code parts for C++ analysis stuff...
 //
-// $Id: common.cc,v 1.1 2012/05/16 21:05:47 mathes Exp $
+// $Id: common.cc,v 1.2 2012/05/19 11:32:32 mathes Exp $
 //
 
 
@@ -15,10 +15,10 @@
 // ---------------------------------------------------------------------------
 
 // Returns a heading (in degrees) given an acceleration vector a due to gravity, a magnetic vector m, and a facing vector p.
-int GetHeading3D(const vector *a, const vector *m, const vector *p)
- {
-  vector E;
-  vector N;
+int GetHeading3D(const vector_t *a, const vector_t *m, const vector_t *p) {
+
+  vector_t E;
+  vector_t N;
 
   // cross magnetic vector (magnetic north + inclination) with "down" (acceleration vector) to produce "east"
   vector_cross(m, a, &E);
@@ -38,7 +38,7 @@ int GetHeading3D(const vector *a, const vector *m, const vector *p)
 
 // ---------------------------------------------------------------------------
 
-bool ReadNMEAFormat(FILE *file,vector *a,vector *m)
+bool ReadNMEAFormat(FILE *file,vector_t *a,vector_t *m)
  {
   if ( feof(file) ) return false;
   
@@ -68,7 +68,7 @@ bool ReadNMEAFormat(FILE *file,vector *a,vector *m)
 
 // ---------------------------------------------------------------------------
 
-bool ReadNMEAFormat(const char *line,vector *a,vector *m)
+bool ReadNMEAFormat(const char *line,vector_t *a,vector_t *m)
  {
   if ( !line || *line == 0 ) return false;
   

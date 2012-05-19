@@ -4,7 +4,7 @@
  *
  * Purpose: Vector analysis routines.
  *
- * $Id: vector.c,v 1.2 2011/10/24 16:14:11 mathes Exp $
+ * $Id: vector.c,v 1.3 2012/05/19 11:33:35 mathes Exp $
  *
  */
  
@@ -19,28 +19,29 @@
 
 /* -------------------------------------------------------------------------- */
 
-void vector_cross(const vector *a, const vector *b, vector *out)
-{
-	out->x = a->y * b->z - a->z * b->y;
-	out->y = a->z * b->x - a->x * b->z;
-	out->z = a->x * b->y - a->y * b->x;
+void vector_cross(const vector_t *a,const vector_t *b,vector_t *out) {
+
+  out->x = a->y * b->z - a->z * b->y;
+  out->y = a->z * b->x - a->x * b->z;
+  out->z = a->x * b->y - a->y * b->x;
 }
 
 /* -------------------------------------------------------------------------- */
 
-float vector_dot(const vector *a, const vector *b)
-{
+float vector_dot(const vector_t *a,const vector_t *b) {
+
   return a->x * b->x + a->y * b->y + a->z * b->z;
 }
 
 /* -------------------------------------------------------------------------- */
 
-void vector_normalize(vector *a)
-{
-	float mag = sqrt(vector_dot(a, a));
-	a->x /= mag;
-	a->y /= mag;
-	a->z /= mag;
+void vector_normalize(vector_t *a) {
+
+ float mag = sqrt(vector_dot(a, a));
+ 
+ a->x /= mag;
+ a->y /= mag;
+ a->z /= mag;
 }
 
 /* -------------------------------------------------------------------------- */

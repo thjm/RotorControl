@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH stored in file
 //
-// $Id: analyzedat.cc,v 1.2 2012/05/19 11:29:49 mathes Exp $
+// $Id: analyzedat.cc,v 1.3 2012/05/19 11:32:32 mathes Exp $
 //
 
 
@@ -34,7 +34,7 @@ using namespace std;
 // g++ -g -Wall -o analyzedat analyzedat.cc
 //
 
-bool ReadTagFormat(FILE *file,vector *a,vector *m)
+bool ReadTagFormat(FILE *file,vector_t *a,vector_t *m)
  {
   if ( feof(file) ) return false;
   
@@ -93,14 +93,14 @@ int main(int argc,char **argv)
     exit( EXIT_FAILURE );
   }
   
-  vector a, m;
+  vector_t a, m;
   
   // --- find minimum and maximum value reading for each axis
   
-  vector a_min = {  99999,  99999,  99999 };
-  vector a_max = { -99999, -99999, -99999 };
-  vector m_min = {  99999,  99999,  99999 };
-  vector m_max = { -99999, -99999, -99999 };
+  vector_t a_min = {  99999,  99999,  99999 };
+  vector_t a_max = { -99999, -99999, -99999 };
+  vector_t m_min = {  99999,  99999,  99999 };
+  vector_t m_max = { -99999, -99999, -99999 };
   
   do {
   
@@ -139,7 +139,7 @@ int main(int argc,char **argv)
   
   rewind( file );
   
-  vector p = {0, -1, 0}; // X: to the right, Y: backward, Z: down
+  vector_t p = {0, -1, 0}; // X: to the right, Y: backward, Z: down
   
   do {
   

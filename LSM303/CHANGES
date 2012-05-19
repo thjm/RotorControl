@@ -1,7 +1,9 @@
-$Id: CHANGES,v 1.14 2012/05/16 21:03:19 mathes Exp $
+$Id: CHANGES,v 1.15 2012/05/19 11:33:35 mathes Exp $
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
+
+2012/05/19 (thjm) - vector.c/.h: vector -> vector_t
 
 2012/05/16 (thjm) - removed lcd.h lcd.c device.h, compass.c kept as example code
                   - common.cc moved to ../Linux

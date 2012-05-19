@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.5 2012/05/18 16:24:36 mathes Exp $
+// $Id: compass1.cc,v 1.6 2012/05/19 11:29:49 mathes Exp $
 //
 
 
@@ -56,12 +56,12 @@ static int gOperationMode = kMeasure;
 // vector gMinDefault_MAG = { -364, -535, -535 };
 // vector gMaxDefault_MAG = {  202,  -83,  -83 };
 // at home (Ira's office, 2012-05-17, new setup)
-vector gMinDefault_MAG = { -480, -196, -196 };
-vector gMaxDefault_MAG = {   40,  284,  284 };
+vector_t gMinDefault_MAG = { -480, -196, -196 };
+vector_t gMaxDefault_MAG = {   40,  284,  284 };
 #else
 // in the office ?
-vector gMinDefault_MAG = { -236, -135, -135 };
-vector gMaxDefault_MAG = {   83,  151,  151 };
+vector_t gMinDefault_MAG = { -236, -135, -135 };
+vector_t gMaxDefault_MAG = {   83,  151,  151 };
 #endif
 
 // ---------------------------------------------------------------------------
@@ -134,13 +134,13 @@ int main(int argc, char** argv)
   int gps_data_ptr = 0;
   bool gps_msg_start = false, gps_msg_complete = false;
   
-  vector p = {0, -1, 0}; // X: to the right, Y: backward, Z: down
+  vector_t p = {0, -1, 0}; // X: to the right, Y: backward, Z: down
 
-  vector vMin = {  99999,  99999,  99999 };
-  vector vMax = { -99999, -99999, -99999 };
+  vector_t vMin = {  99999,  99999,  99999 };
+  vector_t vMax = { -99999, -99999, -99999 };
   
-  vector m_min = gMinDefault_MAG;
-  vector m_max = gMaxDefault_MAG;
+  vector_t m_min = gMinDefault_MAG;
+  vector_t m_max = gMaxDefault_MAG;
   
   int last_average = 0; // last average
   std::list<int> headings;
@@ -201,7 +201,7 @@ int main(int argc, char** argv)
       
     } // if ( kbhit() ) ...
 
-    vector a, m;
+    vector_t a, m;
     
     if ( !leave ) {
       
