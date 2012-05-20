@@ -4,7 +4,7 @@
  *
  * Purpose: State machine for the rotator control program.
  *
- * $Id: rotorstate.c,v 1.9 2012/05/18 07:38:53 mathes Exp $
+ * $Id: rotorstate.c,v 1.10 2012/05/20 09:56:34 mathes Exp $
  *
  */
  
@@ -44,6 +44,53 @@ volatile uint8_t gPresetCounter = 0;
 
 // --------------------------------------------------------------------------
 
+/** The state machine of the rotor control engine ...
+ *
+ * This is the transition diagram after the command kRotateCW has been issued:
+ *
+ * kRotateCW -> kIdle
+ *                |
+ *                | ==> PowerOn()
+ *               \/
+ *              kReleaseBrake
+ *                |
+ *       kStop -> | -------- >>> -------+
+ *                | ==> ReleaseBrake()  |
+ *                |                     |
+ *               \/                     |
+ *              kRotorRampup            |
+ *                |                     |
+ *       kStop -> | -------- >>> -------|--+
+ *                | ==> RotateCW()      |  |
+ *                |                     |  |
+ *               \/                     |  |
+ *              kTurningCW              |  |
+ *                |                     |  |
+ *                * <-------------------+  |
+ *       kStop -> |                        |
+ *                | ==> RotorOff()         |
+ *                |                        |
+ *               \/                        |
+ *              kLockBrake                 |
+ *                |                        |
+ *                * <----------------------+
+ *                |
+ *                | ==> LockBrake()
+ *                |
+ *               \/
+ *              kRotorRampdown
+ *                |
+ *                | ==> PowerOff()
+ *                |
+ *               \/
+ *              kIdle
+ *
+ * It will be handled in a similar way for the command kRotateCCW.
+ *
+ * As the trasitions will take some time, it is not unlikely, that the kStop 
+ * event is issued before the state kTurningCW is reached. In that case the 
+ * rotor relays etc. must be switched off in a proper order.
+ */
 void RotatorExec(void)
  {
   switch ( gRotatorCommand ) {
