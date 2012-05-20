@@ -2,10 +2,34 @@
 /*
  * File   : lsm303read.c
  *
- * Purpose: Program to readout the LSM303DLH sensor and send its data via UART.
+ * $Id: lsm303read.c,v 1.6 2012/05/20 11:10:51 mathes Exp $
  *
- * $Id: lsm303read.c,v 1.5 2011/11/22 08:03:52 mathes Exp $
+ * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
+ * Author:         Hermann-Josef Mathes
+ * Remarks:
+ * Known problems: development status
+ * Version:        $Revision: 1.6 $ $Date: 2012/05/20 11:10:51 $
+ * Description:    Program to readout the LSM303DLH sensor and send its 
+ *                 data via UART. 
  *
+  
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version. 
+        
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+   Falls nicht, schreiben Sie an die Free Software Foundation, 
+   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
+*
  */
  
 #include <stdint.h>
