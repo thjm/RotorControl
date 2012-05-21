@@ -2,9 +2,33 @@
 /*
  * File   : i2cdisplaydefs.h
  *
- * Purpose: Declarations and definitions for the I2C based display on UR's board.
+ * $Id: i2cdisplaydefs.h,v 1.2 2012/05/21 05:32:28 mathes Exp $
  *
- * $Id: i2cdisplaydefs.h,v 1.1 2012/05/16 15:00:48 mathes Exp $
+ * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
+ * Author:         Hermann-Josef Mathes
+ * Remarks:
+ * Known problems: development status
+ * Version:        $Revision: 1.2 $ $Date: 2012/05/21 05:32:28 $
+ * Description:    Declarations and definitions for the I2C based 
+ *                 display on UR's board.
+ *
+ *
+ 
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 3 of the License, or
+   (at your option) any later version. 
+	        
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   If not, write to the Free Software Foundation, 
+   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
  *
  */
 
