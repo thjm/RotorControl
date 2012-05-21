@@ -2,9 +2,33 @@
 /*
  * File   : global.h
  *
- * Purpose: Contains all global definitions of the 'rotorcontrol' project
+ * $Id: global.h,v 1.20 2012/05/21 05:30:15 mathes Exp $
  *
- * $Id: global.h,v 1.19 2012/05/17 18:12:52 mathes Exp $
+ * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
+ * Author:         Hermann-Josef Mathes
+ * Remarks:
+ * Known problems: development status
+ * Version:        $Revision: 1.20 $ $Date: 2012/05/21 05:30:15 $
+ * Description:    Contains all global definitions of the 'rotorcontrol' 
+ *                 project.
+ *
+ 
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 3 of the License, or
+   (at your option) any later version. 
+	        
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   If not, write to the Free Software Foundation, 
+   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
+ *
  */
 
 
@@ -80,6 +104,15 @@
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
 #define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW); }
 
+/** vector like data type with int16_t components. */
+typedef struct i_vector {
+
+  int16_t  fX;
+  int16_t  fY;
+  int16_t  fZ;
+
+} i_vector_t;
+
 /* --- declaration(s) for file get8key4.c --- */
 
 extern volatile uint8_t gKeyState;
@@ -151,5 +184,10 @@ typedef enum {
   kPresetStop,
   
 } EPresetCommand;
+
+/* --- declaration(s) for file compass.c --- */
+
+extern void CompassMessageInit(void);
+extern void CommpassMessageReceive(unsigned int uart_data);
 
 #endif /* _global_h_ */

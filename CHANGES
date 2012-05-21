@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.40 2012/05/18 16:00:05 mathes Exp $
+$Id: CHANGES,v 1.41 2012/05/21 05:30:15 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,9 @@ ToDo next:
 - start with main program code
   - display heading
 - when heading is updated, preset value must be updated, too
+
+2012-05-20 (thjm) - copyright stuff added (GNU GPL v3)
+                  - code moved to compass.c, untested
 
 2012-05-** (thjm) - PowerSupply: schematic continued, proposal for board layout
                   - i2cdisplay.h & i2cdisplay.c: I2C display routines

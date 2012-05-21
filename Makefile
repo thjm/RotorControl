@@ -11,7 +11,8 @@ MCU = atmega32
 FORMAT = ihex
 TARGET = rotorcontrol
 HDR = global.h i2cdisplay.h
-SRC = $(TARGET).c rotorstate.c uart.c i2cmaster.c i2cdisplay.c get8key4.c
+SRC = $(TARGET).c rotorstate.c uart.c i2cmaster.c i2cdisplay.c get8key4.c \
+	compass.c
 ASRC = 
 OPT = s
 

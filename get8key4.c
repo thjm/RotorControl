@@ -2,11 +2,15 @@
 /*
  * File   : get8key4.c
  *
- * Purpose: debounce n (n<=8) buttons, sample 4 times
- *          http://www.mikrocontroller.net/topic/6492#new
- *          Author: Peter Dannegger
+ * $Id: get8key4.c,v 1.2 2012/05/21 05:30:15 mathes Exp $
  *
- * $Id: get8key4.c,v 1.1 2012/05/14 19:30:02 mathes Exp $
+ * Copyright:      Peter Dannegger  mailto: danni@specs.de
+ * Author:         Peter Dannegger
+ * Remarks:        http://www.mikrocontroller.net/topic/6492#new
+ * Known problems: none
+ * Version:        $Revision: 1.2 $ $Date: 2012/05/21 05:30:15 $
+ * Description:    debounce n (n<=8) buttons, sample 4 times
+ *  
  */
  
 /************************************************************************/
