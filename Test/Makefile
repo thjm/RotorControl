@@ -152,7 +152,7 @@ clean::
 UARTLIB = uart.o
 
 # Debounced reading of up to 8 buttons (P.Danneger)
-get8key4.c: ../LSM303/get8key4.c
+get8key4.c: ../get8key4.c
 	ln -s $< $@
 clean::
 	rm -f get8key4.c

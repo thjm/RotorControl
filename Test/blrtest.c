@@ -2,9 +2,31 @@
 /*
  * File   : blrtest.c
  *
- * Purpose: Program to test buttons, LEDs and relay wiring.
+ * $Id: blrtest.c,v 1.5 2012/05/21 07:07:37 mathes Exp $
  *
- * $Id: blrtest.c,v 1.4 2012/05/13 19:43:41 mathes Exp $
+ * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
+ * Author:         Hermann-Josef Mathes
+ * Remarks:
+ * Known problems: none
+ * Version:        $Revision: 1.5 $ $Date: 2012/05/21 07:07:37 $
+ * Description:    Program to test buttons, LEDs and relay wiring.
+ *
+ 
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 3 of the License, or
+   (at your option) any later version. 
+	        
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   If not, write to the Free Software Foundation, 
+   Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
  *
  */
  
@@ -57,8 +79,8 @@ int main(void)
   uint8_t mask;
   
   // Buttons port initialisation, turn pull-ups on
-  mask = BUTTON_LEFT | BUTTON_PRESET_LEFT | BUTTON_STOP 
-                     | BUTTON_PRESET_RIGHT | BUTTON_RIGHT;
+  mask = BUTTON_CCW | BUTTON_PRESET_CCW | BUTTON_STOP 
+                    | BUTTON_PRESET_CW | BUTTON_CW;
   
   BUTTON_PORT |= mask;
   BUTTON_DDR &= ~mask;
@@ -83,23 +105,23 @@ int main(void)
   while ( 1 ) {
 
 
-    if ( gKeyState & BUTTON_PRESET_LEFT ) { // check BUTTON 'PRESET LEFT'
+    if ( gKeyState & BUTTON_PRESET_CCW ) { // check BUTTON 'PRESET CCW'
       
       LED_PORT |= LED_LEFT;
       RELAY_PORT |= RELAY3;
       
-      while ( gKeyState & BUTTON_PRESET_LEFT );
+      while ( gKeyState & BUTTON_PRESET_CCW );
     
       RELAY_PORT &= ~RELAY3;
       LED_PORT &= ~LED_LEFT;
     }
 
-    if ( gKeyState & BUTTON_LEFT ) {   // check BUTTON 'LEFT'
+    if ( gKeyState & BUTTON_CCW ) {   // check BUTTON 'CCW'
       
       LED_PORT |= LED_CALIBRATE;
       RELAY_PORT |= RELAY1;
       
-      while ( gKeyState & BUTTON_LEFT );
+      while ( gKeyState & BUTTON_CCW );
       
       RELAY_PORT &= ~RELAY1;
       LED_PORT &= ~LED_CALIBRATE;
@@ -114,23 +136,23 @@ int main(void)
       LED_PORT &= ~(LED_CALIBRATE | LED_OVERLOAD);
     }
 
-    if ( gKeyState & BUTTON_RIGHT ) {  // check BUTTON 'RIGHT'
+    if ( gKeyState & BUTTON_CW ) {  // check BUTTON 'CW'
       
       LED_PORT |= LED_OVERLOAD;
       RELAY_PORT |= RELAY2;
       
-      while ( gKeyState & BUTTON_RIGHT );
+      while ( gKeyState & BUTTON_CW );
       
       RELAY_PORT &= ~RELAY2;
       LED_PORT &= ~LED_OVERLOAD;
     }
 
-    if ( gKeyState & BUTTON_PRESET_RIGHT ) { // check BUTTON 'PRESET RIGHT'
+    if ( gKeyState & BUTTON_PRESET_CW ) { // check BUTTON 'PRESET CW'
       
       LED_PORT |= LED_RIGHT;
       RELAY_PORT |= RELAY4;
       
-      while ( gKeyState & BUTTON_PRESET_RIGHT );
+      while ( gKeyState & BUTTON_PRESET_CW );
     
       RELAY_PORT &= ~RELAY4;
       LED_PORT &= ~LED_RIGHT;

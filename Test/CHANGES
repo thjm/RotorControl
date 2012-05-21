@@ -1,0 +1,23 @@
+$Id: CHANGES,v 1.1 2012/05/21 07:07:37 mathes Exp $
+
+README
+------
+
+This directory contains various small and simple test programs for the (final) 
+hardware platform of the rotator control project.
+
+blrtest.c     : Test buttons, LEDs and relay with a simple program, it includes
+                also the code get8key4.c for convenience
+
+displaytest.c : write some test data to the I2C driven (UR) display
+
+uarttest.c    : test UART0 in loopback mode
+
+CHANGES file for Projekte/RotorControl/Test
+-----------------------------------------------------------------------------
+
+2012-05-21 (thjm) - copyright stuff added (GNU GPL v3)
+		  - blrtest.c adopted to changed button definitions
+                  - started with this combined README/CHANGES files
+
+=============================================================================
