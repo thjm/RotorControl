@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.11 2012/05/20 11:10:50 mathes Exp $
+# $Id: Makefile,v 1.12 2012/05/21 05:29:12 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -12,6 +12,7 @@
 #MCU = atmega168
 #MCU = atmega88
 MCU = atmega8
+#MCU = attiny2313
 FORMAT = ihex
 TARGET = lsm303read
 HDRS = vector.h
