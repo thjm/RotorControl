@@ -1,24 +1,40 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.12 2012/05/21 05:29:12 mathes Exp $
+# $Id: Makefile,v 1.13 2012/05/22 13:51:53 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
 # is public domain), believed to be neutral to any flavor of "make"
 # (GNU make, BSD make, SysV make)
 
+# in case of ATtiny without hardware TWI we need software TWI (in assembler)
+UseATtiny	= 1
 
+# debug via UART (presently not used)
+UARTDebug	= 0
+
+ifeq ($(UseATtiny),1)
+#MCU = attiny2313
+MCU = attiny45
+else
 #MCU = atmega2561
 #MCU = atmega168
 #MCU = atmega88
 MCU = atmega8
-#MCU = attiny2313
+endif
 FORMAT = ihex
 TARGET = lsm303read
 HDRS = vector.h
-SRCS = $(TARGET).c uart.c i2cmaster.c LSM303DLH.c num2uart.c
+SRCS = $(TARGET).c LSM303DLH.c num2uart.c uart.c
+ifneq ($(UseATtiny),1)
+SRCS += twimaster.c
+endif
 CXXSRCS = 
+ifeq ($(UseATtiny),1)
+ASRCS = i2cmaster.S
+else
 ASRCS = 
+endif
 OPT = s
 # for the ATmega256 the additional option '-mrelax' is recommended
 #OPT += -mrelax
@@ -45,8 +61,12 @@ CSTANDARD = -std=gnu99
 # ATmega with factory settings on bread board
 CDEFS = -DF_CPU=1000000UL
 
+ifeq ($(UARTDebug),1)
 CDEFS += -DUART_DEBUG
-#CDEFS += -DLED_DEBUG
+endif
+ifeq ($(LEDDebug),1)
+CDEFS += -DLED_DEBUG
+endif
 
 # Place -I options here
 CINCS = -I.
@@ -129,7 +149,7 @@ CC = avr-gcc
 CXX = avr-g++
 OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
-SIZE = avr-size
+SIZE = avr-size --mcu=$(MCU) --format=avr
 NM = avr-nm
 AVRDUDE = avrdude
 REMOVE = rm -f
@@ -137,7 +157,13 @@ MV = mv -f
 
 # Define all object files.
 #OBJS = $(SRCS:.c=.o) $(CXXSRCS:.cpp=.o) $(ASRCS:.S=.o)
-OBJS = $(TARGET).o uart.o i2cmaster.o LSM303DLH.o num2uart.o
+OBJS = $(TARGET).o LSM303DLH.o num2uart.o uart.o
+
+ifeq ($(UseATtiny),1)
+OBJS += i2cmaster.o
+else
+OBJS += twimaster.o
+endif
 
 # Define all listing files.
 LST = $(ASRCS:.S=.lst) $(SRCS:.c=.lst)
@@ -166,8 +192,6 @@ UARTLIBDIR = $(FLEURYHOME)/uartlibrary
 CINCS += -I$(UARTLIBDIR)
 UARTLIB = uart.o
 
-SRCS += uart.c
-
 uart.c: $(UARTLIBDIR)/uart.c
 	ln -s $< $@
 clean::
@@ -176,14 +200,15 @@ clean::
 # I2CMASTER library of P.Fleury
 I2CLIBDIR = $(FLEURYHOME)/i2cmaster
 CINCS += -I$(I2CLIBDIR)
-I2CLIB = i2cmaster.o
+I2CLIB = twimaster.o
 
-SRCS += i2cmaster.c
-
-i2cmaster.c: $(I2CLIBDIR)/twimaster.c
+#ifeq ($(UseATtiny),0)
+twimaster.c: $(I2CLIBDIR)/twimaster.c
 	ln -s $< $@
+
 clean::
-	rm -f i2cmaster.c
+	rm -f twimaster.c
+#endif
 
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep

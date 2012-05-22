@@ -1,8 +1,13 @@
-$Id: CHANGES,v 1.16 2012/05/20 11:10:50 mathes Exp $
+$Id: CHANGES,v 1.17 2012/05/22 13:51:53 mathes Exp $
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
 
+2012/05/22 (thjm) - modifications to run on ATtiny2313:
+                    - requires i2cmaster.S instead of twimaster.c
+		    + use USI pins of ATtiny2313
+		  - i2cmaster.c -> twimaster.c
+		    
 2012/05/20 (thjm) - copyright stuff added (GNU GPL v3)
                   - 'LED_DEBUG' switched off
 
