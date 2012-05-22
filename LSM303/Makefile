@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.13 2012/05/22 13:51:53 mathes Exp $
+# $Id: Makefile,v 1.14 2012/05/22 13:52:48 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -14,8 +14,8 @@ UseATtiny	= 1
 UARTDebug	= 0
 
 ifeq ($(UseATtiny),1)
-#MCU = attiny2313
-MCU = attiny45
+MCU = attiny2313
+#MCU = attiny45
 else
 #MCU = atmega2561
 #MCU = atmega168
