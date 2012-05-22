@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH stored in file
 //
-// $Id: analyzedat.cc,v 1.3 2012/05/19 11:32:32 mathes Exp $
+// $Id: analyzedat.cc,v 1.4 2012/05/22 04:24:14 mathes Exp $
 //
 
 
@@ -150,9 +150,24 @@ int main(int argc,char **argv)
     m.y = (m.y - m_min.y) / (m_max.y - m_min.y) * 2 - 1.0;
     m.z = (m.z - m_min.z) / (m_max.z - m_min.z) * 2 - 1.0;
     
+    //cout << "m(x,y)= " << m.x << "," << m.y 
+    //     << " " << m.x*m.x + m.y*m.y << endl;
+    
     int heading3D = GetHeading3D(&a, &m, &p );
     
-    cout << "3D-Heading= " << heading3D << endl;
+    vector_t m2 = { 0, 0, 0 };
+    
+    m2.x = m.x / sqrt(m.x*m.x + m.y*m.y);
+    m2.y = m.y / sqrt(m.x*m.x + m.y*m.y);
+    
+    //cout << "m2(x,y)= " << m2.x << "," << m2.y 
+    //     << " " << m2.x*m2.x + m2.y*m2.y << endl;
+    
+    int heading2D = round( atan2( m2.x, m2.y) * 180. / M_PI - 180. );
+    if ( heading2D < 0 ) heading2D += 360;
+    
+    cout << "Heading= " << heading3D << " (3D) " 
+         << heading2D << " (2D)" << endl;
   
   } while ( !feof(file) );
     
