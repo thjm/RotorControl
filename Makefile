@@ -145,6 +145,8 @@ lss: $(TARGET).lss
 sym: $(TARGET).sym
 
 # sub-directories
+SUBDIRS = DisplayUR LSM303 Test Linux
+
 subdirs:
 	@(cd DisplayUR; make)
 
@@ -154,8 +156,7 @@ test:
 	@(cd Test; make)
 
 clean::
-	@(cd DisplayUR; make clean)
-	@(cd Test; make clean)
+	for i in $(SUBDIRS); do make -C $$i clean; done
 
 # UART library of P.Fleury
 uart.c: $(FLEURYHOME)/uartlibrary/uart.c
