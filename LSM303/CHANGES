@@ -1,11 +1,15 @@
-$Id: CHANGES,v 1.19 2012/05/24 12:53:04 mathes Exp $
+$Id: CHANGES,v 1.20 2012/05/24 13:31:34 mathes Exp $
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
 
-2012/05/24 (thjm) - flag 'LED_DEBUG' never used, removed
+2012/05/24 (thjm) - flag 'LED_DEBUG' never used, removed (only in global.h)
                   - flag 'NMEA_FORMAT' now steered from Makefile
 		  - tag 'sensor_v1r0'
+		  - working on lsm303read.c:
+		    - use of global.h for standard program, too
+		    - macros to steer MAX485 chip
+		    - timer for periodic sensor readout
 
 2012/05/22 (thjm) - modifications to run on ATtiny2313:
                     - requires i2cmaster.S instead of twimaster.c

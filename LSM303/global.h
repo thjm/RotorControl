@@ -4,13 +4,13 @@
  *
  * Purpose: 
  *
- * $Id: global.h,v 1.2 2012/05/20 11:10:51 mathes Exp $
+ * $Id: global.h,v 1.3 2012/05/24 13:31:34 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.2 $ $Date: 2012/05/20 11:10:51 $
+ * Version:        $Revision: 1.3 $ $Date: 2012/05/24 13:31:34 $
  * Description:    Contains all global definitions of the 'LSM303DLH' 
  *                 project(s).
  *
@@ -89,5 +89,24 @@
 # define GreenLEDOn()      { }
 # define GreenLEDOff()     { }
 #endif // LED_DEBUG
+
+// definitions for our production board
+//
+// RxD & TxD are connected to the standard ports
+// SDA & SCL are connected to the standard ports
+//
+// per default the transmitter of the MAX485 must be enabled
+//
+
+#define RS485_PORT		PORTB
+#define RS485_DDR		DDRB
+#define RS485_TX_ENABLE		(1<<PB0)
+
+#define RS485EnableRx()         { RS485_PORT &= ~RS485_TX_ENABLE; }
+#define RS485EnableTx()         { RS485_PORT |= RS485_TX_ENABLE; }
+
+// 1 MHz internal oscillator ==> CLK/1024 = 0.9765625 kHz
+// T_0 = 1.024 msec ==> * 97 = 99.328 msec = T_1
+#define CNT0_PRESET             (0xff - 97)
 
 #endif /* _global_h_ */

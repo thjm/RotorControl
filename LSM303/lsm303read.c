@@ -2,13 +2,13 @@
 /*
  * File   : lsm303read.c
  *
- * $Id: lsm303read.c,v 1.7 2012/05/24 12:52:12 mathes Exp $
+ * $Id: lsm303read.c,v 1.8 2012/05/24 13:31:34 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.7 $ $Date: 2012/05/24 12:52:12 $
+ * Version:        $Revision: 1.8 $ $Date: 2012/05/24 13:31:34 $
  * Description:    Program to readout the LSM303DLH sensor and send its 
  *                 data via UART. 
  *
@@ -55,7 +55,15 @@
 #include <uart.h>
 #include <num2uart.h>
 
+#include "global.h"
 #include "LSM303DLH.h"
+
+/** Flag which signals to main() that 0.1 sec are over and a new sensor
+  * reading is required.
+  *
+  * At program start, we do this immediately...
+  */
+volatile uint8_t gSensorReadout = 1;
 
 // --------------------------------------------------------------------------
 
@@ -107,6 +115,7 @@ static const char * hex2string(uint8_t val)
   
   return buffer;
 }
+
 // --------------------------------------------------------------------------
 
 //
@@ -185,44 +194,79 @@ static int8_t LSM303DLHInit(void)
 
 // --------------------------------------------------------------------------
 
+// ISR for timer/counter 0 overflow: called every 100 ms
+// - load counter with initial constant
+// - set flag for the next sensor readout
+
+ISR(TIMER0_OVF_vect) {
+
+  TCNT0 = CNT0_PRESET;
+  
+  gSensorReadout = 1;
+}
+
+// --------------------------------------------------------------------------
+
+#ifdef NMEA_FORMAT
+static const char cACERR[] PROGMEM = "$ACERR*00\r\n";
+static const char cACOK[] PROGMEM = "$ACOK*00\r\n";
+#else
+static const char cACERR[] PROGMEM = "ERROR\r\n";
+static const char cACOK[] PROGMEM = "\r\nREADY\r\n";
+#endif // 
+
 int main(void)
  {
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
-    
-  i2c_init();                                // init I2C interface
   
+  // init I2C interface
+  i2c_init();
+  
+  // init port(s) for RS485
+  RS485EnableTx();
+  RS485_DDR |= RS485_TX_ENABLE;
+
+  // timer 0 initialisation
+  TCNT0 = CNT0_PRESET;
+  TCCR0 = (1<<CS02)|(1<<CS00);  // CK/1024 -> 1 tick each 1.024 msec
+
+  // enable timer overflow interrupt
+  TIMSK |= (1<<TOIE0);
+
   sei();
   
-#ifdef NMEA_FORMAT
-  uart_puts_P("$ACOK*00\r\n");
-#else
-  uart_puts_P("\r\nREADY\r\n");
-#endif // NMEA_FORMAT
+  uart_puts_p(cACOK);
 
   int8_t err = LSM303DLHInit();
   
   if ( err ) {
-#ifdef NMEA_FORMAT
-    uart_puts_P("$ACERR*00\r\n");
-#else
-    uart_puts_P("ERROR\r\n");
-#endif // NMEA_FORMAT
+  
+    uart_puts_p(cACERR);
   }
 
   LSM303DLHData acc_data, mag_data;
   
   while ( 1 ) {
 
+#if 0
+    // if nothing more to send, switch off transmitter to receive commands
+    
+    if ( uart.c::UART_TxHead == uart.c::UART_TxTail ) {
+      RS485DisableTx();
+    }
+#endif
+
+    if ( !gSensorReadout ) continue;
+    
+    RS485EnableTx();
+
     err = LSM303DLHReadACC( I2C_DEV_LSM303DLH_ACC1, &acc_data );
     
     if ( !err ) LSM303DLHReadMAG( I2C_DEV_LSM303DLH_MAG, &mag_data );
     
     if ( err ) {
-#ifdef NMEA_FORMAT
-      uart_puts_P("$ACERR*00\r\n");
-#else
-      uart_puts_P("ERROR\r\n");
-#endif // NMEA_FORMAT
+
+      uart_puts_p(cACERR);
       
       LSM303DLHInit();   // try to init the sensor again
     }
@@ -237,9 +281,7 @@ int main(void)
 #endif // NMEA_FORMAT
     }
     
-    // max. 10 measurements per second
-    for ( int8_t i=0; i<10; ++i)
-      _delay_ms( 10.0 );
+    gSensorReadout = 0;
   }
   
   return 0;

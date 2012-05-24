@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.15 2012/05/24 12:52:12 mathes Exp $
+# $Id: Makefile,v 1.16 2012/05/24 13:31:34 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -15,6 +15,9 @@ UseUARTDebug	= 0
 
 # use NMEA like data format for the generated messages (lsm303read.c)
 UseNMEAFormat	= 1
+
+# do we want to use a boot loader? (for remote firmware updates)
+UseBootloader	= 0
 
 ifeq ($(UseATtiny),1)
 MCU = attiny2313
