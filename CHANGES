@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.41 2012/05/21 05:30:15 mathes Exp $
+$Id: CHANGES,v 1.42 2012/05/24 08:51:51 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,8 @@ ToDo next:
 - start with main program code
   - display heading
 - when heading is updated, preset value must be updated, too
+
+2012-05-24 (thjm) - added datasheet for MAX485 & Co.
 
 2012-05-20 (thjm) - copyright stuff added (GNU GPL v3)
                   - code moved to compass.c, untested
