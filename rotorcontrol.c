@@ -2,13 +2,13 @@
 /*
  * File   : rotorcontrol.c
  *
- * $Id: rotorcontrol.c,v 1.20 2012/05/21 05:30:15 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.21 2012/05/24 13:32:06 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.20 $ $Date: 2012/05/21 05:30:15 $
+ * Version:        $Revision: 1.21 $ $Date: 2012/05/24 13:32:06 $
  * Description:    Program which performs the rotator control.
  *
  
@@ -150,7 +150,7 @@ static void InitHardware(void) {
   LED_PORT &= ~mask;
   LED_DDR |= mask;
   
-  RS485_PORT &= ~RS485_TX_ENABLE;
+  RS485EnableRx();
   RS485_DDR |= RS485_TX_ENABLE;
   
   // Buttons port initialisation, turn pull-ups on
