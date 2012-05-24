@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.14 2012/05/22 13:52:48 mathes Exp $
+# $Id: Makefile,v 1.15 2012/05/24 12:52:12 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -8,10 +8,13 @@
 # (GNU make, BSD make, SysV make)
 
 # in case of ATtiny without hardware TWI we need software TWI (in assembler)
-UseATtiny	= 1
+UseATtiny	= 0
 
-# debug via UART (presently not used)
-UARTDebug	= 0
+# debug via UART (used only by program lsm303test.c)
+UseUARTDebug	= 0
+
+# use NMEA like data format for the generated messages (lsm303read.c)
+UseNMEAFormat	= 1
 
 ifeq ($(UseATtiny),1)
 MCU = attiny2313
@@ -61,11 +64,11 @@ CSTANDARD = -std=gnu99
 # ATmega with factory settings on bread board
 CDEFS = -DF_CPU=1000000UL
 
-ifeq ($(UARTDebug),1)
-CDEFS += -DUART_DEBUG
+ifeq ($(UseNMEAFormat),1)
+CDEFS += -DNMEA_FORMAT
 endif
-ifeq ($(LEDDebug),1)
-CDEFS += -DLED_DEBUG
+ifeq ($(UseUARTDebug),1)
+CDEFS += -DUART_DEBUG
 endif
 
 # Place -I options here
@@ -250,7 +253,11 @@ $(TARGET).elf: $(OBJS)
 
 
 # Target: lsm303test.elf
-LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB) LSM303DLH.o num2uart.o
+LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB) LSM303DLH.o
+
+ifeq ($(UseUARTDebug),1)
+LSM303TESTOBJS = += num2uart.o
+endif
 
 lsm303test.elf: $(LSM303TESTOBJS)
 	$(CC) $(ALL_CFLAGS) $(LSM303TESTOBJS) --output $@ \

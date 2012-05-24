@@ -2,13 +2,13 @@
 /*
  * File   : lsm303test.c
  *
- * $Id: lsm303test.c,v 1.10 2012/05/20 11:10:51 mathes Exp $
+ * $Id: lsm303test.c,v 1.11 2012/05/24 12:52:12 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.10 $ $Date: 2012/05/20 11:10:51 $
+ * Version:        $Revision: 1.11 $ $Date: 2012/05/24 12:52:12 $
  * Description:    Simple test program for AVR TWI interface with LSM303DLH. 
  *
  
@@ -52,10 +52,12 @@
 #define UART_RX_BUFFER_SIZE 32
 
 #include <i2cmaster.h>
-#ifdef UART_DEBUG
+#ifdef USE_UART
 # include <uart.h>
-# include <num2uart.h>
-#endif // UART_DEBUG
+# ifdef UART_DEBUG
+#  include <num2uart.h>
+# endif // UART_DEBUG
+#endif // UART
 
 #include "global.h"
 

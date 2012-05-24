@@ -2,13 +2,13 @@
 /*
  * File   : lsm303read.c
  *
- * $Id: lsm303read.c,v 1.6 2012/05/20 11:10:51 mathes Exp $
+ * $Id: lsm303read.c,v 1.7 2012/05/24 12:52:12 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.6 $ $Date: 2012/05/20 11:10:51 $
+ * Version:        $Revision: 1.7 $ $Date: 2012/05/24 12:52:12 $
  * Description:    Program to readout the LSM303DLH sensor and send its 
  *                 data via UART. 
  *
@@ -56,8 +56,6 @@
 #include <num2uart.h>
 
 #include "LSM303DLH.h"
-
-#define NMEA_FORMAT
 
 // --------------------------------------------------------------------------
 

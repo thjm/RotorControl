@@ -1,7 +1,10 @@
-$Id: CHANGES,v 1.17 2012/05/22 13:51:53 mathes Exp $
+$Id: CHANGES,v 1.18 2012/05/24 12:52:12 mathes Exp $
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
+
+2012/05/24 (thjm) - flag 'LED_DEBUG' never used, removed
+                  - flag 'NMEA_FORMAT' now steered from Makefile
 
 2012/05/22 (thjm) - modifications to run on ATtiny2313:
                     - requires i2cmaster.S instead of twimaster.c
