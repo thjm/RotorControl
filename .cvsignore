@@ -1,7 +1,6 @@
-displaytest.elf
-displaytest.hex
-displaytest.map
-rotorcontrol.eep
-rotorcontrol.elf
-rotorcontrol.hex
+*.elf
+*.hex
+*.lst
+*.lss
+*.map
 .depend
