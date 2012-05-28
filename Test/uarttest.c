@@ -2,13 +2,13 @@
 /*
  * File   : uarttest.c
  *
- * $Id: uarttest.c,v 1.3 2012/05/21 07:07:37 mathes Exp $
+ * $Id: uarttest.c,v 1.4 2012/05/28 19:31:00 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.3 $ $Date: 2012/05/21 07:07:37 $
+ * Version:        $Revision: 1.4 $ $Date: 2012/05/28 19:31:00 $
  * Description:    Test the USART of ATmega32 by implementing an echo server.
  *
  
@@ -60,6 +60,15 @@
 //       connector (in DCE configuration).
 //
 // avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:uarttest.hex
+//
+// factory fuse settings:
+//  Device signature = 0x1e9307
+//  lfuse = 0xE1
+//  hfuse = 0xD9
+//
+// avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i 
+// avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:w:0xE2:m -U hfuse:w:0xD9:m
+//  - 2 MHz internal clock
 //
 
 int main(void)
