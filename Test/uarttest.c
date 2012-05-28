@@ -2,13 +2,13 @@
 /*
  * File   : uarttest.c
  *
- * $Id: uarttest.c,v 1.4 2012/05/28 19:31:00 mathes Exp $
+ * $Id: uarttest.c,v 1.5 2012/05/28 20:13:18 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.4 $ $Date: 2012/05/28 19:31:00 $
+ * Version:        $Revision: 1.5 $ $Date: 2012/05/28 20:13:18 $
  * Description:    Test the USART of ATmega32 by implementing an echo server.
  *
  
@@ -43,6 +43,9 @@
   */
   
 #include <uart.h>
+
+#include "../global.h"
+
 // baud rate for our USART (ATmega32)
 #define UART_BAUD_RATE 9600
 
@@ -75,6 +78,12 @@ int main(void)
  {
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
 
+  // if we use the RS485 part, we need to enable the receiver...
+  // ... TX should go via RS232 to the PC for monitoring
+  RS485_DDR |= RS485_TX_ENABLE;
+  
+  RS485EnableRx();
+  
   sei();  // P.Fleurys lib is using interrupts
 
   // --- output some string(s)

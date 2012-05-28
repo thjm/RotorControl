@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.4 2012/05/28 19:31:00 mathes Exp $
+$Id: CHANGES,v 1.5 2012/05/28 20:13:18 mathes Exp $
 
 README
 ------
@@ -15,6 +15,8 @@ uarttest.c    : test of UART0 via temp. connections to MAX232, echo program
 
 CHANGES file for Projekte/RotorControl/Test
 -----------------------------------------------------------------------------
+
+2012-05-28 (thjm) - RS485 stuff (Rx/Tx enable) for our board added
 
 2012-05-27 (thjm) - board/circuit tested with uarttest.c
                   - next test: receive msg from compass and transmit via UART
