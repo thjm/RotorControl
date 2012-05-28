@@ -4,13 +4,13 @@
  *
  * Purpose: 
  *
- * $Id: global.h,v 1.3 2012/05/24 13:31:34 mathes Exp $
+ * $Id: global.h,v 1.4 2012/05/28 13:00:17 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.3 $ $Date: 2012/05/24 13:31:34 $
+ * Version:        $Revision: 1.4 $ $Date: 2012/05/28 13:00:17 $
  * Description:    Contains all global definitions of the 'LSM303DLH' 
  *                 project(s).
  *
@@ -105,8 +105,14 @@
 #define RS485EnableRx()         { RS485_PORT &= ~RS485_TX_ENABLE; }
 #define RS485EnableTx()         { RS485_PORT |= RS485_TX_ENABLE; }
 
-// 1 MHz internal oscillator ==> CLK/1024 = 0.9765625 kHz
-// T_0 = 1.024 msec ==> * 97 = 99.328 msec = T_1
-#define CNT0_PRESET             (0xff - 97)
+/** Readout interval for the sensors, in multiples of 100 ms */
+#define SENSOR_READOUT_PERIOD    2
+
+// // 1 MHz internal oscillator ==> CLK/1024 = 0.9765625 kHz
+// // T_0 = 1.024 msec ==> * 97 = 99.328 msec = T_1
+// #define CNT0_PRESET             (0xff - 97)
+// 2 MHz internal oscillator ==> CLK/1024 = 1.953125 kHz
+// T_0 = 0.512 msec ==> * 195 = 99.84 msec = T_1
+#define CNT0_PRESET             (0xff - 195)
 
 #endif /* _global_h_ */

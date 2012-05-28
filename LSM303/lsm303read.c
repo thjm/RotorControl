@@ -2,13 +2,13 @@
 /*
  * File   : lsm303read.c
  *
- * $Id: lsm303read.c,v 1.8 2012/05/24 13:31:34 mathes Exp $
+ * $Id: lsm303read.c,v 1.9 2012/05/28 13:00:17 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.8 $ $Date: 2012/05/24 13:31:34 $
+ * Version:        $Revision: 1.9 $ $Date: 2012/05/28 13:00:17 $
  * Description:    Program to readout the LSM303DLH sensor and send its 
  *                 data via UART. 
  *
@@ -194,6 +194,8 @@ static int8_t LSM303DLHInit(void)
 
 // --------------------------------------------------------------------------
 
+static gSensorReadoutCounter = SENSOR_READOUT_PERIOD;
+
 // ISR for timer/counter 0 overflow: called every 100 ms
 // - load counter with initial constant
 // - set flag for the next sensor readout
@@ -202,7 +204,10 @@ ISR(TIMER0_OVF_vect) {
 
   TCNT0 = CNT0_PRESET;
   
-  gSensorReadout = 1;
+  if ( --gSensorReadoutCounter == 0 ) {
+    gSensorReadout = 1;
+    gSensorReadoutCounter = SENSOR_READOUT_PERIOD;
+  }
 }
 
 // --------------------------------------------------------------------------
