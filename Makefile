@@ -12,7 +12,7 @@ FORMAT = ihex
 TARGET = rotorcontrol
 HDR = global.h i2cdisplay.h
 SRC = $(TARGET).c rotorstate.c uart.c i2cmaster.c i2cdisplay.c get8key4.c \
-	compass.c
+	compass.c vector.c num2uart.c
 ASRC = 
 OPT = s
 
@@ -36,7 +36,7 @@ CSTANDARD = -std=c99
 CDEFS = -DF_CPU=12000000UL
 
 # Place -I options here
-CINCS = -I. -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
+CINCS = -I. -ILSM303 -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
 
 
 CDEBUG = -g$(DEBUG)
@@ -91,7 +91,7 @@ AVRDUDE_PROGRAMMER = usbasp
 AVRDUDE_PORT = usb
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
-#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
+AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
 
 # Uncomment the following if you want avrdude's erase cycle counter.
@@ -115,7 +115,8 @@ AVRDUDE_FLAGS = $(AVRDUDE_BASIC) $(AVRDUDE_NO_VERIFY) $(AVRDUDE_VERBOSE) $(AVRDU
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
-SIZE = avr-size --format=avr --mcu=$(MCU)
+#SIZE = avr-size --format=avr --mcu=$(MCU)
+SIZE = avr-size --format=berkeley
 NM = avr-nm
 AVRDUDE = avrdude
 REMOVE = rm -f
@@ -174,11 +175,24 @@ clean::
 
 I2CLIB = i2cmaster.o
 
+# vector arithmetics
+vector.c: LSM303/vector.c
+	ln -s $< $@
+clean::
+	rm -f vector.c
+
+# UART supplementary routines
+num2uart.c: LSM303/num2uart.c
+	ln -s $< $@
+clean::
+	rm -f num2uart.c
+
 # Program the device.  
-program: $(TARGET).hex $(TARGET).eep
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+program: $(TARGET).hex
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
-
+eeprom: $(TARGET).eep
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
 
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.

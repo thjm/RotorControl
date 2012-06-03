@@ -2,13 +2,13 @@
 /*
  * File   : rotorcontrol.c
  *
- * $Id: rotorcontrol.c,v 1.21 2012/05/24 13:32:06 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.22 2012/06/03 22:40:05 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.21 $ $Date: 2012/05/24 13:32:06 $
+ * Version:        $Revision: 1.22 $ $Date: 2012/06/03 22:40:05 $
  * Description:    Program which performs the rotator control.
  *
  
@@ -116,9 +116,10 @@ ISR(TIMER0_OVF_vect) {
   else
     RotatorExec();
   
-  //if ( gPresetCommand != kPresetNone ) 
+  // execute 'Preset' program
   PresetExec();
   
+  // will switchoff 'Preset' display after some time
   if ( gPresetDisplayCounter > 0 )
     gPresetDisplayCounter--;
 }
@@ -225,7 +226,6 @@ int main(void) {
   StartMessage(2);
   
   unsigned int uart_data;
-  uint8_t msg_complete;
   
   while ( 1 ) {
 
@@ -236,7 +236,11 @@ int main(void) {
      CommpassMessageReceive( uart_data );
    }
 
-   // --- update of direction display
+   // --- handle serial messages from RS232 interface
+   
+     // ...
+     
+   // --- update of heading display
 
     UpdateDisplay();
     

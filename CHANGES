@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.46 2012/06/03 19:21:12 mathes Exp $
+$Id: CHANGES,v 1.47 2012/06/03 22:40:05 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -10,6 +10,15 @@ ToDo next:
   - display heading
 - when heading is updated, preset value must be updated, too
 
+2012-06-03 (thjm) - heading calculation now included
+                    + linking with scanf-library for floating point !?
+		    + or using atoi() based string parsing (saves 2.5k)
+		    + vector.c and num2uart.c included into Makefile
+		  - heading written to display
+		  - average heading is also calculated, number of samples
+		    can be configured easily... 
+		  - Makefile: target 'eeprom' added
+		    
 2012-05-25 (thjm) - AntennaBoard: now with ISP-header, U.Radig layout
                   - Overview.odp: schematic overview of the system
 

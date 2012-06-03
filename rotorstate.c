@@ -2,13 +2,13 @@
 /*
  * File   : rotorstate.c
  *
- * $Id: rotorstate.c,v 1.12 2012/05/21 05:30:15 mathes Exp $
+ * $Id: rotorstate.c,v 1.13 2012/06/03 22:40:05 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.12 $ $Date: 2012/05/21 05:30:15 $
+ * Version:        $Revision: 1.13 $ $Date: 2012/06/03 22:40:05 $
  * Description:    State machine for the rotator control program.
  *
  
@@ -54,8 +54,8 @@ volatile uint8_t gRotatorBusyCounter = 0;
 
 #define SetBusy(_busy_) { gRotatorBusy = _busy_; }
 
-static int16_t gCurrentDirection = 0;
-static int16_t gPresetDirection = 0;
+int16_t gCurrentHeading = 0;
+static int16_t gPresetHeading = 0;
 
 #define PRESET_COUNTER_MAX           32
 #define PRESET_COUNTER_MIN           4
@@ -228,7 +228,7 @@ void RotatorExec(void)
 	 SetBusy(0);
       
          // clear preset data
-         gPresetDirection = gCurrentDirection;
+         gPresetHeading = gCurrentHeading;
 	 gPresetCounter = 0;
 	 gPresetCommand = kPresetNone;
          break;
@@ -248,9 +248,9 @@ void UpdateDisplay(void) {
   
   static uint8_t ret = 0;
   
-  if ( old_cur_dir != gCurrentDirection ) {
+  if ( old_cur_dir != gCurrentHeading ) {
   
-    old_cur_dir = gCurrentDirection;
+    old_cur_dir = gCurrentHeading;
     
     if ( ret ) {
       i2c_init();
@@ -258,16 +258,16 @@ void UpdateDisplay(void) {
       _delay_ms(10.0);
     }
     
-    ret = I2CDisplayWriteLData( gCurrentDirection );
+    ret = I2CDisplayWriteLData( gCurrentHeading );
     
     _delay_ms(1.0);
   }
   
   static uint16_t old_preset_dir = 999;
   
-  if ( old_preset_dir != gPresetDirection ) {
+  if ( old_preset_dir != gPresetHeading ) {
     
-    old_preset_dir = gPresetDirection;
+    old_preset_dir = gPresetHeading;
     
     if ( ret ) {
       i2c_init();
@@ -275,12 +275,12 @@ void UpdateDisplay(void) {
       _delay_ms(10.0);
     }
 
-    ret = I2CDisplayWriteRData( gPresetDirection );
+    ret = I2CDisplayWriteRData( gPresetHeading );
     
     _delay_ms(1.0);
 
     // 'PRESET' display should vanish after 5 sec if both are equal
-    if ( gCurrentDirection == gPresetDirection ) {
+    if ( gCurrentHeading == gPresetHeading ) {
     
       // atomic set uint16_t type variable
       cli();
@@ -290,7 +290,7 @@ void UpdateDisplay(void) {
   }
   
   // 'PRESET' display should vanish after 5 sec if both are equal
-  if ( gCurrentDirection == gPresetDirection ) {
+  if ( gCurrentHeading == gPresetHeading ) {
     
     if ( gPresetDisplayCounter == 0 )
       I2CDisplayWriteR( 3, (uint8_t*)"\000\000\000" );
@@ -333,15 +333,15 @@ void PresetExec(void) {
   switch ( gPresetCommand ) {
   
     case kPresetCW:
-         gPresetDirection++;
-         if ( gPresetDirection > MAX_ANGLE )
-           gPresetDirection = MIN_ANGLE;
+         gPresetHeading++;
+         if ( gPresetHeading > MAX_ANGLE )
+           gPresetHeading = MIN_ANGLE;
          break;
   
     case kPresetCCW:
-         gPresetDirection--;
-         if ( gPresetDirection < MIN_ANGLE )
-           gPresetDirection = MAX_ANGLE;
+         gPresetHeading--;
+         if ( gPresetHeading < MIN_ANGLE )
+           gPresetHeading = MAX_ANGLE;
          break;
   }
   

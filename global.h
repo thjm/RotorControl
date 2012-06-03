@@ -2,13 +2,13 @@
 /*
  * File   : global.h
  *
- * $Id: global.h,v 1.20 2012/05/21 05:30:15 mathes Exp $
+ * $Id: global.h,v 1.21 2012/06/03 22:40:05 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.20 $ $Date: 2012/05/21 05:30:15 $
+ * Version:        $Revision: 1.21 $ $Date: 2012/06/03 22:40:05 $
  * Description:    Contains all global definitions of the 'rotorcontrol' 
  *                 project.
  *
@@ -107,9 +107,9 @@
 /** vector like data type with int16_t components. */
 typedef struct i_vector {
 
-  int16_t  fX;
-  int16_t  fY;
-  int16_t  fZ;
+  int16_t  x;
+  int16_t  y;
+  int16_t  z;
 
 } i_vector_t;
 
@@ -123,6 +123,11 @@ extern uint8_t GetKeyPress(uint8_t key_mask);
 extern uint8_t GetKeyShort(uint8_t key_mask);
 
 /* --- declaration(s) for file rotorstate.c --- */
+
+/**  */
+extern int16_t gCurrentHeading;
+
+#define SetCurrentHeading(_ch_val_) gCurrentHeading = (_ch_val_)
 
 /**  */
 extern void RotatorExec(void);
