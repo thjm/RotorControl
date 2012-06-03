@@ -2,13 +2,13 @@
 /*
  * File   : lsm303read.c
  *
- * $Id: lsm303read.c,v 1.9 2012/05/28 13:00:17 mathes Exp $
+ * $Id: lsm303read.c,v 1.10 2012/06/03 20:08:44 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.9 $ $Date: 2012/05/28 13:00:17 $
+ * Version:        $Revision: 1.10 $ $Date: 2012/06/03 20:08:44 $
  * Description:    Program to readout the LSM303DLH sensor and send its 
  *                 data via UART. 
  *
@@ -71,6 +71,15 @@ volatile uint8_t gSensorReadout = 1;
 // avrdude -p atmega8 -P /dev/parport1 -c stk200 -y -U flash:w:lsm303read.hex
 //
 // avrdude -p atmega8 -P usb -c usbasp -y -U flash:w:lsm303read.hex
+//
+// factory fuse settings:
+//  Device signature = 0x1e9307
+//  lfuse = 0xE1
+//  hfuse = 0xD9
+//
+// avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i 
+// avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:w:0xE2:m -U hfuse:w:0xD9:m
+//  - 2 MHz internal clock
 //
 
 static const char cBlank[] PROGMEM = " ";

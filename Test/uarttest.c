@@ -2,13 +2,13 @@
 /*
  * File   : uarttest.c
  *
- * $Id: uarttest.c,v 1.5 2012/05/28 20:13:18 mathes Exp $
+ * $Id: uarttest.c,v 1.6 2012/06/03 20:08:44 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.5 $ $Date: 2012/05/28 20:13:18 $
+ * Version:        $Revision: 1.6 $ $Date: 2012/06/03 20:08:44 $
  * Description:    Test the USART of ATmega32 by implementing an echo server.
  *
  
@@ -64,15 +64,6 @@
 //
 // avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:uarttest.hex
 //
-// factory fuse settings:
-//  Device signature = 0x1e9307
-//  lfuse = 0xE1
-//  hfuse = 0xD9
-//
-// avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i 
-// avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:w:0xE2:m -U hfuse:w:0xD9:m
-//  - 2 MHz internal clock
-//
 
 int main(void)
  {
@@ -82,6 +73,9 @@ int main(void)
   // ... TX should go via RS232 to the PC for monitoring
   RS485_DDR |= RS485_TX_ENABLE;
   
+  // output data via RS485, input via RS232
+  //RS485EnableTx();
+  // receive only, TX via RS232
   RS485EnableRx();
   
   sei();  // P.Fleurys lib is using interrupts
@@ -92,9 +86,11 @@ int main(void)
   
   // loop forever ...
   for (;;) {
+
     unsigned int ch;
 
     ch = uart_getc();
+
     if ( ch & UART_NO_DATA ) {
       // uart_puts_p( PSTR("No data !\n\r") );
       // no data received -> continue
@@ -113,6 +109,7 @@ int main(void)
       
       if ( (uint8_t)ch == 0x0d ) uart_putc( 0x0a );  // add LF
     }
+
   } // for (;;) ...
   
   return 0;
