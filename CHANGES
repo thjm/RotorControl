@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.45 2012/05/25 11:32:53 mathes Exp $
+$Id: CHANGES,v 1.46 2012/06/03 19:21:12 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -10,7 +10,7 @@ ToDo next:
   - display heading
 - when heading is updated, preset value must be updated, too
 
-2012-05-25 (thjm) - AntennaBoard: now with ISP-eader, U.Radig layout
+2012-05-25 (thjm) - AntennaBoard: now with ISP-header, U.Radig layout
                   - Overview.odp: schematic overview of the system
 
 2012-05-24 (thjm) - added datasheet for MAX485 & Co.
