@@ -35,6 +35,12 @@ CSTANDARD = -std=c99
 #CDEFS = -DF_CPU=14745600UL
 CDEFS = -DF_CPU=12000000UL
 
+# num2uart.c with float2uart() function
+CDEFS += -DUSE_FLOAT
+
+# echo data received from LSm303 to RS232 (via UART0)
+CDEFS += -DECHO_RS485
+
 # Place -I options here
 CINCS = -I. -ILSM303 -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
 
@@ -65,7 +71,7 @@ SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
 # Floating point + %[ scanf version (requires MATH_LIB = -lm below)
 SCANF_LIB_FLOAT = -Wl,-u,vfscanf -lscanf_flt
 
-SCANF_LIB = 
+SCANF_LIB = $(SCANF_LIB_FLOAT)
 
 MATH_LIB = -lm
 

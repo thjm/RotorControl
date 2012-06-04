@@ -2,13 +2,13 @@
 /*
  * File   : global.h
  *
- * $Id: global.h,v 1.21 2012/06/03 22:40:05 mathes Exp $
+ * $Id: global.h,v 1.22 2012/06/04 13:43:56 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.21 $ $Date: 2012/06/03 22:40:05 $
+ * Version:        $Revision: 1.22 $ $Date: 2012/06/04 13:43:56 $
  * Description:    Contains all global definitions of the 'rotorcontrol' 
  *                 project.
  *
@@ -126,6 +126,7 @@ extern uint8_t GetKeyShort(uint8_t key_mask);
 
 /**  */
 extern int16_t gCurrentHeading;
+//extern int16_t gPresetHeading;
 
 #define SetCurrentHeading(_ch_val_) gCurrentHeading = (_ch_val_)
 

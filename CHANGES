@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.47 2012/06/03 22:40:05 mathes Exp $
+$Id: CHANGES,v 1.48 2012/06/04 13:43:56 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,8 @@ ToDo next:
 - start with main program code
   - display heading
 - when heading is updated, preset value must be updated, too
+
+2012-06-04 (thjm) - heading calculation fixed, first mounting of mockup
 
 2012-06-03 (thjm) - heading calculation now included
                     + linking with scanf-library for floating point !?

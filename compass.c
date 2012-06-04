@@ -2,13 +2,13 @@
 /*
  * File   : compass.c
  *
- * $Id: compass.c,v 1.2 2012/06/03 22:40:05 mathes Exp $
+ * $Id: compass.c,v 1.3 2012/06/04 13:43:56 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.2 $ $Date: 2012/06/03 22:40:05 $
+ * Version:        $Revision: 1.3 $ $Date: 2012/06/04 13:43:56 $
  * Description:    Contains all functions which deal with the messages from the
  *                 ACC/MAG sensors and their interpretation.
  *
@@ -47,8 +47,8 @@
 
 #include "global.h"
 
-#include "vector.h"   // in ./LSM303 directory
-#include "num2uart.h"
+#include "vector.h"    // both are in ./LSM303 directory
+//#include "num2uart.h"
 
 /* local data types and variables */
 
@@ -73,9 +73,13 @@ static vector_t gACC, gMAG;
 void CommpassMessageReceive(unsigned int uart_data) {
 
   static uint8_t msg_complete = FALSE;
-  static vector_t p = {0, -1, 0}; // X: to the right, Y: backward, Z: down
+  static vector_t p = { 0.0, -1.0, 0.0 }; // X: to the right, Y: backward, Z: down
   
   if ( (uart_data >> 8) == 0) {
+
+#ifdef ECHO_RS485
+    uart_putc( uart_data & 0xff );
+#endif // ECHO_RS485
 
     msg_complete = CompassMessageDecode( uart_data & 0xff );
 
@@ -97,21 +101,16 @@ void CommpassMessageReceive(unsigned int uart_data) {
       // shift and scale
       gMAG.x = (gMAG.x - gMin_MAG.x) / (gMax_MAG.x - gMin_MAG.x) * 2.0 - 1.0;
       gMAG.y = (gMAG.y - gMin_MAG.y) / (gMax_MAG.y - gMin_MAG.y) * 2.0 - 1.0;
-      gMAG.x = (gMAG.z - gMin_MAG.z) / (gMax_MAG.z - gMin_MAG.z) * 2.0 - 1.0;
+      gMAG.z = (gMAG.z - gMin_MAG.z) / (gMax_MAG.z - gMin_MAG.z) * 2.0 - 1.0;
       
       int heading3D = GetHeading3D( &gACC, &gMAG, &p );
       
-      // debug output via UART
-      int2uart( heading3D );
-      
-      uart_puts_P(" - ");
-      
       int average_heading3D = GetAverageHeading( heading3D );
-      int2uart( average_heading3D );
       
-      uart_puts_P("\r\n");
+      // -> 5 degrees resolution ...
+      average_heading3D = 5 * ( average_heading3D / 5);
       
-      //SetCurrentHeading( heading3D );
+      SetCurrentHeading( average_heading3D );
       
       CompassMessageInit();  // reset decoding engine
       
@@ -124,7 +123,7 @@ void CommpassMessageReceive(unsigned int uart_data) {
 
 // --------------------------------------------------------------------------
 
-#define N_VALUES    10
+#define N_VALUES    5
 
 // perform an averaging of several heading values
 // handles also the averaging at 359/0 degrees
@@ -139,16 +138,25 @@ static int GetAverageHeading(int cur_heading) {
   while ( cur_heading >= 360 ) cur_heading -= 360;
   while ( cur_heading < 0 ) cur_heading += 360;
   
+  int average = 0;
+  
   if ( n_values < N_VALUES ) {
     last_heading[n_values++] = cur_heading;
+  
+    // take current value as average ...
+    average = cur_heading;
+    
+    last_average = average;
+  
+    return average;
   }
   else {
+    
     for ( uint8_t i=1; i<n_values; ++i )
       last_heading[i-1] = last_heading[i];
+    
     last_heading[n_values-1] = cur_heading;
   }
-  
-  int average = 0;
   
   // calculate the sum, take 359/0 degree issue into account
   for ( uint8_t i=0; i<n_values; ++i ) {

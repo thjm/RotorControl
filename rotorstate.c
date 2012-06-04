@@ -2,13 +2,13 @@
 /*
  * File   : rotorstate.c
  *
- * $Id: rotorstate.c,v 1.13 2012/06/03 22:40:05 mathes Exp $
+ * $Id: rotorstate.c,v 1.14 2012/06/04 13:43:56 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.13 $ $Date: 2012/06/03 22:40:05 $
+ * Version:        $Revision: 1.14 $ $Date: 2012/06/04 13:43:56 $
  * Description:    State machine for the rotator control program.
  *
  
@@ -39,8 +39,9 @@
   */
 
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+#include <util/delay.h>
 
 #include <i2cmaster.h>   // P.Fleury's lib
 
@@ -293,7 +294,8 @@ void UpdateDisplay(void) {
   if ( gCurrentHeading == gPresetHeading ) {
     
     if ( gPresetDisplayCounter == 0 )
-      I2CDisplayWriteR( 3, (uint8_t*)"\000\000\000" );
+      //I2CDisplayWriteR( 3, (uint8_t*)"\000\000\000" );
+      I2CDisplayWriteR( 3, (uint8_t*)"\010\010\010" );
   }
 }
 
