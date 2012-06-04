@@ -2,13 +2,13 @@
 /*
  * File   : rotorstate.c
  *
- * $Id: rotorstate.c,v 1.15 2012/06/04 17:34:11 mathes Exp $
+ * $Id: rotorstate.c,v 1.16 2012/06/04 20:34:57 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.15 $ $Date: 2012/06/04 17:34:11 $
+ * Version:        $Revision: 1.16 $ $Date: 2012/06/04 20:34:57 $
  * Description:    State machine for the rotator control program.
  *
  
@@ -44,9 +44,11 @@
 #include <util/delay.h>
 
 #include <i2cmaster.h>   // P.Fleury's lib
-#include <uart.h>
 
 #include "global.h"
+
+#include <uart.h>
+
 #include "i2cdisplay.h"
 #include "num2uart.h"
 
@@ -57,8 +59,8 @@ volatile uint8_t gRotatorBusyCounter = 0;
 
 #define SetBusy(_busy_) { gRotatorBusy = _busy_; }
 
-static int16_t gCurrentHeading = 0;
-static int16_t gPresetHeading = 0;
+volatile static int16_t gCurrentHeading = 0;
+volatile static int16_t gPresetHeading = 0;
 
 #define PRESET_COUNTER_MAX           32
 #define PRESET_COUNTER_MIN           4
@@ -364,39 +366,40 @@ void PresetExec(void) {
          gPresetHeading++;
          if ( gPresetHeading > MAX_ANGLE )
            gPresetHeading = MIN_ANGLE;
-         LED_PORT |= LED_RIGHT;
 	 break;
   
     case kPresetCCW:
          gPresetHeading--;
          if ( gPresetHeading < MIN_ANGLE )
            gPresetHeading = MAX_ANGLE;
-         LED_PORT |= LED_LEFT;
          break;
   }
   
   gPresetCounter = gPresetCounterStart;
   
+#if 1
+  PresetExecSlow();
+#else
   // get the direction for the next rotation
   
-  if ( gPresetCommand == kPresetExec ) {
+  if (    gPresetCommand == kPresetCW || gPresetCommand == kPresetCCW
+       || gPresetCommand == kPresetExec ) {
   
-    uint8_t cmd = GetDirection( gCurrentHeading, gPresetHeading );
+    //gPresetHeading = 5 * (gPresetHeading / 5);
     
-    int2uart( gCurrentHeading );
-    uart_puts_P(" -> ");
-    int2uart( gPresetHeading );
-    uart_puts_P(": ");
-    int2uart( cmd );
-    uart_puts_P("\r\n");
+    if ( abs(gCurrentHeading - gPresetHeading) < 5 ) return;
+    
+    uint8_t cmd = GetDirection( gCurrentHeading, gPresetHeading );
     
     switch ( cmd ) {
 
       case kTurnCW:
+           LED_PORT |= LED_RIGHT;
            SetCommand( kTurnCW );
            break;
 
       case kTurnCCW:
+           LED_PORT |= LED_LEFT;
            SetCommand( kTurnCCW );
            break;
 
@@ -407,6 +410,54 @@ void PresetExec(void) {
            // both PRESET LEDs off
            LED_PORT &= ~(LED_LEFT | LED_RIGHT);
     }
+  }
+#endif
+}
+
+// --------------------------------------------------------------------------
+
+// will be called from main()
+void PresetExecSlow(void) {
+
+  if ( gPresetCommand == kNone ) return;
+  
+  if (    gPresetCommand != kPresetCW && gPresetCommand != kPresetCCW
+       && gPresetCommand != kPresetExec ) return;
+
+  int2uart( gCurrentHeading );
+  uart_puts_P(" -> ");
+  int2uart( gPresetHeading );
+  uart_puts_P("\r\n");
+  
+  if ( abs(gCurrentHeading - gPresetHeading) < 5 ) return; // do nothing
+
+  uint8_t cmd;
+
+//  if ( abs(gCurrentHeading - gPresetHeading) < 5 ) 
+//    cmd = kNone;
+//  else
+    cmd = GetDirection( gCurrentHeading, gPresetHeading );
+  
+  switch ( cmd ) {
+
+    case kTurnCW:
+  	 LED_PORT |= LED_RIGHT;
+  	 SetCommand( kTurnCW );
+  	 break;
+
+    case kTurnCCW:
+  	 LED_PORT |= LED_LEFT;
+  	 SetCommand( kTurnCCW );
+  	 break;
+
+    case kStop:
+    case kNone:
+    default:
+  	 SetCommand( kStop );
+         gPresetCommand = kPresetNone;
+         
+  	 // both PRESET LEDs off
+  	 LED_PORT &= ~(LED_LEFT | LED_RIGHT);
   }
 }
 
@@ -425,6 +476,7 @@ void SetCurrentHeading(int heading) {
   
   if ( gPresetCommand == kPresetNone ) {
     gPresetHeading = heading;
+    gPresetHeadingOld = heading;
   }
 }
 

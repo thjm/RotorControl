@@ -2,13 +2,13 @@
 /*
  * File   : compass.c
  *
- * $Id: compass.c,v 1.4 2012/06/04 17:34:11 mathes Exp $
+ * $Id: compass.c,v 1.5 2012/06/04 20:34:57 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.4 $ $Date: 2012/06/04 17:34:11 $
+ * Version:        $Revision: 1.5 $ $Date: 2012/06/04 20:34:57 $
  * Description:    Contains all functions which deal with the messages from the
  *                 ACC/MAG sensors and their interpretation.
  *
@@ -43,9 +43,9 @@
   * @author H.-J. Mathes <dc2ip@darc.de>
   */
 
-#include <uart.h>
-
 #include "global.h"
+
+#include <uart.h>
 
 #include "vector.h"    // both are in ./LSM303 directory
 #include "num2uart.h"
@@ -105,12 +105,13 @@ void CommpassMessageReceive(unsigned int uart_data) {
       
       int heading3D = GetHeading3D( &gACC, &gMAG, &p );
       
-      int average_heading3D = GetAverageHeading( heading3D );
+      int heading3D_averaged = GetAverageHeading( heading3D );
       
       // -> 5 degrees resolution ...
-      average_heading3D = 5 * ( average_heading3D / 5);
+      heading3D_averaged = 5 * (heading3D_averaged / 5);
       
-      SetCurrentHeading( average_heading3D );
+      //SetCurrentHeading( heading3D );
+      SetCurrentHeading( heading3D_averaged );
       
       CompassMessageInit();  // reset decoding engine
       

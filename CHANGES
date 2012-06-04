@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.49 2012/06/04 17:34:11 mathes Exp $
+$Id: CHANGES,v 1.50 2012/06/04 20:34:57 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -6,10 +6,9 @@ CHANGES file for Projekte/RotorControl
 ToDo next:
 ----------
 - extend I2C driven display with more possibilities
-- start with main program code
-  - display heading
-- when heading is updated, preset value must be updated, too
-
+- use watchdog to reset in case of hang up
+  -> then only partly initialisation
+  
 2012-06-04 (thjm) - heading calculation fixed, first mounting of mockup
                   - first version with 'preset' -> with some problems ...
 

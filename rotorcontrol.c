@@ -2,13 +2,13 @@
 /*
  * File   : rotorcontrol.c
  *
- * $Id: rotorcontrol.c,v 1.23 2012/06/04 17:34:11 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.24 2012/06/04 20:34:57 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.23 $ $Date: 2012/06/04 17:34:11 $
+ * Version:        $Revision: 1.24 $ $Date: 2012/06/04 20:34:57 $
  * Description:    Program which performs the rotator control.
  *
  
@@ -48,9 +48,10 @@
 
 #include <i2cmaster.h>   // P.Fleury's lib
 
+#include "global.h"
+
 #include <uart.h>        // P.Fleury's lib
 
-#include "global.h"
 #include "i2cdisplay.h"
 
 #define UART_BAUD_RATE 9600
@@ -207,7 +208,7 @@ int main(void) {
   CompassMessageInit();
   
   // display the start message, and leave it for # seconds on
-  StartMessage(2);
+  //StartMessage(2);
   
   unsigned int uart_data;
   
