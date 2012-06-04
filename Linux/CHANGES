@@ -1,18 +1,20 @@
-$Id: CHANGES,v 1.6 2012/05/19 11:29:49 mathes Exp $
+$Id: CHANGES,v 1.7 2012/06/04 13:43:14 mathes Exp $
 
 CHANGES file for RotorControl/Linux directory
 -----------------------------------------------------------------------------
 
-2012/05/19 (thjm) - vector.c/.h: vector -> vector_t
+2012-06-04 (thjm) - made rx-buffer larger to hold also debug messages
 
-2012/05/18 (thjm) - compass.cc: one more menu option added
+2012-05-19 (thjm) - vector.c/.h: vector -> vector_t
+
+2012-05-18 (thjm) - compass.cc: one more menu option added
                     + some minor changes (beautification)
 		  - new MAG sensor calibration constants  
  
-2012/05/16 (thjm) - file README created
+2012-05-16 (thjm) - file README created
                   - common.cc from ../LSM303 directory
 
-2012/05/14 (thjm) - compass1.cc & analyzedat.cc moved from LSM303 directory
+2012-05-14 (thjm) - compass1.cc & analyzedat.cc moved from LSM303 directory
                     -> all programs compile (& work) here, now
                   - files *.dat from LSM303 directory
 

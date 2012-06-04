@@ -4,7 +4,7 @@
 //
 // Purpose: Common code parts for C++ analysis stuff...
 //
-// $Id: common.cc,v 1.2 2012/05/19 11:32:32 mathes Exp $
+// $Id: common.cc,v 1.3 2012/06/04 13:43:14 mathes Exp $
 //
 
 
@@ -53,8 +53,10 @@ bool ReadNMEAFormat(FILE *file,vector_t *a,vector_t *m)
     
     if ( feof(file) ) return false;
   
-    if ( strstr(line,"$ACRAW") != NULL ) {
-      if ( sscanf( line, "$ACRAW,%f,%f,%f,%f,%f,%f",
+    const char *acraw;
+    
+    if ( (acraw = strstr(line,"$ACRAW")) != NULL ) {
+      if ( sscanf( acraw, "$ACRAW,%f,%f,%f,%f,%f,%f",
                     &a->x, &a->y, &a->z, &m->x, &m->y, &m->z ) == 6 )
         break;
 //      else
@@ -76,8 +78,10 @@ bool ReadNMEAFormat(const char *line,vector_t *a,vector_t *m)
   
   bool status = false;
 
-  if ( strstr(line,"$ACRAW") != NULL ) {
-    if ( sscanf( line, "$ACRAW,%f,%f,%f,%f,%f,%f",
+  const char *acraw;
+    
+  if ( (acraw = strstr(line,"$ACRAW")) != NULL ) {
+    if ( sscanf( acraw, "$ACRAW,%f,%f,%f,%f,%f,%f",
   		  &a->x, &a->y, &a->z, &m->x, &m->y, &m->z ) == 6 )
       status = true;
   }

@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.6 2012/05/19 11:29:49 mathes Exp $
+// $Id: compass1.cc,v 1.7 2012/06/04 13:43:14 mathes Exp $
 //
 
 
@@ -31,13 +31,14 @@ extern int kbhit(void);
 
 // will conflict with std::vector ...
 #include "../LSM303/vector.c"
-#include "common.cc"
 
 // using namespace std;
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::setw;
+
+#include "common.cc"
 
 enum {
 
@@ -130,7 +131,7 @@ int main(int argc, char** argv)
     exit( EXIT_FAILURE );
   }
 
-  char gps_data[80];
+  char gps_data[240];
   int gps_data_ptr = 0;
   bool gps_msg_start = false, gps_msg_complete = false;
   
@@ -168,6 +169,7 @@ int main(int argc, char** argv)
 	case 'd': // debug mode
 	case 'D':
 	          gOperationMode ^= kDebug;
+		  cout << "DEBUG mode is " << ((gOperationMode & kDebug) ? "ON" : "OFF") << endl;
 		  break;
 
 	case 'm': // mode 'measure'
@@ -218,6 +220,10 @@ int main(int argc, char** argv)
 	  gps_msg_start = false;
 	}
 	
+//	if ( gOperationMode & kDebug ) {
+//	  cout << data;
+//	}
+	
 	switch ( data ) {
 	  
 	  case '$':  gps_msg_start = true;
@@ -240,6 +246,10 @@ int main(int argc, char** argv)
     }  // if ( !leave ) ...
     
     if ( gps_msg_complete ) {
+      
+//      if ( gOperationMode & kDebug ) {
+//        cout << gps_data;
+//      }
       
       gps_msg_complete = false;
       
