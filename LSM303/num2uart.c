@@ -10,7 +10,7 @@
  *
  * References: http://www.mikrocontroller.net/topic/12165#new
  *
- * $Id: num2uart.c,v 1.2 2011/10/27 12:40:04 mathes Exp $
+ * $Id: num2uart.c,v 1.3 2012/06/04 13:31:08 mathes Exp $
  *
  */
 
@@ -68,7 +68,8 @@ void int2uart(int val)
 
 // --------------------------------------------------------------------------
 
-#if 0
+#ifdef USE_FLOAT
+
 #define DIGITS 8
 
 void float2uart(float val)
@@ -108,7 +109,8 @@ void float2uart(float val)
     int2uart( ep );
   }
 }
-#endif
+
+#endif // USE_FLOAT
 
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
