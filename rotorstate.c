@@ -2,13 +2,13 @@
 /*
  * File   : rotorstate.c
  *
- * $Id: rotorstate.c,v 1.14 2012/06/04 13:43:56 mathes Exp $
+ * $Id: rotorstate.c,v 1.15 2012/06/04 17:34:11 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.14 $ $Date: 2012/06/04 13:43:56 $
+ * Version:        $Revision: 1.15 $ $Date: 2012/06/04 17:34:11 $
  * Description:    State machine for the rotator control program.
  *
  
@@ -44,9 +44,11 @@
 #include <util/delay.h>
 
 #include <i2cmaster.h>   // P.Fleury's lib
+#include <uart.h>
 
 #include "global.h"
 #include "i2cdisplay.h"
+#include "num2uart.h"
 
 volatile uint8_t gRotatorBusy = 0;
 volatile uint8_t gRotatorCommand = kNone;
@@ -55,7 +57,7 @@ volatile uint8_t gRotatorBusyCounter = 0;
 
 #define SetBusy(_busy_) { gRotatorBusy = _busy_; }
 
-int16_t gCurrentHeading = 0;
+static int16_t gCurrentHeading = 0;
 static int16_t gPresetHeading = 0;
 
 #define PRESET_COUNTER_MAX           32
@@ -64,6 +66,9 @@ static int16_t gPresetHeading = 0;
 volatile uint8_t gPresetCommand = kPresetNone;
 static uint8_t gPresetCounterStart = PRESET_COUNTER_MAX;
 volatile uint8_t gPresetCounter = 0;
+
+/* local prototypes */
+static uint8_t GetDirection(uint16_t cur_heading,uint16_t nom_heading);
 
 // --------------------------------------------------------------------------
 
@@ -226,6 +231,9 @@ void RotatorExec(void)
 	 gRotatorState = kIdle;
 	 gRotatorCommand = kNone;
          
+         // both PRESET LEDs off
+         LED_PORT &= ~(LED_LEFT | LED_RIGHT);
+	 
 	 SetBusy(0);
       
          // clear preset data
@@ -241,17 +249,35 @@ void RotatorExec(void)
 
 // --------------------------------------------------------------------------
 
+static uint8_t gLastCommand = kNone;
+
+void SetCommand(uint8_t cmd) {
+
+  gLastCommand = gRotatorCommand;
+  gRotatorCommand = cmd;
+}
+
+// --------------------------------------------------------------------------
+
+uint8_t GetLastCommand(void) {
+
+  return gLastCommand;
+}
+
+// --------------------------------------------------------------------------
+
 volatile uint16_t gPresetDisplayCounter = 0;
+
+static uint16_t gCurrentHeadingOld = 999;
+static uint16_t gPresetHeadingOld = 999;
 
 void UpdateDisplay(void) {
 
-  static uint16_t old_cur_dir = 999;
-  
   static uint8_t ret = 0;
   
-  if ( old_cur_dir != gCurrentHeading ) {
+  if ( gCurrentHeadingOld != gCurrentHeading ) {
   
-    old_cur_dir = gCurrentHeading;
+    gCurrentHeadingOld = gCurrentHeading;
     
     if ( ret ) {
       i2c_init();
@@ -264,11 +290,9 @@ void UpdateDisplay(void) {
     _delay_ms(1.0);
   }
   
-  static uint16_t old_preset_dir = 999;
-  
-  if ( old_preset_dir != gPresetHeading ) {
+  if ( gPresetHeadingOld != gPresetHeading ) {
     
-    old_preset_dir = gPresetHeading;
+    gPresetHeadingOld = gPresetHeading;
     
     if ( ret ) {
       i2c_init();
@@ -294,8 +318,8 @@ void UpdateDisplay(void) {
   if ( gCurrentHeading == gPresetHeading ) {
     
     if ( gPresetDisplayCounter == 0 )
-      //I2CDisplayWriteR( 3, (uint8_t*)"\000\000\000" );
-      I2CDisplayWriteR( 3, (uint8_t*)"\010\010\010" );
+      //I2CDisplayWriteR( 3, (uint8_t*)"\000\000\000" );  // blank display
+      I2CDisplayWriteR( 3, (uint8_t*)"\010\010\010" );    // "---"
   }
 }
 
@@ -317,6 +341,8 @@ void PresetExec(void) {
     preset_duration = 0;
     gPresetCounterStart = PRESET_COUNTER_MAX;
 
+    gPresetCommand = kPresetExec;
+    
     return;
   }
   
@@ -338,16 +364,68 @@ void PresetExec(void) {
          gPresetHeading++;
          if ( gPresetHeading > MAX_ANGLE )
            gPresetHeading = MIN_ANGLE;
-         break;
+         LED_PORT |= LED_RIGHT;
+	 break;
   
     case kPresetCCW:
          gPresetHeading--;
          if ( gPresetHeading < MIN_ANGLE )
            gPresetHeading = MAX_ANGLE;
+         LED_PORT |= LED_LEFT;
          break;
   }
   
   gPresetCounter = gPresetCounterStart;
+  
+  // get the direction for the next rotation
+  
+  if ( gPresetCommand == kPresetExec ) {
+  
+    uint8_t cmd = GetDirection( gCurrentHeading, gPresetHeading );
+    
+    int2uart( gCurrentHeading );
+    uart_puts_P(" -> ");
+    int2uart( gPresetHeading );
+    uart_puts_P(": ");
+    int2uart( cmd );
+    uart_puts_P("\r\n");
+    
+    switch ( cmd ) {
+
+      case kTurnCW:
+           SetCommand( kTurnCW );
+           break;
+
+      case kTurnCCW:
+           SetCommand( kTurnCCW );
+           break;
+
+      default:
+           SetCommand( kStop );
+	   gPresetCommand = kPresetNone;
+	   
+           // both PRESET LEDs off
+           LED_PORT &= ~(LED_LEFT | LED_RIGHT);
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+
+void SetPresetCommand(uint8_t cmd) {
+
+  gPresetCommand = cmd;
+}
+
+// --------------------------------------------------------------------------
+
+void SetCurrentHeading(int heading) {
+
+  gCurrentHeading = heading;
+  
+  if ( gPresetCommand == kPresetNone ) {
+    gPresetHeading = heading;
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -376,19 +454,19 @@ void PresetExec(void) {
   * Note: This may not work for configurations where the total angular range is
   * larger than 360 degrees.
   */
-uint8_t GetDirection(uint16_t actual_dir,uint16_t nominal_dir) {
+static uint8_t GetDirection(uint16_t cur_heading,uint16_t nom_heading) {
 
   uint16_t rotation_angle = MAX_ANGLE - LIMIT_ANGLE;
   
-  uint16_t actual_dir_rotated = actual_dir + rotation_angle;
-  if ( actual_dir_rotated > MAX_ANGLE ) actual_dir_rotated -= MAX_ANGLE;
+  uint16_t cur_heading_rotated = cur_heading + rotation_angle;
+  if ( cur_heading_rotated > MAX_ANGLE ) cur_heading_rotated -= MAX_ANGLE;
   
-  uint16_t nominal_dir_rotated = nominal_dir + rotation_angle;
-  if ( nominal_dir_rotated > MAX_ANGLE ) nominal_dir_rotated -= MAX_ANGLE;
+  uint16_t nom_heading_rotated = nom_heading + rotation_angle;
+  if ( nom_heading_rotated > MAX_ANGLE ) nom_heading_rotated -= MAX_ANGLE;
   
-  if ( nominal_dir_rotated < actual_dir_rotated )
+  if ( nom_heading_rotated < cur_heading_rotated )
     return kTurnCCW;
-  else if ( nominal_dir_rotated > actual_dir_rotated )
+  else if ( nom_heading_rotated > cur_heading_rotated )
     return kTurnCW;
   else
     return kNone;

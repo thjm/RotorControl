@@ -2,13 +2,13 @@
 /*
  * File   : rotorcontrol.c
  *
- * $Id: rotorcontrol.c,v 1.22 2012/06/03 22:40:05 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.23 2012/06/04 17:34:11 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.22 $ $Date: 2012/06/03 22:40:05 $
+ * Version:        $Revision: 1.23 $ $Date: 2012/06/04 17:34:11 $
  * Description:    Program which performs the rotator control.
  *
  
@@ -47,9 +47,6 @@
 #include <util/delay.h>
 
 #include <i2cmaster.h>   // P.Fleury's lib
-
-#define UART_TX_BUFFER_SIZE 32 
-#define UART_RX_BUFFER_SIZE 32
 
 #include <uart.h>        // P.Fleury's lib
 
@@ -201,19 +198,6 @@ static void StartMessage(uint8_t n_sec) {
 
 // --------------------------------------------------------------------------
 
-static uint8_t gLastCommand = kNone;
-
-#define SetCommand(_cmd_) \
- { \
-  gLastCommand = gRotatorCommand; \
-  gRotatorCommand = _cmd_; \
-}
-
-#define SetPresetCommand(_cmd_) \
- { \
-  gPresetCommand = _cmd_; \
-}
-
 int main(void) {
 
   // initialize the hardware ...
@@ -256,7 +240,7 @@ int main(void) {
     
     // was BUTTON CCW released ?
     
-    if ( (gLastCommand == kTurnCCW) && !(gKeyState & BUTTON_CCW) ) {
+    if ( (GetLastCommand() == kTurnCCW) && !(gKeyState & BUTTON_CCW) ) {
 
       SetCommand( kStop );
     }
@@ -271,7 +255,7 @@ int main(void) {
 
     // was BUTTON CW released ?
     
-    if ( (gLastCommand == kTurnCW) && !(gKeyState & BUTTON_CW) ) {
+    if ( (GetLastCommand() == kTurnCW) && !(gKeyState & BUTTON_CW) ) {
       
       SetCommand( kStop );
     }

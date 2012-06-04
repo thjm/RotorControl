@@ -2,13 +2,13 @@
 /*
  * File   : global.h
  *
- * $Id: global.h,v 1.22 2012/06/04 13:43:56 mathes Exp $
+ * $Id: global.h,v 1.23 2012/06/04 17:34:11 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.22 $ $Date: 2012/06/04 13:43:56 $
+ * Version:        $Revision: 1.23 $ $Date: 2012/06/04 17:34:11 $
  * Description:    Contains all global definitions of the 'rotorcontrol' 
  *                 project.
  *
@@ -50,7 +50,12 @@
 #ifndef FALSE
  #define FALSE  (1==0)
 #endif /* FALSE */
- 
+
+/* --- for the UART library of P.Fleury --- */
+
+#define UART_TX_BUFFER_SIZE 	64 
+#define UART_RX_BUFFER_SIZE 	64
+
 /* --- my program constants --- */
 
 // 12 MHz crystal ==> CLK/1024 = 11.71875 kHz
@@ -124,11 +129,14 @@ extern uint8_t GetKeyShort(uint8_t key_mask);
 
 /* --- declaration(s) for file rotorstate.c --- */
 
-/**  */
-extern int16_t gCurrentHeading;
-//extern int16_t gPresetHeading;
+/** Set the current heading (for the display).
+  *
+  * If we are not in 'preset' mode, the gPresetHeading is also modified.
+  */
+extern void SetCurrentHeading(int);
 
-#define SetCurrentHeading(_ch_val_) gCurrentHeading = (_ch_val_)
+/**  */
+extern void SetPresetHeading(int);
 
 /**  */
 extern void RotatorExec(void);
@@ -165,10 +173,13 @@ typedef enum {
   
 } ERotorCommand;
 
-extern volatile uint8_t gPresetCommand;
-extern volatile uint8_t gPresetCounter;
+/**  */
+extern void SetCommand(uint8_t cmd);
+/**  */
+extern uint8_t GetLastCommand(void);
 
-extern volatile uint16_t gPresetDisplayCounter;
+/**  */
+extern void SetPresetCommand(uint8_t cmd);
 
 /**  */
 extern void PresetExec(void);
@@ -188,8 +199,15 @@ typedef enum {
   kPresetCW,
   kPresetCCW,
   kPresetStop,
+  kPresetExec,
   
 } EPresetCommand;
+
+/** Command to the 'preset' logic. */
+extern volatile uint8_t gPresetCommand;
+extern volatile uint8_t gPresetCounter;
+
+extern volatile uint16_t gPresetDisplayCounter;
 
 /* --- declaration(s) for file compass.c --- */
 

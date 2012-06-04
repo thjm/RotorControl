@@ -2,13 +2,13 @@
 /*
  * File   : compass.c
  *
- * $Id: compass.c,v 1.3 2012/06/04 13:43:56 mathes Exp $
+ * $Id: compass.c,v 1.4 2012/06/04 17:34:11 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.3 $ $Date: 2012/06/04 13:43:56 $
+ * Version:        $Revision: 1.4 $ $Date: 2012/06/04 17:34:11 $
  * Description:    Contains all functions which deal with the messages from the
  *                 ACC/MAG sensors and their interpretation.
  *
@@ -48,7 +48,7 @@
 #include "global.h"
 
 #include "vector.h"    // both are in ./LSM303 directory
-//#include "num2uart.h"
+#include "num2uart.h"
 
 /* local data types and variables */
 
