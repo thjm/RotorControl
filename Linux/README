@@ -1,4 +1,4 @@
-$Id: README,v 1.1 2012/05/16 20:55:57 mathes Exp $
+$Id: README,v 1.2 2012/06/06 16:07:17 mathes Exp $
 
 README file for Projekte/RotorControl/Linux
 -----------------------------------------------------------------------------
@@ -16,6 +16,15 @@ analyzedat.cc - reads a file containing logged NMEA strings ($ACRAW sentences)
 	   
 	   The 3D heading is calculated using the MAG and ACC sensor readings.
 
-compass1.cc - 
+compass1.cc - interactive version of the above program. This programs reads 
+           the NMEA strings from a serial interface which has to be specified
+	   at the command line.
+	   
+	   Different operation modes are possible:
+	   c - calibration = acquiring data for new MAG min/max values
+	   m - measure
+	   d - debug output
+
+*.dat - various data files from online
 
 =============================================================================

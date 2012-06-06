@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.7 2012/06/04 13:43:14 mathes Exp $
+// $Id: compass1.cc,v 1.8 2012/06/06 16:07:17 mathes Exp $
 //
 
 
@@ -56,10 +56,15 @@ static int gOperationMode = kMeasure;
 // // at home (shack, some time ago)
 // vector gMinDefault_MAG = { -364, -535, -535 };
 // vector gMaxDefault_MAG = {  202,  -83,  -83 };
-// at home (Ira's office, 2012-05-17, new setup)
-vector_t gMinDefault_MAG = { -480, -196, -196 };
-vector_t gMaxDefault_MAG = {   40,  284,  284 };
-#else
+// at home (Ira's office, 2012-05-17, on bread-board)
+// vector_t gMinDefault_MAG = { -480, -196, -196 };
+// vector_t gMaxDefault_MAG = {   40,  284,  284 };
+// at home (mockup, 2012-06-05, on bread-board)
+vector_t gMinDefault_MAG = { -474, -257, -257 };
+vector_t gMaxDefault_MAG = {   36,  238,  238 };
+#endif
+
+#if 0
 // in the office ?
 vector_t gMinDefault_MAG = { -236, -135, -135 };
 vector_t gMaxDefault_MAG = {   83,  151,  151 };
@@ -256,7 +261,15 @@ int main(int argc, char** argv)
       if ( gOperationMode == kCalibrate || gOperationMode & kDebug )
         cout << "ACMSG: " << gps_data << endl;
 
-      if ( !ReadNMEAFormat( gps_data, &a, &m ) ) continue;
+      bool msg_ok = false;
+      
+      msg_ok = ReadNMEAFormat( gps_data, &a, &m );
+      
+      if ( (gOperationMode & kDebug) && !msg_ok ) {
+        cout << "!!!" << endl;
+      }
+      
+      if ( !msg_ok ) continue;
       
       switch ( gOperationMode & kModeMask ) {
       
