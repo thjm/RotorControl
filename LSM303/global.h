@@ -2,15 +2,13 @@
 /*
  * File   : global.h
  *
- * Purpose: 
- *
- * $Id: global.h,v 1.4 2012/05/28 13:00:17 mathes Exp $
+ * $Id: global.h,v 1.5 2012/06/07 10:01:08 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.4 $ $Date: 2012/05/28 13:00:17 $
+ * Version:        $Revision: 1.5 $ $Date: 2012/06/07 10:01:08 $
  * Description:    Contains all global definitions of the 'LSM303DLH' 
  *                 project(s).
  *
@@ -95,12 +93,25 @@
 // RxD & TxD are connected to the standard ports
 // SDA & SCL are connected to the standard ports
 //
-// per default the transmitter of the MAX485 must be enabled
+// per default the transmitter of the MAX485 must be enabled during operation
+// BUT NOT during boot loader oepration !
 //
 
-#define RS485_PORT		PORTB
-#define RS485_DDR		DDRB
-#define RS485_TX_ENABLE		(1<<PB0)
+#if 1
+  // my first choice
+# define RS485_PORT		PORTB
+# define RS485_DDR		DDRB
+# define RS485_TX_ENABLE	(1<<PB0)
+
+#else
+  // use this for the chip45boot2 boot loader (with RS485 support)
+  // http://shop.chip45.com/AVR-Mikrocontroller-Software/AVR-ATmega-Xmega-Bootloader/Frei/chip45boot2
+  //
+  // uses XCK# pin of uController (XCK0 = PD4 for Atmega8)
+# define RS485_PORT		PORTD
+# define RS485_DDR		DDRD
+# define RS485_TX_ENABLE	(1<<PD4)
+#endif
 
 #define RS485EnableRx()         { RS485_PORT &= ~RS485_TX_ENABLE; }
 #define RS485EnableTx()         { RS485_PORT |= RS485_TX_ENABLE; }
