@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.51 2012/06/07 09:28:57 mathes Exp $
+$Id: CHANGES,v 1.52 2012/06/07 09:58:17 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,10 @@ ToDo next:
 - use watchdog to reset in case of hang up
   -> then only partly initialisation
 - read constants initially from EEPROM
+
+2012-06-07 (thjm) - added GS232 protocol definitions to Docu:
+                   - GS232A.pdf
+		   - Yaesu_GS-232B_Manual.pdf
 
 2012-06-06 (thjm) - actions for 'preset' functionality disabled
                     + catch position always moving
