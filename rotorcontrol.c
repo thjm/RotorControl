@@ -2,13 +2,13 @@
 /*
  * File   : rotorcontrol.c
  *
- * $Id: rotorcontrol.c,v 1.24 2012/06/04 20:34:57 mathes Exp $
+ * $Id: rotorcontrol.c,v 1.25 2012/06/07 09:28:57 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.24 $ $Date: 2012/06/04 20:34:57 $
+ * Version:        $Revision: 1.25 $ $Date: 2012/06/07 09:28:57 $
  * Description:    Program which performs the rotator control.
  *
  
@@ -52,6 +52,7 @@
 
 #include <uart.h>        // P.Fleury's lib
 
+#include "vector.h"
 #include "i2cdisplay.h"
 
 #define UART_BAUD_RATE 9600
@@ -70,11 +71,15 @@
 // avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:rotorcontrol.hex
 //
 // avrdude -p atmega32 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i 
-// avrdude -p atmega32 -P usb -c usbasp -y -U hfuse:w:0xC9:m
+// avrdude -p atmega32 -P usb -c usbasp -y -U hfuse:w:0xC1:m
 //  - JTAG disabled
 //  - CKOPT enabled
+//  - EESAVE enabled
 // avrdude -p atmega32 -P usb -c usbasp -y -U lfuse:w:0xEE:m
 //  - external crystal (CKSEL3..1 = 111)
+//
+// avrdude -p atmega32 -P usb -c usbasp -y -U eeprom:w:rotorcontrol.eep
+// avrdude -p atmega32 -P usb -c usbasp -y -U eeprom:r:-:i
 //
 // //avrdude -p atmega32 -P usb -c usbasp
 //
@@ -92,8 +97,10 @@ static void delay_sec(uint8_t);
 
 uint16_t gLimitAngle EEMEM = LIMIT_ANGLE;
 
-i_vector_t gMAG_min EEMEM = { -364, -535, -535 };
-i_vector_t gMAG_max EEMEM = {  202,  -83,  -83 };
+//i_vector_t gEE_MAG_min EEMEM = { -474, -257, -257 };
+//i_vector_t gEE_MAG_max EEMEM = {   36,  238,  238 };
+vector_t gEE_MAG_min EEMEM = { -474, -257, -257 };
+vector_t gEE_MAG_max EEMEM = {   36,  238,  238 };
 
 // --------------------------------------------------------------------------
 
@@ -177,7 +184,7 @@ static void InitHardware(void) {
 // --------------------------------------------------------------------------
 
 static const uint8_t cStartMessage[] PROGMEM = 
-         { 0x77, 0x65, 0x6b, 0x12, 0x4f, 0x00 }; // "DC2" "IP "
+         { 0x7a, 0x65, 0x6b, 0x12, 0x4f, 0x00 }; // "dC2" "IP "
 //         { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20 };  // test pattern
 
 static const uint8_t cPauseMessage[] PROGMEM = 
@@ -207,8 +214,11 @@ int main(void) {
   // reset the message decoding engine
   CompassMessageInit();
   
+  // initialize the compass calculator
+  CompassInit();
+  
   // display the start message, and leave it for # seconds on
-  //StartMessage(2);
+  StartMessage(2);
   
   unsigned int uart_data;
   
@@ -218,7 +228,7 @@ int main(void) {
 
    if ( (uart_data = uart_getc()) != UART_NO_DATA ) {
 
-     CommpassMessageReceive( uart_data );
+     CompassMessageReceive( uart_data );
    }
 
    // --- handle serial messages from RS232 interface

@@ -35,6 +35,9 @@ CSTANDARD = -std=c99
 #CDEFS = -DF_CPU=14745600UL
 CDEFS = -DF_CPU=12000000UL
 
+# buffer sizes of the UART library of P.Fleury
+CDEFS += -DUART_TX_BUFFER_SIZE=32 -DUART_RX_BUFFER_SIZE=128
+
 # num2uart.c with float2uart() function
 CDEFS += -DUSE_FLOAT
 

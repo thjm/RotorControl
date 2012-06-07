@@ -2,13 +2,13 @@
 /*
  * File   : compass.c
  *
- * $Id: compass.c,v 1.5 2012/06/04 20:34:57 mathes Exp $
+ * $Id: compass.c,v 1.6 2012/06/07 09:28:57 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.5 $ $Date: 2012/06/04 20:34:57 $
+ * Version:        $Revision: 1.6 $ $Date: 2012/06/07 09:28:57 $
  * Description:    Contains all functions which deal with the messages from the
  *                 ACC/MAG sensors and their interpretation.
  *
@@ -35,6 +35,7 @@
 #include <stdlib.h>
 #include <math.h>          // round(), atan2()
 #include <avr/pgmspace.h>
+#include <avr/eeprom.h>
 
 
 /** @file compass.c
@@ -52,9 +53,17 @@
 
 /* local data types and variables */
 
+#if 0
 /** Min/max readings for MAG sensor at **THIS** location. */
 static vector_t gMin_MAG = { -480, -196, -196 };
 static vector_t gMax_MAG = {   40,  284,  284 };
+#endif
+
+#if 1
+/** Min/max readings for MAG sensor at mockup location, 2012-06-05. */
+static vector_t gMin_MAG = { -474, -257, -257 };
+static vector_t gMax_MAG = {   36,  238,  238 };
+#endif
 
 /* local prototypes */
 
@@ -68,9 +77,25 @@ static int GetHeading3D(const vector_t *a,const vector_t *m,const vector_t *p);
 
 // --------------------------------------------------------------------------
 
+// called from main()
+void CompassInit(void) {
+
+  // read min/max readings for MAG sensor from EEPROM
+  gMin_MAG.x = eeprom_read_float( &gEE_MAG_min.x );
+  gMin_MAG.y = eeprom_read_float( &gEE_MAG_min.y );
+  gMin_MAG.z = eeprom_read_float( &gEE_MAG_min.z );
+  
+  gMax_MAG.x = eeprom_read_float( &gEE_MAG_max.x );
+  gMax_MAG.y = eeprom_read_float( &gEE_MAG_max.y );
+  gMax_MAG.z = eeprom_read_float( &gEE_MAG_max.z );
+}
+
+// --------------------------------------------------------------------------
+
 static vector_t gACC, gMAG;
 
-void CommpassMessageReceive(unsigned int uart_data) {
+// called by main()
+void CompassMessageReceive(unsigned int uart_data) {
 
   static uint8_t msg_complete = FALSE;
   static vector_t p = { 0.0, -1.0, 0.0 }; // X: to the right, Y: backward, Z: down

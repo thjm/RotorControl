@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.50 2012/06/04 20:34:57 mathes Exp $
+$Id: CHANGES,v 1.51 2012/06/07 09:28:57 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -8,7 +8,16 @@ ToDo next:
 - extend I2C driven display with more possibilities
 - use watchdog to reset in case of hang up
   -> then only partly initialisation
-  
+- read constants initially from EEPROM
+
+2012-06-06 (thjm) - actions for 'preset' functionality disabled
+                    + catch position always moving
+
+2012-06-05 (thjm) - messages to UART sometimes corrupt, fixed
+                    -> UART_TX_BUFFER_SIZE, UART_RX_BUFFER_SIZE in Makefile
+		       + different sizes (RX buffer large)
+		  - read constants from EEPROM failed with int16_t -> float OK
+
 2012-06-04 (thjm) - heading calculation fixed, first mounting of mockup
                   - first version with 'preset' -> with some problems ...
 

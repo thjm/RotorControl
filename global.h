@@ -2,13 +2,13 @@
 /*
  * File   : global.h
  *
- * $Id: global.h,v 1.24 2012/06/04 20:34:57 mathes Exp $
+ * $Id: global.h,v 1.25 2012/06/07 09:28:57 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.24 $ $Date: 2012/06/04 20:34:57 $
+ * Version:        $Revision: 1.25 $ $Date: 2012/06/07 09:28:57 $
  * Description:    Contains all global definitions of the 'rotorcontrol' 
  *                 project.
  *
@@ -43,6 +43,7 @@
 
 #include <stdint.h>
 #include <avr/io.h>
+#include <avr/eeprom.h>
 
 #ifndef TRUE
  #define TRUE 	(1==1)
@@ -51,10 +52,12 @@
  #define FALSE  (1==0)
 #endif /* FALSE */
 
+#include "vector.h"
+
 /* --- for the UART library of P.Fleury --- */
 
-#define UART_TX_BUFFER_SIZE 	64 
-#define UART_RX_BUFFER_SIZE 	64
+//#define UART_TX_BUFFER_SIZE	128 
+//#define UART_RX_BUFFER_SIZE	128
 
 // ==> uart.h must be includd afterwards !!!
 
@@ -119,6 +122,13 @@ typedef struct i_vector {
   int16_t  z;
 
 } i_vector_t;
+
+/* --- configuration data in EEPROM --- */
+
+//extern i_vector_t EEMEM gEE_MAG_min;
+//extern i_vector_t EEMEM gEE_MAG_max;
+extern vector_t EEMEM gEE_MAG_min;
+extern vector_t EEMEM gEE_MAG_max;
 
 /* --- declaration(s) for file get8key4.c --- */
 
@@ -214,7 +224,8 @@ extern volatile uint16_t gPresetDisplayCounter;
 
 /* --- declaration(s) for file compass.c --- */
 
+extern void CompassInit(void);
 extern void CompassMessageInit(void);
-extern void CommpassMessageReceive(unsigned int uart_data);
+extern void CompassMessageReceive(unsigned int uart_data);
 
 #endif /* _global_h_ */

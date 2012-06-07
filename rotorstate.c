@@ -2,13 +2,13 @@
 /*
  * File   : rotorstate.c
  *
- * $Id: rotorstate.c,v 1.16 2012/06/04 20:34:57 mathes Exp $
+ * $Id: rotorstate.c,v 1.17 2012/06/07 09:28:57 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.16 $ $Date: 2012/06/04 20:34:57 $
+ * Version:        $Revision: 1.17 $ $Date: 2012/06/07 09:28:57 $
  * Description:    State machine for the rotator control program.
  *
  
@@ -273,6 +273,7 @@ volatile uint16_t gPresetDisplayCounter = 0;
 static uint16_t gCurrentHeadingOld = 999;
 static uint16_t gPresetHeadingOld = 999;
 
+// called by main()
 void UpdateDisplay(void) {
 
   static uint8_t ret = 0;
@@ -377,46 +378,13 @@ void PresetExec(void) {
   
   gPresetCounter = gPresetCounterStart;
   
-#if 1
+#if 0
   PresetExecSlow();
-#else
-  // get the direction for the next rotation
-  
-  if (    gPresetCommand == kPresetCW || gPresetCommand == kPresetCCW
-       || gPresetCommand == kPresetExec ) {
-  
-    //gPresetHeading = 5 * (gPresetHeading / 5);
-    
-    if ( abs(gCurrentHeading - gPresetHeading) < 5 ) return;
-    
-    uint8_t cmd = GetDirection( gCurrentHeading, gPresetHeading );
-    
-    switch ( cmd ) {
-
-      case kTurnCW:
-           LED_PORT |= LED_RIGHT;
-           SetCommand( kTurnCW );
-           break;
-
-      case kTurnCCW:
-           LED_PORT |= LED_LEFT;
-           SetCommand( kTurnCCW );
-           break;
-
-      default:
-           SetCommand( kStop );
-	   gPresetCommand = kPresetNone;
-	   
-           // both PRESET LEDs off
-           LED_PORT &= ~(LED_LEFT | LED_RIGHT);
-    }
-  }
 #endif
 }
 
 // --------------------------------------------------------------------------
 
-// will be called from main()
 void PresetExecSlow(void) {
 
   if ( gPresetCommand == kNone ) return;
@@ -424,11 +392,6 @@ void PresetExecSlow(void) {
   if (    gPresetCommand != kPresetCW && gPresetCommand != kPresetCCW
        && gPresetCommand != kPresetExec ) return;
 
-  int2uart( gCurrentHeading );
-  uart_puts_P(" -> ");
-  int2uart( gPresetHeading );
-  uart_puts_P("\r\n");
-  
   if ( abs(gCurrentHeading - gPresetHeading) < 5 ) return; // do nothing
 
   uint8_t cmd;
