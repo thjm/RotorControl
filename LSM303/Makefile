@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.17 2012/05/28 13:00:17 mathes Exp $
+# $Id: Makefile,v 1.18 2012/06/07 22:46:41 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -17,7 +17,7 @@ UseUARTDebug	= 0
 UseNMEAFormat	= 1
 
 # do we want to use a boot loader? (for remote firmware updates)
-UseBootloader	= 0
+UseBootloader	= 1
 
 ifeq ($(UseATtiny),1)
 MCU = attiny2313
@@ -66,7 +66,8 @@ CSTANDARD = -std=gnu99
 #CDEFS = -DF_CPU=12000000UL
 # ATmega with factory settings on bread board
 #CDEFS = -DF_CPU=1000000UL
-CDEFS = -DF_CPU=2000000UL
+#CDEFS = -DF_CPU=2000000UL
+CDEFS = -DF_CPU=4000000UL
 
 ifeq ($(UseNMEAFormat),1)
 CDEFS += -DNMEA_FORMAT
@@ -88,6 +89,12 @@ CXXFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CEXTRA)
 
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
 
+# Address where the bootloader area starts (0x0000 if no bootloader)
+ifeq ($(UseBootloader),1)
+BOOTLOADERSTARTADR=0x0800
+else
+BOOTLOADERSTARTADR=0x0000
+endif
 
 #Additional libraries.
 
@@ -121,8 +128,9 @@ MATH_LIB = -lm
 
 EXTMEMOPTS =
 
-#LDMAP = $(LDFLAGS) -Wl,-Map=$(TARGET).map,--cref
-LDFLAGS = $(EXTMEMOPTS) $(LDMAP) $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
+#LDMAP = -Wl,-Map=$(TARGET).map,--cref
+LDBOOT = -Ttext=$(BOOTLOADERSTARTADR)
+LDFLAGS = $(EXTMEMOPTS) $(LDMAP) $(LDBOOT) $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 
 
 # Programming support using avrdude. Settings and variables.

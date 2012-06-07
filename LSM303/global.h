@@ -2,13 +2,13 @@
 /*
  * File   : global.h
  *
- * $Id: global.h,v 1.5 2012/06/07 10:01:08 mathes Exp $
+ * $Id: global.h,v 1.6 2012/06/07 22:46:41 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.5 $ $Date: 2012/06/07 10:01:08 $
+ * Version:        $Revision: 1.6 $ $Date: 2012/06/07 22:46:41 $
  * Description:    Contains all global definitions of the 'LSM303DLH' 
  *                 project(s).
  *
@@ -94,7 +94,7 @@
 // SDA & SCL are connected to the standard ports
 //
 // per default the transmitter of the MAX485 must be enabled during operation
-// BUT NOT during boot loader oepration !
+// BUT NOT during boot loader operation !
 //
 
 #if 1
@@ -119,11 +119,24 @@
 /** Readout interval for the sensors, in multiples of 100 ms */
 #define SENSOR_READOUT_PERIOD    2
 
-// // 1 MHz internal oscillator ==> CLK/1024 = 0.9765625 kHz
-// // T_0 = 1.024 msec ==> * 97 = 99.328 msec = T_1
-// #define CNT0_PRESET             (0xff - 97)
+#if (F_CPU==1000000UL)
+// 1 MHz internal oscillator ==> CLK/1024 = 0.9765625 kHz
+// T_0 = 1.024 msec ==> * 97 = 99.328 msec = T_1
+ #define CNT0_PRESET		(0xff - 97)
+#elif (F_CPU==2000000UL)
 // 2 MHz internal oscillator ==> CLK/1024 = 1.953125 kHz
 // T_0 = 0.512 msec ==> * 195 = 99.84 msec = T_1
-#define CNT0_PRESET             (0xff - 195)
+ #define CNT0_PRESET             (0xff - 195)
+#elif (F_CPU==4000000UL)
+// 4 MHz internal oscillator ==> CLK/1024 = 3.90625 kHz
+// T_0 = 0.256 msec ==> * 39 = 9.984 msec = T_1
+ #define CNT0_PRESET		(0xff - 39)
+#elif (F_CPU==8000000UL)
+// 8 MHz internal oscillator ==> CLK/1024 = 7.8125 kHz
+// T_0 = 0.128 msec ==> * 78 = 9.984 msec = T_1
+#define CNT0_PRESET		(0xff - 78)
+#else
+ #error "No CNT=_PRESET value defined for selected F_CPU!"
+#endif // F_CPU
 
 #endif /* _global_h_ */

@@ -2,13 +2,13 @@
 /*
  * File   : lsm303read.c
  *
- * $Id: lsm303read.c,v 1.10 2012/06/03 20:08:44 mathes Exp $
+ * $Id: lsm303read.c,v 1.11 2012/06/07 22:46:41 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.10 $ $Date: 2012/06/03 20:08:44 $
+ * Version:        $Revision: 1.11 $ $Date: 2012/06/07 22:46:41 $
  * Description:    Program to readout the LSM303DLH sensor and send its 
  *                 data via UART. 
  *
@@ -79,7 +79,19 @@ volatile uint8_t gSensorReadout = 1;
 //
 // avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i 
 // avrdude -p atmega8 -P usb -c usbasp -y -U lfuse:w:0xE2:m -U hfuse:w:0xD9:m
-//  - 2 MHz internal clock
+//  - 2 MHz internal clock:
+//    -> lfuse = 0xE2
+//
+// settings for the bootloader ():
+//  BOOTRST = 0 (programmed)
+//    -> hfuse = 0xD8
+//  BOOTSZ0 = 0
+//  BOOTSZ1 = 0 -> 1K words boot block size (default)
+//  -> application flash size = 6 KBytes, BOOTLOADERSTARTADR = 0x1800
+//     bootloader flash size = 2 KBytes, BOOTLDRSIZE = 0x0800
+//  + 4 or 8 MHz internal clock:
+//    -> lfuse = 0xE3 or 0xE4
+//  LB1 = 1, LB2 = 1
 //
 
 static const char cBlank[] PROGMEM = " ";
@@ -203,15 +215,27 @@ static int8_t LSM303DLHInit(void)
 
 // --------------------------------------------------------------------------
 
-static gSensorReadoutCounter = SENSOR_READOUT_PERIOD;
+static uint8_t gSensorReadoutCounter = SENSOR_READOUT_PERIOD;
 
 // ISR for timer/counter 0 overflow: called every 100 ms
 // - load counter with initial constant
 // - set flag for the next sensor readout
 
+// In case of 4 or 8 MHz internal clock this ISR is called every 10 ms.
+// -> to achieve 100 ms, we have an additional loop then
+#if (F_CPU > 2000000UL)
+static uint8_t g10msCounter = 10;
+#endif // F_CPU
+
 ISR(TIMER0_OVF_vect) {
 
   TCNT0 = CNT0_PRESET;
+  
+#if (F_CPU > 2000000UL)
+  if ( --g10msCounter != 0 ) return;
+  
+  g10msCounter = 10;
+#endif // F_CPU
   
   if ( --gSensorReadoutCounter == 0 ) {
     gSensorReadout = 1;

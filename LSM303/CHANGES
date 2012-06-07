@@ -1,10 +1,13 @@
-$Id: CHANGES,v 1.24 2012/06/07 10:01:08 mathes Exp $
+$Id: CHANGES,v 1.25 2012/06/07 22:46:41 mathes Exp $
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
 
 2012/06/07 (thjm) - additional (commented out) definitions for RS485 pin/port,
                     this is compatible with chip45boot2 boot loader
+		  - modified Makefile to do right linking when bootloader is used
+		    + hints for new fuse bit settings
+		  - adoptions for 4 MHz and 8 MHz internal clock
 
 2012/06/04 (thjm) - num2uart.c: float2uart() enabled/disabled via pre-processor
 
