@@ -1,9 +1,12 @@
 #
 # Makefile for AVR/Projekte/RotorControl/Linux sub-directory
 #
-# $Id: Makefile,v 1.1 2012/05/14 08:03:29 mathes Exp $
+# $Id: Makefile,v 1.2 2012/06/11 14:38:03 mathes Exp $
 #
 #
+
+# define if we went to crate some helpful histograms
+DoHistograms 	= 1
 
 CC 		= gcc
 CFLAGS  	= -g -Wall -std=c99
@@ -20,6 +23,12 @@ RANLIB  	= ranlib
 REMOVE  	= rm -f
 
 INCLUDES 	= -I.
+
+ifeq ($(DoHistograms),1)
+DEFINES += -DDO_HISTOGRAMS
+CXXFLAGS += $(shell root-config --cflags)
+LDFLAGS += $(shell root-config --libs)
+endif
 
 #
 # libserial (0.5.2 with patches for gcc)

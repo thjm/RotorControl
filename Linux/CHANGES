@@ -1,7 +1,11 @@
-$Id: CHANGES,v 1.8 2012/06/06 16:07:17 mathes Exp $
+$Id: CHANGES,v 1.9 2012/06/11 14:38:03 mathes Exp $
 
 CHANGES file for RotorControl/Linux directory
 -----------------------------------------------------------------------------
+
+2012-06-11 (thjm) - analyzedat.cc:
+                    - MAG-sensor calibration off by default
+		    - optional creation of ROOT histograms
 
 2012-06-06 (thjm) - added 3 more data files for 'l'eft, 'r'ight position and 
                     360 degrees turn

@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.8 2012/06/06 16:07:17 mathes Exp $
+// $Id: compass1.cc,v 1.9 2012/06/11 14:38:03 mathes Exp $
 //
 
 
@@ -237,7 +237,8 @@ int main(int argc, char** argv)
 	             break;
 	
 	  case 0x0d:
-	  case 0x0a: gps_msg_start = false;
+	  case 0x0a: if ( !gps_msg_start ) break;
+	             gps_msg_start = false;
 	             gps_data[gps_data_ptr++] = 0;
 	             gps_msg_complete = true;
 		     break;
