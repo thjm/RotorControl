@@ -124,7 +124,9 @@ AVRDUDE_FLAGS = $(AVRDUDE_BASIC) $(AVRDUDE_NO_VERIFY) $(AVRDUDE_VERBOSE) $(AVRDU
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
+# binutils-2.19.1
 #SIZE = avr-size --format=avr --mcu=$(MCU)
+# binutils-2.22.x
 SIZE = avr-size --format=berkeley
 NM = avr-nm
 AVRDUDE = avrdude

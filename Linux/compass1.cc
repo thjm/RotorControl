@@ -4,7 +4,7 @@
 //
 // Purpose: Evaluation of data of LSM303DLH read from serial port.
 //
-// $Id: compass1.cc,v 1.9 2012/06/11 14:38:03 mathes Exp $
+// $Id: compass1.cc,v 1.10 2012/06/12 19:49:32 mathes Exp $
 //
 
 
@@ -50,8 +50,6 @@ enum {
 
 };
 
-static int gOperationMode = kMeasure;
-
 #if 1
 // // at home (shack, some time ago)
 // vector gMinDefault_MAG = { -364, -535, -535 };
@@ -69,6 +67,25 @@ vector_t gMaxDefault_MAG = {   36,  238,  238 };
 vector_t gMinDefault_MAG = { -236, -135, -135 };
 vector_t gMaxDefault_MAG = {   83,  151,  151 };
 #endif
+
+static struct ProgramParameters {
+
+  std::string     fSerialPort;
+  int             fOperationMode;
+  bool            fDisplayOn;
+  
+  vector_t        fMinMAG;
+  vector_t        fMaxMAG;
+  
+} gProgramParameter = {
+
+  "/dev/null", /* fSerialPort */
+  kMeasure,    /* fOperationMode */
+  false,       /* fDisplayOn */
+  
+  { -474, -257, -257 },  /* fMinMAG */
+  {   83,  151,  151 },  /* fMaxMAG */
+};
 
 // ---------------------------------------------------------------------------
 
@@ -102,9 +119,11 @@ int main(int argc, char** argv)
     exit( EXIT_FAILURE );
   }
 
+  gProgramParameter.fSerialPort = argv[1];
+  
   // Open the serial port. 
   //
-  SerialPort serial_port( argv[1] );
+  SerialPort serial_port( gProgramParameter.fSerialPort );
 
   // Set communication parameters & open the port, catch exceptions
   //
@@ -145,14 +164,13 @@ int main(int argc, char** argv)
   vector_t vMin = {  99999,  99999,  99999 };
   vector_t vMax = { -99999, -99999, -99999 };
   
-  vector_t m_min = gMinDefault_MAG;
-  vector_t m_max = gMaxDefault_MAG;
+  vector_t m_min = gProgramParameter.fMinMAG;
+  vector_t m_max = gProgramParameter.fMaxMAG;
   
   int last_average = 0; // last average
   std::list<int> headings;
   
   char choice;
-  bool display_on = false;
   bool leave = false;
   
   UiMenu();
@@ -167,19 +185,19 @@ int main(int argc, char** argv)
 
 	case 'c': // mode 'calibrate'
 	case 'C': 
-	          gOperationMode = kCalibrate;
+	          gProgramParameter.fOperationMode = kCalibrate;
                   m_min = vMin; m_max = vMax;
 		  break;
 
 	case 'd': // debug mode
 	case 'D':
-	          gOperationMode ^= kDebug;
-		  cout << "DEBUG mode is " << ((gOperationMode & kDebug) ? "ON" : "OFF") << endl;
+	          gProgramParameter.fOperationMode ^= kDebug;
+		  cout << "DEBUG mode is " << ((gProgramParameter.fOperationMode & kDebug) ? "ON" : "OFF") << endl;
 		  break;
 
 	case 'm': // mode 'measure'
 	case 'M': 
-	          gOperationMode = kMeasure;
+	          gProgramParameter.fOperationMode = kMeasure;
 	          
 		  // output most recent calibration constants
 		    
@@ -194,7 +212,7 @@ int main(int argc, char** argv)
                   break;
 
         case 'o':
-	case 'O': display_on = !display_on;
+	case 'O': gProgramParameter.fDisplayOn = !gProgramParameter.fDisplayOn;
                   break;
 	
 	case 'x': // exit
@@ -225,7 +243,7 @@ int main(int argc, char** argv)
 	  gps_msg_start = false;
 	}
 	
-//	if ( gOperationMode & kDebug ) {
+//	if ( gProgramParameter.fOperationMode & kDebug ) {
 //	  cout << data;
 //	}
 	
@@ -253,26 +271,26 @@ int main(int argc, char** argv)
     
     if ( gps_msg_complete ) {
       
-//      if ( gOperationMode & kDebug ) {
+//      if ( gProgramParameter.fOperationMode & kDebug ) {
 //        cout << gps_data;
 //      }
       
       gps_msg_complete = false;
       
-      if ( gOperationMode == kCalibrate || gOperationMode & kDebug )
+      if ( gProgramParameter.fOperationMode == kCalibrate || gProgramParameter.fOperationMode & kDebug )
         cout << "ACMSG: " << gps_data << endl;
 
       bool msg_ok = false;
       
       msg_ok = ReadNMEAFormat( gps_data, &a, &m );
       
-      if ( (gOperationMode & kDebug) && !msg_ok ) {
+      if ( (gProgramParameter.fOperationMode & kDebug) && !msg_ok ) {
         cout << "!!!" << endl;
       }
       
       if ( !msg_ok ) continue;
       
-      switch ( gOperationMode & kModeMask ) {
+      switch ( gProgramParameter.fOperationMode & kModeMask ) {
       
         case kCalibrate:
     	     if ( m.x < m_min.x ) m_min.x = m.x;
@@ -291,7 +309,7 @@ int main(int argc, char** argv)
     
              int heading3D = GetHeading3D(&a, &m, &p );
     
-             if ( display_on )
+             if ( gProgramParameter.fDisplayOn )
                cout << "3D-Heading= " << setw(3) << heading3D;
 	     
 	     headings.push_back( heading3D );
@@ -322,12 +340,12 @@ int main(int argc, char** argv)
 	       
 	       headings.pop_front();
 	       
-	       if ( display_on )
+	       if ( gProgramParameter.fDisplayOn )
 	         cout << " \t** " << setw(3) << average << " ** \t" 
 	              << setw(3) << 5 * ( average / 5);
 	     }
 	     
-	     if ( display_on ) cout << endl;
+	     if ( gProgramParameter.fDisplayOn ) cout << endl;
 
 	     break;
       }
