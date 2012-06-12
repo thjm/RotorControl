@@ -32,7 +32,7 @@ CSTANDARD = -std=c99
 CDEFS = -DF_CPU=12000000UL
 
 # Place -I options here
-CINCS = -I. -I.. -I../DisplayUR -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
+CINCS = -I. -I.. -I../DisplayUR -I../LSM303 -I$(FLEURYHOME)/uartlibrary -I$(FLEURYHOME)/i2cmaster
 
 
 CDEBUG = -g$(DEBUG)
