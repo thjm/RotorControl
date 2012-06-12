@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.18 2012/06/07 22:46:41 mathes Exp $
+# $Id: Makefile,v 1.19 2012/06/12 15:25:39 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -164,7 +164,8 @@ CC = avr-gcc
 CXX = avr-g++
 OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
-SIZE = avr-size --mcu=$(MCU) --format=avr
+#SIZE = avr-size --mcu=$(MCU) --format=avr
+SIZE = avr-size --format=berkeley
 NM = avr-nm
 AVRDUDE = avrdude
 REMOVE = rm -f
