@@ -47,7 +47,7 @@
 <layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
-<layer number="93" name="Pins" color="2" fill="1" visible="no" active="yes"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
@@ -14682,7 +14682,7 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 <part name="IC3" library="v-reg" deviceset="78XXL" device="" value="7805"/>
 <part name="C5" library="rcl" deviceset="C-EU" device="050-024X044" value="100n"/>
 <part name="C6" library="rcl" deviceset="C-EU" device="050-024X044" value="100n"/>
-<part name="C9" library="rcl" deviceset="CPOL-EU" device="E5-10.5"/>
+<part name="C9" library="rcl" deviceset="CPOL-EU" device="E5-10.5" value="220u"/>
 <part name="P+4" library="supply1" deviceset="+5V" device=""/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="P+6" library="supply1" deviceset="+5V" device=""/>
@@ -14723,8 +14723,8 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 <instance part="C9" gate="G$1" x="40.64" y="66.04"/>
 <instance part="P+4" gate="1" x="78.74" y="81.28"/>
 <instance part="GND5" gate="1" x="22.86" y="63.5"/>
-<instance part="P+6" gate="1" x="142.24" y="76.2"/>
-<instance part="GND6" gate="1" x="142.24" y="50.8"/>
+<instance part="P+6" gate="1" x="142.24" y="78.74"/>
+<instance part="GND6" gate="1" x="142.24" y="48.26"/>
 <instance part="C11" gate="G$1" x="88.9" y="78.74"/>
 <instance part="C12" gate="G$1" x="96.52" y="78.74"/>
 <instance part="L1" gate="G$1" x="106.68" y="83.82" rot="R90"/>
@@ -14732,6 +14732,7 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 <instance part="GND3" gate="1" x="101.6" y="104.14"/>
 <instance part="JP3" gate="A" x="236.22" y="114.3"/>
 <instance part="GND7" gate="1" x="223.52" y="101.6"/>
+<instance part="IC2" gate="P" x="129.54" y="63.5"/>
 </instances>
 <busses>
 </busses>
@@ -14796,6 +14797,11 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 <pinref part="C4" gate="G$1" pin="1"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="142.24" y1="60.96" x2="142.24" y2="53.34" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="P" pin="GND"/>
+<wire x1="142.24" y1="53.34" x2="142.24" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="55.88" x2="129.54" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="53.34" x2="142.24" y2="53.34" width="0.1524" layer="91"/>
+<junction x="142.24" y="53.34"/>
 </segment>
 <segment>
 <pinref part="JP2" gate="A" pin="4"/>
@@ -14864,7 +14870,12 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 <segment>
 <pinref part="P+6" gate="1" pin="+5V"/>
 <pinref part="C4" gate="G$1" pin="2"/>
+<wire x1="142.24" y1="76.2" x2="142.24" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="142.24" y1="73.66" x2="142.24" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="73.66" x2="129.54" y2="73.66" width="0.1524" layer="91"/>
+<junction x="142.24" y="73.66"/>
+<pinref part="IC2" gate="P" pin="VCC"/>
+<wire x1="129.54" y1="73.66" x2="129.54" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP2" gate="A" pin="3"/>
@@ -15011,6 +15022,10 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,114.3,132.08,IC1,VCC,+5V,,,"/>
+<approved hash="104,1,114.3,157.48,IC1,AVCC,+5V,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>

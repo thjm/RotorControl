@@ -12375,7 +12375,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="50.8" y1="154.94" x2="55.88" y2="154.94" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$3" class="0">
+<net name="N$8" class="0">
 <segment>
 <pinref part="TR1" gate="1" pin="P2"/>
 <pinref part="X1" gate="-3" pin="KL"/>
@@ -12524,7 +12524,6 @@ In this library the device names are the same as the pin names of the symbols, t
 </sheets>
 <errors>
 <approved hash="101,1,20.32,149.86,X1-2,KL,,,,"/>
-<approved hash="115,1,131.976,90.066,FRAME1,,,,,"/>
 </errors>
 </schematic>
 </drawing>

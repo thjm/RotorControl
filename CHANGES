@@ -1,4 +1,4 @@
-$Id: CHANGES,v 1.53 2013/01/10 09:43:58 mathes Exp $
+$Id: CHANGES,v 1.54 2013/04/05 19:40:08 mathes Exp $
 
 CHANGES file for Projekte/RotorControl
 -----------------------------------------------------------------------------
@@ -9,6 +9,13 @@ ToDo next:
 - use watchdog to reset in case of hang up
   -> then only partly initialisation
 - read constants initially from EEPROM
+
+
+Version xxxx: (not yet tagged)
+-------------
+
+2013-04-06 (thjm) - AntennaBoard: ERC errors fixed, worked on board and DRC
+                  - PowerSupply: ERC & DRC errors fixed
 
 Version v1r0:
 -------------
