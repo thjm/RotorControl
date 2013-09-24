@@ -12443,13 +12443,24 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="SUPPLY2" gate="+12V" pin="+12V"/>
 <wire x1="195.58" y1="149.86" x2="195.58" y2="157.48" width="0.1524" layer="91"/>
 <junction x="195.58" y="149.86"/>
-<wire x1="195.58" y1="149.86" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="195.58" y1="149.86" x2="205.74" y2="149.86" width="0.1524" layer="91"/>
 <pinref part="X2" gate="-1" pin="KL"/>
+<wire x1="205.74" y1="149.86" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
 <wire x1="228.6" y1="157.48" x2="215.9" y2="157.48" width="0.1524" layer="91"/>
 <wire x1="215.9" y1="157.48" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
 <pinref part="X2" gate="-2" pin="KL"/>
 <wire x1="228.6" y1="149.86" x2="215.9" y2="149.86" width="0.1524" layer="91"/>
 <junction x="215.9" y="149.86"/>
+<wire x1="205.74" y1="149.86" x2="205.74" y2="93.98" width="0.1524" layer="91"/>
+<junction x="205.74" y="149.86"/>
+<pinref part="X4" gate="-1" pin="KL"/>
+<wire x1="215.9" y1="96.52" x2="228.6" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="X4" gate="-2" pin="KL"/>
+<wire x1="215.9" y1="91.44" x2="228.6" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="91.44" x2="215.9" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="215.9" y1="93.98" x2="215.9" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="205.74" y1="93.98" x2="215.9" y2="93.98" width="0.1524" layer="91"/>
+<junction x="215.9" y="93.98"/>
 </segment>
 </net>
 <net name="0V" class="0">
@@ -12508,15 +12519,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="228.6" y1="81.28" x2="215.9" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="215.9" y1="81.28" x2="215.9" y2="76.2" width="0.1524" layer="91"/>
 <junction x="215.9" y="76.2"/>
-</segment>
-</net>
-<net name="N$7" class="0">
-<segment>
-<pinref part="X4" gate="-2" pin="KL"/>
-<wire x1="215.9" y1="91.44" x2="228.6" y2="91.44" width="0.1524" layer="91"/>
-<pinref part="X4" gate="-1" pin="KL"/>
-<wire x1="215.9" y1="96.52" x2="228.6" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="215.9" y1="91.44" x2="215.9" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
