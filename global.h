@@ -2,13 +2,13 @@
 /*
  * File   : global.h
  *
- * $Id: global.h,v 1.25 2012/06/07 09:28:57 mathes Exp $
+ * $Id: global.h,v 1.26 2014/03/23 07:30:35 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.25 $ $Date: 2012/06/07 09:28:57 $
+ * Version:        $Revision: 1.26 $ $Date: 2014/03/23 07:30:35 $
  * Description:    Contains all global definitions of the 'rotorcontrol' 
  *                 project.
  *
@@ -59,7 +59,7 @@
 //#define UART_TX_BUFFER_SIZE	128 
 //#define UART_RX_BUFFER_SIZE	128
 
-// ==> uart.h must be includd afterwards !!!
+// ==> uart.h must be included afterwards !!!
 
 /* --- my program constants --- */
 
