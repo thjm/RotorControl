@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.19 2012/06/12 15:25:39 mathes Exp $
+# $Id: Makefile,v 1.20 2014/03/24 10:06:32 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -21,11 +21,7 @@ UseBootloader	= 1
 
 ifeq ($(UseATtiny),1)
 MCU = attiny2313
-#MCU = attiny45
 else
-#MCU = atmega2561
-#MCU = atmega168
-#MCU = atmega88
 MCU = atmega8
 endif
 FORMAT = ihex
@@ -265,6 +261,20 @@ $(TARGET).elf: $(OBJS)
 	$(SIZE) $@
 
 
+# Target: avrledtest.elf
+AVRLEDTESTOBJS = avrledtest.o
+
+avrledtest.elf: $(AVRLEDTESTOBJS)
+	$(CC) $(ALL_CFLAGS) $(AVRLEDTESTOBJS) $(LDFLAGS) --output $@ \
+		-Wl,-Map=avrledtest.map,--cref
+	$(SIZE) $@
+
+clean::
+	$(RM) avrledtest.elf avrledtest.hex avrledtest.map avrledtest.lss
+	$(RM) $(AVRLEDTESTOBJS)
+
+SRCS += avrledtest.c
+
 # Target: lsm303test.elf
 LSM303TESTOBJS = lsm303test.o $(UARTLIB) $(I2CLIB) LSM303DLH.o
 
@@ -273,7 +283,7 @@ LSM303TESTOBJS = += num2uart.o
 endif
 
 lsm303test.elf: $(LSM303TESTOBJS)
-	$(CC) $(ALL_CFLAGS) $(LSM303TESTOBJS) --output $@ \
+	$(CC) $(ALL_CFLAGS) $(LSM303TESTOBJS) $(LDFLAGS) --output $@ \
 		-Wl,-Map=lsm303test.map,--cref
 	$(SIZE) $@
 

@@ -2,13 +2,13 @@
 /*
  * File   : lsm303read.c
  *
- * $Id: lsm303read.c,v 1.11 2012/06/07 22:46:41 mathes Exp $
+ * $Id: lsm303read.c,v 1.12 2014/03/24 10:06:32 mathes Exp $
  *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.11 $ $Date: 2012/06/07 22:46:41 $
+ * Version:        $Revision: 1.12 $ $Date: 2014/03/24 10:06:32 $
  * Description:    Program to readout the LSM303DLH sensor and send its 
  *                 data via UART. 
  *
@@ -43,6 +43,8 @@
 
 /** @file lsm303read.c
   * Program to readout the LSM303DLH sensor and send its data via UART.
+  * The data is either sent in plain ASCII format or in NMEA formatted 
+  * strings (favored mode of operation).
   * @author H.-J. Mathes <dc2ip@darc.de>
   */
 

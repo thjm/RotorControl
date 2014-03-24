@@ -3,6 +3,8 @@
 *.lss
 *.map
 analyze
+avrledtest.hex
+avrledtest.map
 compass2
 compass.eep
 compass.hex
