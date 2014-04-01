@@ -1,7 +1,9 @@
-$Id: CHANGES,v 1.27 2014/03/24 10:06:32 mathes Exp $
+$Id: CHANGES,v 1.28 2014/04/01 05:36:54 mathes Exp $
 
 CHANGES file for RotorControl/LSM303 directory
 -----------------------------------------------------------------------------
+
+2014/03/31 (thjm) - Makefile: 'UseBootloader=0' is now the (working) default
 
 2014/03/24 (thjm) - added another test target 'avrledtest'
                   - 'bootloader' option added to all linker commands
@@ -15,7 +17,7 @@ CHANGES file for RotorControl/LSM303 directory
 		  - adoptions for 4 MHz and 8 MHz internal clock
 
 2012/06/04 (thjm) - num2uart.c: float2uart() enabled/disabled via pre-processor
-
+status
 2012/05/28 (thjm) - changed clock frequency to 2 MHz (otherwise UART inprecise)
                     -> constants for 100ms re-calculated
 		  - define SENSOR_READOUT_PERIOD: 200ms (= 5 times per second)

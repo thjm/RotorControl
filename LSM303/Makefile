@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.20 2014/03/24 10:06:32 mathes Exp $
+# $Id: Makefile,v 1.21 2014/04/01 05:36:54 mathes Exp $
 #
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
@@ -17,7 +17,7 @@ UseUARTDebug	= 0
 UseNMEAFormat	= 1
 
 # do we want to use a boot loader? (for remote firmware updates)
-UseBootloader	= 1
+UseBootloader	= 0
 
 ifeq ($(UseATtiny),1)
 MCU = attiny2313
