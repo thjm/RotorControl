@@ -161,6 +161,8 @@ SUBDIRS = DisplayUR LSM303 Test Linux
 
 subdirs:
 	@(cd DisplayUR; make)
+	@(cd LSM303; make)
+	#for i in $(SUBDIRS); do make -C $$i; done
 
 # Test target(s):
 
