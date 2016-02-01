@@ -1,0 +1,31 @@
+*.elf
+*.hex
+*.eep
+*.lst
+*.lss
+*.map
+.depend
+
+# symlinks into local libraries
+i2cmaster.c
+num2uart.c
+uart.c
+vector.c
+
+# directory LSM303
+LSM303/twimaster.c
+LSM303/uart.c
+
+# directory DisplayUR
+DisplayUR/twislave.c
+
+# directory Test
+Test/get8key4.c
+Test/i2cmaster.c
+Test/uart.c
+
+# directory Linux (some dummy software)
+Linux/analyzedat
+Linux/compass1
+
+
