@@ -119,8 +119,8 @@ static uint8_t GetDirection(uint16_t cur_heading,uint16_t nom_heading);
  * event is issued before the state kTurningCW is reached. In that case the 
  * rotor relays etc. must be switched off in a proper order.
  */
-void RotatorExec(void)
- {
+void RotatorExec(void) {
+
   switch ( gRotatorCommand ) {
   
     case kStop:

@@ -31,8 +31,8 @@ volatile uint8_t gKeyPress = 0;
 
 // --------------------------------------------------------------------------
 
-void CheckKeys(void)
-{
+void CheckKeys(void) {
+
   static uint8_t ct0, ct1;
   uint8_t i;
 
@@ -47,8 +47,8 @@ void CheckKeys(void)
 
 // --------------------------------------------------------------------------
 
-uint8_t GetKeyPress(uint8_t key_mask)
- {
+uint8_t GetKeyPress(uint8_t key_mask) {
+
   cli();          // read and clear atomic !
   
   gKeyState &= key_mask;                        // read key(s)
@@ -61,8 +61,8 @@ uint8_t GetKeyPress(uint8_t key_mask)
 
 // --------------------------------------------------------------------------
 
-uint8_t GetKeyShort(uint8_t key_mask)
- {
+uint8_t GetKeyShort(uint8_t key_mask) {
+
   cli();      // read key state and key press atomic !
 
   return GetKeyPress( ~gKeyState & key_mask );

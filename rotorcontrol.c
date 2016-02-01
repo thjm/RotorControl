@@ -307,8 +307,9 @@ int main(void) {
 
 // --------------------------------------------------------------------------
 
-static void delay_sec(uint8_t n_sec)
- {
+/** Active delay for a given number of seconds (up to 255). */
+static void delay_sec(uint8_t n_sec) {
+
   while ( n_sec ) {
     // inline in util/delay.h
     for ( int m=0; m<100; m++ )
