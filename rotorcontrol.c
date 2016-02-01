@@ -2,13 +2,11 @@
 /*
  * File   : rotorcontrol.c
  *
- * $Id: rotorcontrol.c,v 1.25 2012/06/07 09:28:57 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.25 $ $Date: 2012/06/07 09:28:57 $
+ * Version:        Version v1r0
  * Description:    Program which performs the rotator control.
  *
  

@@ -2,13 +2,11 @@
 /*
  * File   : rotorstate.c
  *
- * $Id: rotorstate.c,v 1.17 2012/06/07 09:28:57 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.17 $ $Date: 2012/06/07 09:28:57 $
+ * Version:        Version v1r0
  * Description:    State machine for the rotator control program.
  *
  

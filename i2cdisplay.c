@@ -2,13 +2,11 @@
 /*
  * File   : i2cdisplay.c
  *
- * $Id: i2cdisplay.c,v 1.5 2012/05/21 05:30:15 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.5 $ $Date: 2012/05/21 05:30:15 $
+ * Version:        Version v1r0
  * Description:    Functions for the I2C driven display unit (UR).
  *
 

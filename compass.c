@@ -2,13 +2,11 @@
 /*
  * File   : compass.c
  *
- * $Id: compass.c,v 1.6 2012/06/07 09:28:57 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.6 $ $Date: 2012/06/07 09:28:57 $
+ * Version:        Version v1r0
  * Description:    Contains all functions which deal with the messages from the
  *                 ACC/MAG sensors and their interpretation.
  *
