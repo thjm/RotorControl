@@ -5,6 +5,7 @@
 *.lss
 *.map
 .depend
+*.sha
 
 # symlinks into local libraries
 i2cmaster.c
