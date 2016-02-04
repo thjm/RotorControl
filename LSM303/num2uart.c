@@ -10,8 +10,6 @@
  *
  * References: http://www.mikrocontroller.net/topic/12165#new
  *
- * $Id: num2uart.c,v 1.3 2012/06/04 13:31:08 mathes Exp $
- *
  */
 
 
@@ -29,8 +27,8 @@ static const unsigned int TEST[] PROGMEM = { 10, 100, 1000, 10000 };
 
 // --------------------------------------------------------------------------
 
-void hex2uart(unsigned char val)
- {
+void hex2uart(unsigned char val) {
+
   uchar bl = pgm_read_byte(&HEX[val & 0x0F]);
   uchar bh = pgm_read_byte(&HEX[val >> 4]);
   uart_putc( bh );
@@ -39,8 +37,8 @@ void hex2uart(unsigned char val)
 
 // --------------------------------------------------------------------------
 
-void int2uart(int val)
- {
+void int2uart(int val) {
+
   uchar d, i;
   uchar zero;
   uint uval = val;
@@ -72,8 +70,8 @@ void int2uart(int val)
 
 #define DIGITS 8
 
-void float2uart(float val)
- {
+void float2uart(float val) {
+
   signed char ep, dp, i, num;
   
   if( val < 0 ){

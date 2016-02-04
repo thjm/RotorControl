@@ -1,7 +1,5 @@
 # Hey Emacs, this is a -*- makefile -*-
 #
-# $Id: Makefile,v 1.21 2014/04/01 05:36:54 mathes Exp $
-#
 
 # AVR-GCC Makefile template, derived from the WinAVR template (which
 # is public domain), believed to be neutral to any flavor of "make"
@@ -340,5 +338,3 @@ include .depend
 endif
 
 # --- end of Makefile ---
-
-

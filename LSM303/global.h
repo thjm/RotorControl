@@ -2,13 +2,11 @@
 /*
  * File   : global.h
  *
- * $Id: global.h,v 1.6 2012/06/07 22:46:41 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.6 $ $Date: 2012/06/07 22:46:41 $
+ * Version:        v1r0
  * Description:    Contains all global definitions of the 'LSM303DLH' 
  *                 project(s).
  *

@@ -4,8 +4,6 @@
  *
  * Purpose: header file for vector.c
  *
- * $Id: vector.h,v 1.3 2012/05/19 11:33:35 mathes Exp $
- *
  */
 
 

@@ -4,8 +4,6 @@
  *
  * Purpose: Header file for num2uart.c
  *
- * $Id: num2uart.h,v 1.1 2011/10/26 12:52:57 mathes Exp $
- *
  */
 
 

@@ -6,7 +6,6 @@
 * Chip type           : ATMEGA8
 * Clock frequency     : Internal clock 1 Mhz (factory default)
 *
-* $Id: avrledtest.c,v 1.1 2014/03/24 10:06:32 mathes Exp $
 *********************************************/
 
 #include <avr/io.h>

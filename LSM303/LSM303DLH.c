@@ -2,13 +2,11 @@
 /*
  * File   : LSM303DLH.c
  *
- * $Id: LSM303DLH.c,v 1.4 2012/05/20 11:10:50 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.4 $ $Date: 2012/05/20 11:10:50 $
+ * Version:        v1r0
  * Description:    Implementation file for LSM303DLH specific routines.
  *
  
@@ -46,8 +44,8 @@
 
 /* -------------------------------------------------------------------------- */
 
-int8_t LSM303DLHInitACC(uint8_t acc_addr)
- {
+int8_t LSM303DLHInitACC(uint8_t acc_addr) {
+
   int8_t err = I2C_NO_ERROR;
   
   err = LSM303DLHWrite( acc_addr, CTRL_REG1_A, 0x27 ); // normal mode, ODR 50Hz
@@ -59,8 +57,8 @@ int8_t LSM303DLHInitACC(uint8_t acc_addr)
 
 /* -------------------------------------------------------------------------- */
 
-int8_t LSM303DLHInitMAG(uint8_t mag_addr)
- {
+int8_t LSM303DLHInitMAG(uint8_t mag_addr) {
+
   int8_t err = I2C_NO_ERROR;
   
   err = LSM303DLHWrite( mag_addr, CRA_REG_M, 0x14 ); // ODR := 30 Hz
@@ -72,8 +70,8 @@ int8_t LSM303DLHInitMAG(uint8_t mag_addr)
 
 /* -------------------------------------------------------------------------- */
 
-int8_t LSM303DLHReadACC(uint8_t acc_addr,LSM303DLHData* data)
- {
+int8_t LSM303DLHReadACC(uint8_t acc_addr,LSM303DLHData* data) {
+
   if ( i2c_start( acc_addr | I2C_WRITE ) ) {
     /* failed to issue start condition, possibly no device found */
     i2c_stop();
@@ -102,8 +100,8 @@ int8_t LSM303DLHReadACC(uint8_t acc_addr,LSM303DLHData* data)
 
 /* -------------------------------------------------------------------------- */
 
-int8_t LSM303DLHReadMAG(uint8_t mag_addr,LSM303DLHData* data)
- {
+int8_t LSM303DLHReadMAG(uint8_t mag_addr,LSM303DLHData* data) {
+
   if ( i2c_start( mag_addr | I2C_WRITE ) ) {
     /* failed to issue start condition, possibly no device found */
     i2c_stop();
@@ -132,8 +130,8 @@ int8_t LSM303DLHReadMAG(uint8_t mag_addr,LSM303DLHData* data)
 
 /* -------------------------------------------------------------------------- */
 
-int8_t LSM303DLHWrite(uint8_t addr,uint8_t reg,uint8_t data)
- {
+int8_t LSM303DLHWrite(uint8_t addr,uint8_t reg,uint8_t data) {
+
   if ( i2c_start( addr | I2C_WRITE ) ) {
     /* failed to issue start condition, possibly no device found */
     i2c_stop();

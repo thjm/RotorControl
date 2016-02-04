@@ -2,13 +2,11 @@
 /*
  * File   : lsm303test.c
  *
- * $Id: lsm303test.c,v 1.12 2014/03/24 10:06:32 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.12 $ $Date: 2014/03/24 10:06:32 $
+ * Version:        v1r0
  * Description:    Simple test program for AVR TWI interface with LSM303DLH. 
  *
  
@@ -82,8 +80,8 @@ static const char cBlank[] PROGMEM = " ";
 static const char cCRLF[] PROGMEM = "\r\n";
 static const char cEqualSign[] PROGMEM = "= ";
 
-static void PrintSensorData(const char *what,int data) 
- {
+static void PrintSensorData(const char *what,int data) {
+
 #ifdef UART_DEBUG
   uart_puts( what ); 
   uart_puts_p( cEqualSign );
@@ -95,8 +93,8 @@ static void PrintSensorData(const char *what,int data)
 // --------------------------------------------------------------------------
 
 #ifdef LSM303DLH_USE_ACC
-static void LSM303DLHTestACC(void)
- {
+static void LSM303DLHTestACC(void) {
+
 #ifdef UART_DEBUG
   uart_puts_P("\r\n");
 #endif // UART_DEBUG
@@ -136,8 +134,8 @@ static void LSM303DLHTestACC(void)
 // --------------------------------------------------------------------------
 
 #ifdef LSM303DLH_USE_MAG
-static void LSM303DLHTestMAG(void)
- {
+static void LSM303DLHTestMAG(void) {
+
 #ifdef UART_DEBUG
   uart_puts_P("\r\n");
 #endif // UART_DEBUG
@@ -176,8 +174,8 @@ static void LSM303DLHTestMAG(void)
 
 // --------------------------------------------------------------------------
 
-int main(void)
- {
+int main(void) {
+
   InitLEDPort();
   
   YellowLEDOn();
@@ -235,8 +233,8 @@ int main(void)
 
 // --------------------------------------------------------------------------
 
-static void delay_sec(uint8_t n_sec)
- {
+static void delay_sec(uint8_t n_sec) {
+
   while ( n_sec ) {
     // inline in util/delay.h
     for ( int m=0; m<100; m++ )

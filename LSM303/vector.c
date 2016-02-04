@@ -4,8 +4,6 @@
  *
  * Purpose: Vector analysis routines.
  *
- * $Id: vector.c,v 1.3 2012/05/19 11:33:35 mathes Exp $
- *
  */
  
 #include <math.h>

@@ -2,13 +2,11 @@
 /*
  * File   : LSM303DLH.h
  *
- * $Id: LSM303DLH.h,v 1.4 2012/05/20 11:10:50 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.4 $ $Date: 2012/05/20 11:10:50 $
+ * Version:        v1r0
  * Description:    Header file for LSM303DLH.c.
  *
  

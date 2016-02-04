@@ -2,13 +2,11 @@
 /*
  * File   : lsm303read.c
  *
- * $Id: lsm303read.c,v 1.12 2014/03/24 10:06:32 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.12 $ $Date: 2014/03/24 10:06:32 $
+ * Version:        v1r0
  * Description:    Program to readout the LSM303DLH sensor and send its 
  *                 data via UART. 
  *
@@ -100,8 +98,8 @@ static const char cBlank[] PROGMEM = " ";
 static const char cCRLF[] PROGMEM = "\r\n";
 
 #ifdef NMEA_FORMAT
-static char *strcat_p(char *dest,const char *progmem_src)
- {
+static char *strcat_p(char *dest,const char *progmem_src) {
+
   register char c;
   char *dest2 = &dest[strlen(dest)];
   
@@ -115,8 +113,8 @@ static char *strcat_p(char *dest,const char *progmem_src)
 
 // --------------------------------------------------------------------------
 
-static const char * int2string(int16_t data) 
- {
+static const char * int2string(int16_t data) {
+
   static char buffer[8];
   
   itoa( data, buffer, 10 );
@@ -128,8 +126,8 @@ static const char * int2string(int16_t data)
 
 const unsigned char HEX[] PROGMEM = {"0123456789ABCDEF"};
 
-static const char * hex2string(uint8_t val)
- {
+static const char * hex2string(uint8_t val) {
+
   static char buffer[3];
   
   buffer[0] = pgm_read_byte(&HEX[val & 0x0F]);
@@ -152,8 +150,8 @@ static const char cACRAW[] PROGMEM = "$ACRAW";
 static const char cComma[] PROGMEM = ",";
 
 static void UartSendLSM303DataNMEA(LSM303DLHData* acc_data,
-                                   LSM303DLHData* mag_data)
- {
+                                   LSM303DLHData* mag_data) {
+
   char message[60] = { 0 };
   
   strcat_p( message, cACRAW );
@@ -187,8 +185,8 @@ static void UartSendLSM303DataNMEA(LSM303DLHData* acc_data,
 // --------------------------------------------------------------------------
 
 #ifndef NMEA_FORMAT
-static void UartSendLSM303Data(LSM303DLHData* data)
- {
+static void UartSendLSM303Data(LSM303DLHData* data) {
+
   if ( !data ) return;
   
   int2uart( data->fSensorX );
@@ -206,8 +204,8 @@ static void UartSendLSM303Data(LSM303DLHData* data)
 
 // --------------------------------------------------------------------------
 
-static int8_t LSM303DLHInit(void)
- {
+static int8_t LSM303DLHInit(void) {
+
   int8_t err = LSM303DLHInitACC( I2C_DEV_LSM303DLH_ACC1 );
   
   if ( !err ) err = LSM303DLHInitMAG( I2C_DEV_LSM303DLH_MAG );
@@ -255,8 +253,8 @@ static const char cACERR[] PROGMEM = "ERROR\r\n";
 static const char cACOK[] PROGMEM = "\r\nREADY\r\n";
 #endif // 
 
-int main(void)
- {
+int main(void) {
+
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
   
   // init I2C interface
