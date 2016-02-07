@@ -41,7 +41,7 @@ CDEFS += -DUART_TX_BUFFER_SIZE=32 -DUART_RX_BUFFER_SIZE=128
 # num2uart.c with float2uart() function
 CDEFS += -DUSE_FLOAT
 
-# echo data received from LSm303 to RS232 (via UART0)
+# echo data received from LSM303 to RS232 (via UART0)
 CDEFS += -DECHO_RS485
 
 # Place -I options here
