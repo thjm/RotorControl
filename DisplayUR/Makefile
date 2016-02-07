@@ -32,7 +32,7 @@ CSTANDARD = -std=gnu99
 CDEFS = -DF_CPU=8000000UL -DTWI_SLAVE_BUFFERSIZE=10
 
 # Place -I options here
-CINCS = -I/home/mathes/src/AVR/Library/twislave
+CINCS = -I$(HOME)/src/AVR/Library/twislave
 
 
 CDEBUG = -g$(DEBUG)
@@ -167,7 +167,7 @@ program: $(TARGET).hex $(TARGET).eep
 
 
 # Additional source file twislave.c
-twislave.c: /home/mathes/src/AVR/Library/twislave/twislave.c
+twislave.c: $(HOME)/src/AVR/Library/twislave/twislave.c
 	ln -s $< $@
 clean::
 	rm -f twislave.c twislave.o
