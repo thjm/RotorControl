@@ -2,13 +2,11 @@
 /*
  * File   : blrtest.c
  *
- * $Id: blrtest.c,v 1.5 2012/05/21 07:07:37 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: none
- * Version:        $Revision: 1.5 $ $Date: 2012/05/21 07:07:37 $
+ * Version:        v1r0
  * Description:    Program to test buttons, LEDs and relay wiring.
  *
  
@@ -55,8 +53,8 @@
 
 // --------------------------------------------------------------------------
 
-ISR(TIMER0_OVF_vect)
- {
+ISR(TIMER0_OVF_vect) {
+
   TCNT0 = CNT0_PRESET;
   
   // call button check routine
@@ -65,8 +63,8 @@ ISR(TIMER0_OVF_vect)
 
 // --------------------------------------------------------------------------
 
-int main(void)
- {
+int main(void) {
+
   // --- HARDWARE INITIALISATION
   
   // timer 0 initialisation
@@ -103,7 +101,6 @@ int main(void)
   // --- MAIN LOOP, QUERY BUTTONS AND TRIGGER ACTIONS
 
   while ( 1 ) {
-
 
     if ( gKeyState & BUTTON_PRESET_CCW ) { // check BUTTON 'PRESET CCW'
       

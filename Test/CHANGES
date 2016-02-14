@@ -16,6 +16,8 @@ uarttest.c    : test of UART0 via temp. connections to MAX232, echo program
 CHANGES file for Projekte/RotorControl/Test
 -----------------------------------------------------------------------------
 
+2016-02-14 (thjm) - some code formatting (minor)
+
 2012-05-28 (thjm) - RS485 stuff (Rx/Tx enable) for our board added
 
 2012-05-27 (thjm) - board/circuit tested with uarttest.c

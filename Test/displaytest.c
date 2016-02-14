@@ -2,14 +2,13 @@
 /*
  * File   : displaytest.c
  *
- * $Id: displaytest.c,v 1.3 2012/05/21 07:07:37 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: none
- * Version:        $Revision: 1.3 $ $Date: 2012/05/21 07:07:37 $
- * Description:    Program to send test data via I2C to UR's display board (twi_slave).
+ * Version:        v1r0
+ * Description:    Program to send test data via I2C to UR's display board 
+ *                 (as TWI slave).
  *
  
    This program is free software; you can redistribute it and/or modify
@@ -81,8 +80,8 @@ static void int2uart(int val);
 #define TEST_PCF8574A    0
 #define TEST_DISP        1
 
-int main(void)
- {
+int main(void) {
+
   i2c_init();                         // init I2C interface
 
 #ifdef USE_UART
@@ -149,8 +148,8 @@ int main(void)
 
 // --------------------------------------------------------------------------
 
-static void delay_sec(uint8_t n_sec)
- {
+static void delay_sec(uint8_t n_sec) {
+
   while ( n_sec ) {
     // inline in util/delay.h
     for ( int m=0; m<100; m++ )
@@ -161,8 +160,8 @@ static void delay_sec(uint8_t n_sec)
 
 // --------------------------------------------------------------------------
 
-static void delay_msec10(uint8_t msec10)
- {
+static void delay_msec10(uint8_t msec10) {
+
   while ( msec10 ) {
     // inline in util/delay.h
     _delay_ms( 10.0 );
@@ -173,8 +172,8 @@ static void delay_msec10(uint8_t msec10)
 // --------------------------------------------------------------------------
 
 #if (TEST_DISP == 1 )
-static uint8_t I2C_DisplayWrite(void)
- {
+static uint8_t I2C_DisplayWrite(void) {
+
   static uint16_t data = 0;
   uint8_t ret = 0;
   
@@ -293,8 +292,8 @@ static uint8_t I2C_DisplayWrite(void)
 #ifdef USE_UART
 static const unsigned int TEST[] PROGMEM = { 10, 100, 1000, 10000 };
 
-void int2uart(int val)
- {
+void int2uart(int val) {
+
   unsigned char d, i;
   unsigned char zero;
   unsigned int uval = val;

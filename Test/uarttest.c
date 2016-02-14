@@ -2,13 +2,11 @@
 /*
  * File   : uarttest.c
  *
- * $Id: uarttest.c,v 1.6 2012/06/03 20:08:44 mathes Exp $
- *
  * Copyright:      Hermann-Josef Mathes  mailto: dc2ip@darc.de
  * Author:         Hermann-Josef Mathes
  * Remarks:
  * Known problems: development status
- * Version:        $Revision: 1.6 $ $Date: 2012/06/03 20:08:44 $
+ * Version:        v1r0
  * Description:    Test the USART of ATmega32 by implementing an echo server.
  *
  
@@ -65,8 +63,8 @@
 // avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:uarttest.hex
 //
 
-int main(void)
- {
+int main(void) {
+
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
 
   // if we use the RS485 part, we need to enable the receiver...
