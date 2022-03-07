@@ -23,13 +23,40 @@ The software is split onto several micro controllers from Atmel's AVR family.
   - RelayBoard2.sch : supplement relay board, switches extra 22V AC for the
     used rotor type
 
+## Directories
+
+- Bootloader : contains the boot loeader for the antenna sensor uC
+
+- Docu : various documentation files
+
+- DisplayUR : parts takes from Ulrich Radig's (http://www.ulrichradig.de)
+          PowerSupply project. The display unit presented there seems to be
+          quite usable for a simple display here, just software needs to be 
+          adopted.
+
+- Eagle : contains drawings and schemes done with the Eagle layout program
+
+- Linux : various test programs, to be run on Linux
+
+- LSM303 : library and example for the Pololu LSM303DLH 6-axis sensor
+          breakout board. The boards contains a 3-axis magnetometer and a
+          3-axis accelerometer.
+          See also:
+          - http://www.lipoly.de/index.php?main_page=product_info&products_id=165628
+          - data sheet LSM303DLH.pdf
+          - LSM303DLH-compass-app-note.pdf
+          - LSM303DLH-orangutan-example-cde.zip
+          - UM10204.pdf (I2C-bus specification)
+          - https://github.com/ryantm/LSM303DLH (Arduino library)
+
+- Test : directory containing various test programs for the 'rotorcontrol'
+         hardware environment
+
 ## Requirements
 
 - you need a cross-build environment for AVR micro controllers.
-- the UART library from Peter Fleury http://homepage.hispeed.ch/peterfleury/doxygen/avr-gcc-libraries/group__pfleury__uart.html
-  unpacked to a local directory
-- the TWI master library from Peter Fleury http://homepage.hispeed.ch/peterfleury/doxygen/avr-gcc-libraries/group__pfleury__ic2master.html
-  unpacked to a local directory
+- the UART library from Peter Fleury, unpacked to a local directory
+- the TWI master library from Peter Fleury, unpacked to a local directory
 - the environment variable FLEURYHOME must point to the root of both directories
 
 ## Usage
@@ -41,4 +68,31 @@ typing make in ./ We have then:
 - ./DisplayUR/i2cdisplay.hex : the software for the I2C controlled LED display
 - ./rotorcontrol.hex : the software for the main processor
 
+## Project Details
+
+### Revision 1.1
+
+- the display of UR's PS1 project will be used to display the current and the
+  set value for the azimuth (directory DisplayUR)
+
+- a LSM303DLH accelerometer and compass module will be used to determine the
+  antenna direction. It will be coupled to the main electronics via a serial
+  interface (coupled via RS-485)
+
+- the main electronics module has the task to
+  - receive direction information from the LSM303DLH
+  - calculate/average the direction information and send it to the display 
+    module
+  - compare the current direction with the preset value and pass this
+    information to the rotator controller (software module)
+  - switch the rotator motor in an appropriate way to achieve the desired
+    direction; handle (optional) end-switches and a clutch/brake
+  - get users input via push buttons (attached to the main electronics or to
+    the display module?)
+  - ...
+
+## References
+
+- http://homepage.hispeed.ch/peterfleury/doxygen/avr-gcc-libraries/group__pfleury__uart.html, UART library
+- http://homepage.hispeed.ch/peterfleury/doxygen/avr-gcc-libraries/group__pfleury__ic2master.html, TWI library
 
