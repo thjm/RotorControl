@@ -25,7 +25,7 @@ The software is split onto several micro controllers from Atmel's AVR family.
 
 ## Directories
 
-- Bootloader : contains the boot loeader for the antenna sensor uC
+- Bootloader : contains the boot loader for the antenna sensor uC (not yet used?)
 
 - Docu : various documentation files
 
@@ -48,6 +48,8 @@ The software is split onto several micro controllers from Atmel's AVR family.
           - LSM303DLH-orangutan-example-cde.zip
           - UM10204.pdf (I2C-bus specification)
           - https://github.com/ryantm/LSM303DLH (Arduino library)
+
+- Sketches : Arduino sketches collection
 
 - Test : directory containing various test programs for the 'rotorcontrol'
          hardware environment
@@ -91,8 +93,14 @@ typing make in ./ We have then:
     the display module?)
   - ...
 
+### Revision 2.x
+
+Managed somehow to destroy the antenna sensor during comissioning. As sensor is no
+longer available, purchased successor LSM303DLHC (GY-511).
+
 ## References
 
 - http://homepage.hispeed.ch/peterfleury/doxygen/avr-gcc-libraries/group__pfleury__uart.html, UART library
 - http://homepage.hispeed.ch/peterfleury/doxygen/avr-gcc-libraries/group__pfleury__ic2master.html, TWI library
+- https://github.com/ryantm/LSM303DLH, Arduini library for LSM303 like sensors
 
