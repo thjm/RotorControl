@@ -42,12 +42,12 @@ The software is split onto several micro controllers from Atmel's AVR family.
           breakout board. The boards contains a 3-axis magnetometer and a
           3-axis accelerometer.
           See also:
-          - http://www.lipoly.de/index.php?main_page=product_info&products_id=165628
-          - data sheet LSM303DLH.pdf
-          - LSM303DLH-compass-app-note.pdf
-          - LSM303DLH-orangutan-example-cde.zip
-          - UM10204.pdf (I2C-bus specification)
-          - https://github.com/ryantm/LSM303DLH (Arduino library)
+  - http://www.lipoly.de/index.php?main_page=product_info&products_id=165628
+  - data sheet LSM303DLH.pdf
+  - LSM303DLH-compass-app-note.pdf
+  - LSM303DLH-orangutan-example-cde.zip
+  - UM10204.pdf (I2C-bus specification)
+  - https://github.com/ryantm/LSM303DLH (Arduino library)
 
 - Sketches : Arduino sketches collection
 
