@@ -9,12 +9,12 @@
  * Version:        v1r0
  * Description:    Header file for LSM303DLH.c.
  *
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version. 
-	        
+   (at your option) any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,7 +22,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-   If not, write to the Free Software Foundation, 
+   If not, write to the Free Software Foundation,
    Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
  *
@@ -91,7 +91,7 @@ typedef struct _LSM303DLHData {
   int16_t fSensorX;
   int16_t fSensorY;
   int16_t fSensorZ;
-  
+
 } LSM303DLHData;
 
 /** Initialize accelerometer sensor of LSM303DLH at I2C address acc_addr. */

@@ -7,7 +7,7 @@
  * $Id: i2cdisplay.c,v 1.8 2012/05/16 15:00:48 mathes Exp $
  *
  */
- 
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,25 +47,25 @@ int main(void)
   // init the hardware ...
   DDRD |= (1<<PD0)|(1<<PD1)|(1<<PD2)|(1<<PD3)|(1<<PD4)|(1<<PD5)|(1<<PD6);
   DDRB |= (1<<PB0)|(1<<PB1)|(1<<PB2)|(1<<PB3)|(1<<PB4)|(1<<PB5);
-  
+
   MultiplexInit();
-  
+
   // initialize the TWI slave
   TWI_SlaveInit(I2C_DISPLAY, 0 /*, enable_irq */);
-  
+
   // enable interrupts globally
   sei();
-  
+
   uint16_t * data_left;
   uint16_t * data_right;
-  
-  
+
+
   while ( 1 ) {
-    
+
     if ( !gTWI_SlaveStopReceived ) continue;
-    
+
     switch ( gTWI_SlaveRxBuffer[0] ) { // command
-    
+
       case I2C_DISP_OFF:
            MultiplexOff();
            break;
@@ -103,9 +103,9 @@ int main(void)
            MultiplexSetRRaw( (uint8_t *)&gTWI_SlaveRxBuffer[1] );
            break;
     }
-    
+
   } // while ( 1 ) ...
-  
+
   return 0;
 }
 

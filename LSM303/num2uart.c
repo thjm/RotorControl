@@ -52,7 +52,7 @@ void int2uart(int val) {
   i = 4;
   do{
     i--;
-    for ( d = '0'; uval >= pgm_read_word(&TEST[i]); 
+    for ( d = '0'; uval >= pgm_read_word(&TEST[i]);
                    uval -= pgm_read_word(&TEST[i]) ) {
       d++;
       zero = 0;
@@ -73,7 +73,7 @@ void int2uart(int val) {
 void float2uart(float val) {
 
   signed char ep, dp, i, num;
-  
+
   if( val < 0 ){
     val = -val;
     uart_putc( '-' );

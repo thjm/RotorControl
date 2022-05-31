@@ -13,7 +13,7 @@ CHANGES file for Projekte/RotorControl/DisplayUR
 		    -> test successful!
 		    - completed protocol documentation
 		    - fix of command types (duplicate!)
-		    
+
 2011/12/28 (thjm) - multiplex.*:
                     - no more kDataMode/kDirectMode
                     - direct write to segment buffer now supported

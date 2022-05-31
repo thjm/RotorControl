@@ -20,7 +20,7 @@
 extern "C" {
 #endif
 
-/** Convert a single byte into its hexadecimal representation and 
+/** Convert a single byte into its hexadecimal representation and
   * output it to the UART.
   */
 extern void hex2uart(unsigned char val);

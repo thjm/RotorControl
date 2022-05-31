@@ -40,7 +40,7 @@ ToDo:
                     - requires i2cmaster.S instead of twimaster.c
 		    + use USI pins of ATtiny2313
 		  - i2cmaster.c -> twimaster.c
-		    
+
 2012/05/20 (thjm) - copyright stuff added (GNU GPL v3)
                   - 'LED_DEBUG' switched off
 
@@ -48,7 +48,7 @@ ToDo:
 
 2012/05/16 (thjm) - removed lcd.h lcd.c device.h, compass.c kept as example code
                   - common.cc moved to ../Linux
-		  
+
 2012/05/14 (thjm) - compass2.cc -> ../Linux/compass1.cc
                   - analyze.cc -> ../Linux/analyzedat.cc
 		  - *.dat files moved to ../Linux directory
@@ -87,10 +87,9 @@ ToDo:
                   - code for Orangutan from:
 		    ftp://tdata.atu.edu/Carlos%20Castillo/2011%20Spring/MICRO/Pololu%203pi%20robot/Installation%20Software/
 		    -> libpololu-avr-101104.zip
-		  
+
 2011/08/22 (thjm) - initial import of test code for LSM303DLH sensor
                     taken from orangutan project, see also:
                     http://www.pololu.com/docs/0J18
 
 =============================================================================
-

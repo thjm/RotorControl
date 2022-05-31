@@ -1,6 +1,6 @@
 /*********************************************
 * vim: set sw=8 ts=8 si :
-* Author: Guido Socher, Copyright: GPL 
+* Author: Guido Socher, Copyright: GPL
 * See http://linuxfocus.org/English/November2004/
 * for details.
 * Chip type           : ATMEGA8
@@ -104,7 +104,7 @@ void delay_ms(unsigned short ms)
   // Note 2: It seems that avr-gcc 4.3.3 optimisation removes that function.
   //         -> the code from avrm8ledtest-0.2 might have the same problem...
   unsigned short outer1, outer2;
-  outer1 = 50 * (F_CPU/1000000UL); 
+  outer1 = 50 * (F_CPU/1000000UL);
 
   while ( outer1 ) {
     outer2 = 1000;

@@ -9,17 +9,17 @@ verification, etc.) of the rotator controller project.
 analyzedat.cc - reads a file containing logged NMEA strings ($ACRAW sentences)
            acquired by the lsm303read.c program. The data are analyzed in two
 	   passes:
-	   
+
 	   1st pass: minimum and maximum values are determined
-	   2nd pass: the magnetic (3D) heading of the acquired data is 
+	   2nd pass: the magnetic (3D) heading of the acquired data is
 	             calculated
-	   
+
 	   The 3D heading is calculated using the MAG and ACC sensor readings.
 
-compass1.cc - interactive version of the above program. This programs reads 
+compass1.cc - interactive version of the above program. This programs reads
            the NMEA strings from a serial interface which has to be specified
 	   at the command line.
-	   
+
 	   Different operation modes are possible:
 	   c - calibration = acquiring data for new MAG min/max values
 	   m - measure

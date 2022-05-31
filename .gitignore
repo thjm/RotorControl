@@ -28,5 +28,3 @@ Test/uart.c
 # directory Linux (some dummy software)
 Linux/analyzedat
 Linux/compass1
-
-

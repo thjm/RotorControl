@@ -9,15 +9,15 @@
  * Remarks:
  * Known problems: development status
  * Version:        $Revision: 1.26 $ $Date: 2014/03/23 07:30:35 $
- * Description:    Contains all global definitions of the 'rotorcontrol' 
+ * Description:    Contains all global definitions of the 'rotorcontrol'
  *                 project.
  *
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version. 
-	        
+   (at your option) any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -25,7 +25,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-   If not, write to the Free Software Foundation, 
+   If not, write to the Free Software Foundation,
    Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
  *
@@ -56,7 +56,7 @@
 
 /* --- for the UART library of P.Fleury --- */
 
-//#define UART_TX_BUFFER_SIZE	128 
+//#define UART_TX_BUFFER_SIZE	128
 //#define UART_RX_BUFFER_SIZE	128
 
 // ==> uart.h must be included afterwards !!!
@@ -110,7 +110,7 @@
 #define BrakeRelease()          { RELAY_PORT |= RELAY_STOP; }
 #define PowerOn()               { RELAY_PORT |= RELAY_POWER; }
 #define PowerOff()              { RELAY_PORT &= ~RELAY_POWER; }
-#define RotatorCW()             { RELAY_PORT |= RELAY_CW; } 
+#define RotatorCW()             { RELAY_PORT |= RELAY_CW; }
 #define RotatorCCW()            { RELAY_PORT |= RELAY_CCW; }
 #define RotatorOff()            { RELAY_PORT &= ~(RELAY_CW | RELAY_CCW); }
 
@@ -171,7 +171,7 @@ typedef enum {
   kRotorRampdown,
   kTurningCCW,
   kTurningCW,
-  
+
 } ERotorState;
 
 /** The commands to the rotor control. */
@@ -182,7 +182,7 @@ typedef enum {
   kTurnCCW,
   kTurnCW,
   kFastStop,
-  
+
 } ERotorCommand;
 
 /**  */
@@ -213,7 +213,7 @@ typedef enum {
   kPresetCCW,
   kPresetStop,
   kPresetExec,
-  
+
 } EPresetCommand;
 
 /** Command to the 'preset' logic. */

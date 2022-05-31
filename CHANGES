@@ -43,9 +43,9 @@ Version v1r0:
 		    + vector.c and num2uart.c included into Makefile
 		  - heading written to display
 		  - average heading is also calculated, number of samples
-		    can be configured easily... 
+		    can be configured easily...
 		  - Makefile: target 'eeprom' added
-		    
+
 2012-05-25 (thjm) - AntennaBoard: now with ISP-header, U.Radig layout
                   - Overview.odp: schematic overview of the system
 
@@ -149,7 +149,7 @@ Version v1r0:
 2011-12-29 (thjm) - button control for LEFT/RIGHT added
                   - timer controlled button query integrated
 		    -> not yet tested !
-		    
+
 2011-12-27 (thjm) - first working version for I2C based display
                     -> i2cdisplay.h & i2cdisplay.c
 		    -> test master ist twitest.c
@@ -166,4 +166,3 @@ Version v1r0:
                   - drawings and schemes go to DisplayUR/Doc
 
 =============================================================================
-

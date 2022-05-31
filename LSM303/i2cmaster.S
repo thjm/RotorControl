@@ -9,17 +9,17 @@
 ; DESCRIPTION
 ; 	Basic routines for communicating with I2C slave devices. This
 ;	"single" master implementation is limited to one bus master on the
-;	I2C bus. 
-;  
-;       Based on the Atmel Application Note AVR300, corrected and adapted 
+;	I2C bus.
+;
+;       Based on the Atmel Application Note AVR300, corrected and adapted
 ;       to GNU assembler and AVR-GCC C call interface
-;       Replaced the incorrect quarter period delays found in AVR300 with 
-;       half period delays. 
+;       Replaced the incorrect quarter period delays found in AVR300 with
+;       half period delays.
 ;
 ; USAGE
 ;	These routines can be called from C, refere to file i2cmaster.h.
-;       See example test_i2cmaster.c 
-; 	Adapt the SCL and SDA port and pin definitions and eventually 
+;       See example test_i2cmaster.c
+; 	Adapt the SCL and SDA port and pin definitions and eventually
 ;	the delay routine to your target !
 ; 	Use 4.7k pull-up resistor on the SDA and SCL pin.
 ;
@@ -40,15 +40,15 @@
 
 ;***** Adapt these SCA and SCL port and pin definition to your target !!
 ;
-; #define SDA     	4		// SDA Port D, Pin 4   
+; #define SDA     	4		// SDA Port D, Pin 4
 ; #define SCL		5		// SCL Port D, Pin 5
 ; #define SDA_PORT	PORTD           // SDA Port D
-; #define SCL_PORT	PORTD           // SCL Port D         
+; #define SCL_PORT	PORTD           // SCL Port D
 ; use USI pins of ATtiny2313
-#define SDA	      	5 		// SDA Port B, Pin 5  
+#define SDA	      	5 		// SDA Port B, Pin 5
 #define SCL	      	7 	 	// SCL Port B, Pin 7
 #define SDA_PORT	PORTB		// SDA Port B
-#define SCL_PORT	PORTB		// SCL Port B	      
+#define SCL_PORT	PORTB		// SCL Port B
 
 ;******
 
@@ -75,7 +75,7 @@
 ;*************************************************************************
 	.stabs	"",100,0,0,i2c_delay_T2
 	.stabs	"i2cmaster.S",100,0,0,i2c_delay_T2
-	.func i2c_delay_T2	; delay 5.0 microsec with 4 Mhz crystal	
+	.func i2c_delay_T2	; delay 5.0 microsec with 4 Mhz crystal
 i2c_delay_T2:        ; 4 cycles
 	rjmp 1f      ; 2   "
 1:	rjmp 2f      ; 2   "
@@ -85,12 +85,12 @@ i2c_delay_T2:        ; 4 cycles
 5: 	rjmp 6f      ; 2   "
 6:	nop          ; 1   "
 	ret          ; 3   "
-	.endfunc     ; total 20 cyles = 5.0 microsec with 4 Mhz crystal 
+	.endfunc     ; total 20 cyles = 5.0 microsec with 4 Mhz crystal
 
 
 ;*************************************************************************
 ; Initialization of the I2C bus interface. Need to be called only once
-; 
+;
 ; extern void i2c_init(void)
 ;*************************************************************************
 	.global i2c_init
@@ -104,7 +104,7 @@ i2c_init:
 	.endfunc
 
 
-;*************************************************************************	
+;*************************************************************************
 ; Issues a start condition and sends address and transfer direction.
 ; return 0 = device accessible, 1= failed to access device
 ;
@@ -117,10 +117,10 @@ i2c_init:
 i2c_start:
 	sbi 	SDA_DDR,SDA	;force SDA low
 	rcall 	i2c_delay_T2	;delay T/2
-	
+
 	rcall 	i2c_write	;write address
 	ret
-	.endfunc		
+	.endfunc
 
 
 ;*************************************************************************
@@ -142,13 +142,13 @@ i2c_rep_start:
 	rcall 	i2c_delay_T2	;delay  T/2
 	sbi 	SDA_DDR,SDA	;force SDA low
 	rcall 	i2c_delay_T2	;delay	T/2
-	
+
 	rcall	i2c_write	;write address
 	ret
 	.endfunc
 
 
-;*************************************************************************	
+;*************************************************************************
 ; Issues a start condition and sends address and transfer direction.
 ; If device is busy, use ack polling to wait until device is ready
 ;
@@ -171,7 +171,7 @@ i2c_start_wait1:
 	rjmp	i2c_start_wait1	;device busy, poll ack again
 i2c_start_wait_done:
 	ret
-	.endfunc	
+	.endfunc
 
 
 ;*************************************************************************
@@ -224,7 +224,7 @@ i2c_write_high:
 	cbi	SCL_DDR,SCL	;release SCL
 	rcall	i2c_delay_T2	;delay T/2
 	rjmp	i2c_write_bit
-	
+
 i2c_get_ack:
 	sbi	SCL_DDR,SCL	;force SCL low
 	cbi	SDA_DDR,SDA	;release SDA
@@ -233,7 +233,7 @@ i2c_get_ack:
 i2c_ack_wait:
 	sbis	SCL_IN,SCL	;wait SCL high (in case wait states are inserted)
 	rjmp	i2c_ack_wait
-	
+
 	clr	r24		;return 0
 	sbic	SDA_IN,SDA	;if SDA high -> return 1
 	ldi	r24,1
@@ -246,7 +246,7 @@ i2c_ack_wait:
 
 ;*************************************************************************
 ; read one byte from the I2C device, send ack or nak to device
-; (ack=1, send ack, request more data from device 
+; (ack=1, send ack, request more data from device
 ;  ack=0, send nak, read is followed by a stop condition)
 ;
 ; extern unsigned char i2c_read(unsigned char ack);
@@ -257,7 +257,7 @@ i2c_ack_wait:
 ;*************************************************************************
 	.global i2c_readAck
 	.global i2c_readNak
-	.global i2c_read		
+	.global i2c_read
 	.func	i2c_read
 i2c_readNak:
 	clr	r24
@@ -270,23 +270,23 @@ i2c_read_bit:
 	sbi	SCL_DDR,SCL	;force SCL low
 	cbi	SDA_DDR,SDA	;release SDA (from previous ACK)
 	rcall	i2c_delay_T2	;delay T/2
-	
+
 	cbi	SCL_DDR,SCL	;release SCL
 	rcall	i2c_delay_T2	;delay T/2
-	
+
 i2c_read_stretch:
     sbis SCL_IN, SCL        ;loop until SCL is high (allow slave to stretch SCL)
     rjmp	i2c_read_stretch
-    	
+
 	clc			;clear carry flag
 	sbic	SDA_IN,SDA	;if SDA is high
 	sec			;  set carry flag
-	
+
 	rol	r23		;store bit
 	brcc	i2c_read_bit	;while receive register not full
-	
+
 i2c_put_ack:
-	sbi	SCL_DDR,SCL	;force SCL low	
+	sbi	SCL_DDR,SCL	;force SCL low
 	cpi	r24,1
 	breq	i2c_put_ack_low	;if (ack=0)
 	cbi	SDA_DDR,SDA	;      release SDA
@@ -304,4 +304,3 @@ i2c_put_ack_wait:
 	clr	r25
 	ret
 	.endfunc
-

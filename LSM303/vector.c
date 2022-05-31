@@ -5,7 +5,7 @@
  * Purpose: Vector analysis routines.
  *
  */
- 
+
 #include <math.h>
 
 /** @file vector.c
@@ -36,7 +36,7 @@ float vector_dot(const vector_t *a,const vector_t *b) {
 void vector_normalize(vector_t *a) {
 
  float mag = sqrt(vector_dot(a, a));
- 
+
  a->x /= mag;
  a->y /= mag;
  a->z /= mag;

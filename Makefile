@@ -13,7 +13,7 @@ TARGET = rotorcontrol
 HDR = global.h i2cdisplay.h
 SRC = $(TARGET).c rotorstate.c uart.c i2cmaster.c i2cdisplay.c get8key4.c \
 	compass.c vector.c num2uart.c
-ASRC = 
+ASRC =
 OPT = s
 
 # Name of this Makefile (used for "make depend").
@@ -55,7 +55,7 @@ CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
 
 
-#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
+#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
 
 
 #Additional libraries.
@@ -66,7 +66,7 @@ PRINTF_LIB_MIN = -Wl,-u,vfprintf -lprintf_min
 # Floating point printf version (requires MATH_LIB = -lm below)
 PRINTF_LIB_FLOAT = -Wl,-u,vfprintf -lprintf_flt
 
-PRINTF_LIB = 
+PRINTF_LIB =
 
 # Minimalistic scanf version
 SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
@@ -113,7 +113,7 @@ AVRDUDE_ERASE_COUNTER = -y
 #AVRDUDE_NO_VERIFY = -V
 
 # Increase verbosity level.  Please use this when submitting bug
-# reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude> 
+# reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude>
 # to submit bug reports.
 #AVRDUDE_VERBOSE = -v -v
 
@@ -134,7 +134,7 @@ REMOVE = rm -f
 MV = mv -f
 
 # Define all object files.
-OBJ = $(SRC:.c=.o) $(ASRC:.S=.o) 
+OBJ = $(SRC:.c=.o) $(ASRC:.S=.o)
 
 # Define all listing files.
 LST = $(ASRC:.S=.lst) $(SRC:.c=.lst)
@@ -153,7 +153,7 @@ build: elf hex eep
 elf: $(TARGET).elf
 hex: $(TARGET).hex
 eep: $(TARGET).eep
-lss: $(TARGET).lss 
+lss: $(TARGET).lss
 sym: $(TARGET).sym
 
 # sub-directories
@@ -200,7 +200,7 @@ num2uart.c: LSM303/num2uart.c
 clean::
 	rm -f num2uart.c
 
-# Program the device.  
+# Program the device.
 program: $(TARGET).hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
@@ -213,7 +213,7 @@ COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .data-0x800000 \
 --change-section-address .bss-0x800000 \
 --change-section-address .noinit-0x800000 \
---change-section-address .eeprom-0x810000 
+--change-section-address .eeprom-0x810000
 
 
 coff: $(TARGET).elf
@@ -251,7 +251,7 @@ $(TARGET).elf: $(OBJ)
 
 # Compile: create object files from C source files.
 .c.o:
-	$(CC) -c $(ALL_CFLAGS) $< -o $@ 
+	$(CC) -c $(ALL_CFLAGS) $< -o $@
 
 
 # Compile: create assembler files from C source files.
@@ -290,6 +290,3 @@ include .depend
 endif
 
 # --- end of Makefile ---
-
-
-

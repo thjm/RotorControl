@@ -7,14 +7,14 @@
  * Remarks:
  * Known problems: development status
  * Version:        v1r0
- * Description:    Simple test program for AVR TWI interface with LSM303DLH. 
+ * Description:    Simple test program for AVR TWI interface with LSM303DLH.
  *
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version. 
-	        
+   (at your option) any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,12 +22,12 @@
 
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-   If not, write to the Free Software Foundation, 
+   If not, write to the Free Software Foundation,
    Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
  *
  */
- 
+
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -46,7 +46,7 @@
 
 #define USE_UART
 #define UART_BAUD_RATE 9600
-#define UART_TX_BUFFER_SIZE 32 
+#define UART_TX_BUFFER_SIZE 32
 #define UART_RX_BUFFER_SIZE 32
 
 #include <i2cmaster.h>
@@ -83,7 +83,7 @@ static const char cEqualSign[] PROGMEM = "= ";
 static void PrintSensorData(const char *what,int data) {
 
 #ifdef UART_DEBUG
-  uart_puts( what ); 
+  uart_puts( what );
   uart_puts_p( cEqualSign );
   int2uart( data );
   uart_puts_p( cBlank );
@@ -102,10 +102,10 @@ static void LSM303DLHTestACC(void) {
   LSM303DLHData acc_data;
 
   // --- read accelerometer values
-  
+
   uint8_t ret = LSM303DLHReadACC( I2C_DEV_LSM303DLH_ACC1, &acc_data );
 
-  if ( ret ) { 
+  if ( ret ) {
 
     YellowLEDOff();
     RedLEDOn(); 			     // show error
@@ -124,9 +124,9 @@ static void LSM303DLHTestACC(void) {
   PrintSensorData( "AX", acc_data.fSensorX );
   PrintSensorData( "AY", acc_data.fSensorY );
   PrintSensorData( "AZ", acc_data.fSensorZ );
-  
+
   uart_puts_p( cCRLF );
-  
+
   delay_sec(1);
 }
 #endif // LSM303DLH_USE_ACC
@@ -141,12 +141,12 @@ static void LSM303DLHTestMAG(void) {
 #endif // UART_DEBUG
 
   LSM303DLHData mag_data;
-  
+
   // --- read magnetometer values
-  
+
   uint8_t ret = LSM303DLHReadMAG( I2C_DEV_LSM303DLH_MAG, &mag_data );
-  
-  if ( ret ) { 
+
+  if ( ret ) {
 
     YellowLEDOff();
     RedLEDOn(); 			     // show error
@@ -177,7 +177,7 @@ static void LSM303DLHTestMAG(void) {
 int main(void) {
 
   InitLEDPort();
-  
+
   YellowLEDOn();
   delay_sec(1);
   YellowLEDOff();
@@ -185,11 +185,11 @@ int main(void) {
   YellowLEDOn();
 
   delay_sec(1);
-    
+
   i2c_init();                                // init I2C interface
 #ifdef UART_DEBUG
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
-  
+
   sei();
 
   uart_puts_P("\r\n'lsm303test' ready!\r\n");
@@ -227,7 +227,7 @@ int main(void) {
     delay_sec(2);
 #endif // LSM303DLH_USE_ACC || LSM303DLH_USE_MAG
   }
-      
+
   return 0;
 }
 

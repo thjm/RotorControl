@@ -7,7 +7,7 @@
  * $Id: twitest.c,v 1.3 2012/01/03 15:39:22 mathes Exp $
  *
  */
- 
+
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -26,7 +26,7 @@
 
 #define USE_UART
 #define UART_BAUD_RATE 9600
-#define UART_TX_BUFFER_SIZE 16 
+#define UART_TX_BUFFER_SIZE 16
 #define UART_RX_BUFFER_SIZE 16
 
 #ifdef USE_UART
@@ -67,14 +67,14 @@ int main(void)
 #ifdef USE_UART
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
   uart_puts_P("'twitest' ready!\r\n");
-  
+
   sei();
 #endif // USE_UART
-  
+
   uint8_t ret = 0;
-  
+
   while ( 1 ) {
-  
+
 #ifdef USE_UART
       uart_puts_P("Loop...\r\n");
 #endif // USE_UART
@@ -85,11 +85,11 @@ int main(void)
       uart_puts_P("I2C init!\r\n");
 #endif // USE_UART
     }
-    
+
 #if (TEST_PCF8574A == 1)
     // test with PCF8574A
     ret = i2c_start(I2C_DEV8574A | I2C_WRITE);
-    
+
     if ( ret ) {
       /* failed to issue start condition, possibly no device found */
       i2c_stop();
@@ -113,16 +113,16 @@ int main(void)
 
 #if (TEST_DISP == 1 )
     ret = I2C_DisplayWrite();
-    
+
     if ( ret ) {
       delay_sec(1);
       continue;
     }
 #endif // TEST_DISP
-    
+
     delay_msec10(20);
   }
-  
+
   return 0;
 }
 
@@ -156,9 +156,9 @@ static uint8_t I2C_DisplayWrite(void)
  {
   static uint16_t data = 0;
   uint8_t ret = 0;
-  
+
   ret = i2c_start( I2C_DISPLAY | I2C_WRITE);  // set device address and write mode
-  
+
   if ( ret ) {
     /* failed to issue start condition, possibly no device found */
     i2c_stop();
@@ -167,18 +167,18 @@ static uint8_t I2C_DisplayWrite(void)
  #endif // USE_UART
     return ret;
   }
-  
+
  #ifdef USE_UART
   uart_puts_P("Data: ");
   int2uart( data );
   uart_puts_P("\r\n");
  #endif // USE_UART
-      
+
   if ( (data % 300) < 100 ) {
-  
+
     i2c_write(0x00); // write remote buffer address (always)
     i2c_write(I2C_DISP_DATA);  // write command
-      
+
     i2c_write(data & 0xff);  // write data bytes to remote buffer
     i2c_write((data & 0xff00) >> 8);
 
@@ -188,19 +188,19 @@ static uint8_t I2C_DisplayWrite(void)
     i2c_stop();
   }
   else if ( (data % 300) < 200 ) {
-  
+
     i2c_write(0x00); // write remote buffer address (always)
     i2c_write(I2C_DISP_DATA_LEFT);  // write command
-      
+
     i2c_write(data & 0xff);  // write data bytes to remote buffer
     i2c_write((data & 0xff00) >> 8);
 
     i2c_stop();
-    
+
     _delay_ms(1.0);  // needs some delay before next start
 
     ret = i2c_start( I2C_DISPLAY | I2C_WRITE);  // set device address and write mode
-    
+
     if ( ret ) {
       /* failed to issue start condition, possibly no device found */
       i2c_stop();
@@ -209,31 +209,31 @@ static uint8_t I2C_DisplayWrite(void)
  #endif // USE_UART
       return ret;
     }
-  
+
     i2c_write(0x00);
     i2c_write(I2C_DISP_RAWDATA_RIGHT);  // write command
-    
+
     i2c_write( 0x08 );
     i2c_write( 0x08 );
     i2c_write( 0x08 );
-    
+
     i2c_stop();
   }
   else if ( (data % 300) < 300 ) {
 
     i2c_write(0x00); // write remote buffer address (always)
     i2c_write(I2C_DISP_RAWDATA_LEFT);  // write command
-    
+
     i2c_write( 0x08 );
     i2c_write( 0x08 );
     i2c_write( 0x08 );
-    
+
     i2c_stop();
 
     _delay_ms(1.0);
 
     ret = i2c_start( I2C_DISPLAY | I2C_WRITE);  // set device address and write mode
-    
+
     if ( ret ) {
       /* failed to issue start condition, possibly no device found */
       i2c_stop();
@@ -251,7 +251,7 @@ static uint8_t I2C_DisplayWrite(void)
 
     i2c_stop();
   }
-  
+
   _delay_ms(1.0);
 
  #ifdef USE_UART
@@ -259,7 +259,7 @@ static uint8_t I2C_DisplayWrite(void)
  #endif // USE_UART
 
   data++;
-  
+
   if ( data == 999 ) data = 0;
 
   return ret;
@@ -287,7 +287,7 @@ void int2uart(int val)
   i = 4;
   do{
     i--;
-    for ( d = '0'; uval >= pgm_read_word(&TEST[i]); 
+    for ( d = '0'; uval >= pgm_read_word(&TEST[i]);
                    uval -= pgm_read_word(&TEST[i]) ) {
       d++;
       zero = 0;

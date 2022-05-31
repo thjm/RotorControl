@@ -9,12 +9,12 @@
  * Version:        Version v1r0
  * Description:    Program which performs the rotator control.
  *
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version. 
-        
+   (at your option) any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -23,12 +23,12 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-   Falls nicht, schreiben Sie an die Free Software Foundation, 
+   Falls nicht, schreiben Sie an die Free Software Foundation,
    Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
  *
  */
- 
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,7 +68,7 @@
 //
 // avrdude -p atmega32 -P usb -c usbasp -y -U flash:w:rotorcontrol.hex
 //
-// avrdude -p atmega32 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i 
+// avrdude -p atmega32 -P usb -c usbasp -y -U lfuse:r:-:i -U hfuse:r:-:i
 // avrdude -p atmega32 -P usb -c usbasp -y -U hfuse:w:0xC1:m
 //  - JTAG disabled
 //  - CKOPT enabled
@@ -109,7 +109,7 @@ vector_t gEE_MAG_max EEMEM = {   36,  238,  238 };
 ISR(TIMER0_OVF_vect) {
 
   TCNT0 = CNT0_PRESET;
-  
+
   // call button check routine
   CheckKeys();
 
@@ -118,10 +118,10 @@ ISR(TIMER0_OVF_vect) {
     gRotatorBusyCounter--;
   else
     RotatorExec();
-  
+
   // execute 'Preset' program
   PresetExec();
-  
+
   // will switchoff 'Preset' display after some time
   if ( gPresetDisplayCounter > 0 )
     gPresetDisplayCounter--;
@@ -132,7 +132,7 @@ ISR(TIMER0_OVF_vect) {
 static void InitHardware(void) {
 
   delay_sec( 1 );
-  
+
   // timer 0 initialisation
   TCNT0 = CNT0_PRESET;
   TCCR0 = (1<<CS02)|(1<<CS00);  // CK/1024 -> 1 tick each .128 msec
@@ -141,64 +141,64 @@ static void InitHardware(void) {
   TIMSK |= (1<<TOIE0);
 
   uint8_t mask;
-  
+
   // relay port initialisation, all relays off
   mask = RELAY_POWER | RELAY_CW | RELAY_CCW | RELAY_STOP;
 
   RELAY_PORT &= ~mask;
   RELAY_DDR |= mask;
-  
+
   // LED port initialisation, all LEDs off, RS485 RX enable
   mask = LED_LEFT | LED_RIGHT | LED_CALIBRATE | LED_OVERLOAD;
 
   LED_PORT &= ~mask;
   LED_DDR |= mask;
-  
+
   RS485EnableRx();
   RS485_DDR |= RS485_TX_ENABLE;
-  
+
   // Buttons port initialisation, turn pull-ups on
   mask = BUTTON_PRESET_CCW | BUTTON_CCW | BUTTON_STOP | BUTTON_CW |
   BUTTON_PRESET_CW;
 
   BUTTON_PORT |= mask;
   BUTTON_DDR &= ~mask;
-  
+
   // initialize USART0 (receiving NMEA messages via RS485 from ACC/MAG sensor)
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) );
 
   // initialize USART1, for command/status exchange with HAM op (& debug)
-  
+
   // enable interrupts globally
   sei();
-  
+
   // init I2C interface
   i2c_init();
-  
+
   I2CDisplayBlank();
   I2CDisplayOn();
 }
- 
+
 // --------------------------------------------------------------------------
 
-static const uint8_t cStartMessage[] PROGMEM = 
+static const uint8_t cStartMessage[] PROGMEM =
          { 0x7a, 0x65, 0x6b, 0x12, 0x4f, 0x00 }; // "dC2" "IP "
 //         { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20 };  // test pattern
 
-static const uint8_t cPauseMessage[] PROGMEM = 
-         { 0x08, 0x08, 0x08, 0x08, 0x08, 0x08 }; // "---" "---" 
+static const uint8_t cPauseMessage[] PROGMEM =
+         { 0x08, 0x08, 0x08, 0x08, 0x08, 0x08 }; // "---" "---"
 
 static void StartMessage(uint8_t n_sec) {
-  
+
   I2CDisplayWrite_p( sizeof(cStartMessage), cStartMessage );
   I2CDisplayOn();
-  
+
   delay_sec( n_sec );
-  
+
   I2CDisplayWrite_p( sizeof(cPauseMessage), cPauseMessage );
-  
+
   delay_sec( 1 );
-  
+
   I2CDisplayBlank();
 }
 
@@ -208,18 +208,18 @@ int main(void) {
 
   // initialize the hardware ...
   InitHardware();
-  
+
   // reset the message decoding engine
   CompassMessageInit();
-  
+
   // initialize the compass calculator
   CompassInit();
-  
+
   // display the start message, and leave it for # seconds on
   StartMessage(2);
-  
+
   unsigned int uart_data;
-  
+
   while ( 1 ) {
 
    // --- handle serial messages (from ACC/MAG sensor)
@@ -230,78 +230,78 @@ int main(void) {
    }
 
    // --- handle serial messages from RS232 interface
-   
+
      // ...
-     
+
    // --- update of heading display
 
     UpdateDisplay();
-    
+
    // --- 5 button user interface to rotator control
-  
+
     // --- checks for BUTTON CCW ---
-    
+
     if ( (gKeyState & BUTTON_CCW) && !(gKeyState & BUTTON_STOP)
                                    && !IsRotatorBusy() ) {
-      
+
       SetCommand( kTurnCCW );
     }
-    
+
     // was BUTTON CCW released ?
-    
+
     if ( (GetLastCommand() == kTurnCCW) && !(gKeyState & BUTTON_CCW) ) {
 
       SetCommand( kStop );
     }
-    
+
     // --- checks for BUTTON CW ---
-    
+
     if ( (gKeyState & BUTTON_CW) && !(gKeyState & BUTTON_STOP)
                                     && !IsRotatorBusy() ) {
-      
+
       SetCommand( kTurnCW );
     }
 
     // was BUTTON CW released ?
-    
+
     if ( (GetLastCommand() == kTurnCW) && !(gKeyState & BUTTON_CW) ) {
-      
+
       SetCommand( kStop );
     }
-    
+
     // --- checks for BUTTON STOP ---
-    
+
     if ( gKeyState & BUTTON_STOP ) {
-      
+
       SetCommand( kFastStop );
     }
-    
+
     // --- checks for BUTTON PRESET CCW ---
-    
+
     if ( gKeyState & BUTTON_PRESET_CCW ) {
-      
+
       SetPresetCommand( kPresetCCW );
     }
-    
+
     if ( (gPresetCommand == kPresetCCW) && !(gKeyState & BUTTON_PRESET_CCW) ) {
-      
+
       SetPresetCommand( kPresetStop );
     }
-    
+
     // --- checks BUTTON PRESET CW ---
-    
+
     if ( gKeyState & BUTTON_PRESET_CW ) {
-      
+
       SetPresetCommand( kPresetCW );
     }
-    
+
     if ( (gPresetCommand == kPresetCW) && !(gKeyState & BUTTON_PRESET_CW) ) {
-      
+
       SetPresetCommand( kPresetStop );
     }
-    
+
   } // while ( 1 ) ...
-  
+
   return 0;
 }
 

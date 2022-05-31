@@ -9,12 +9,12 @@
  * Version:        v1r0
  * Description:    Test the USART of ATmega32 by implementing an echo server.
  *
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version. 
-	        
+   (at your option) any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,7 +22,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-   If not, write to the Free Software Foundation, 
+   If not, write to the Free Software Foundation,
    Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
  *
@@ -39,7 +39,7 @@
   * Echo server to test ATmega32 USART.
   * @author H.-J.Mathes <dc2ip@darc.de>
   */
-  
+
 #include <uart.h>
 
 #include "../global.h"
@@ -70,18 +70,18 @@ int main(void) {
   // if we use the RS485 part, we need to enable the receiver...
   // ... TX should go via RS232 to the PC for monitoring
   RS485_DDR |= RS485_TX_ENABLE;
-  
+
   // output data via RS485, input via RS232
   //RS485EnableTx();
   // receive only, TX via RS232
   RS485EnableRx();
-  
+
   sei();  // P.Fleurys lib is using interrupts
 
   // --- output some string(s)
-  
+
   uart_puts( "USART echo server...\r\n" );
-  
+
   // loop forever ...
   for (;;) {
 
@@ -102,14 +102,14 @@ int main(void) {
         uart_puts_P( "UART Overrun Error: " );
       if ( ch & UART_BUFFER_OVERFLOW )
         uart_puts_P( "Buffer overflow Error: ");
-        
+
       uart_putc( (uint8_t)ch );
-      
+
       if ( (uint8_t)ch == 0x0d ) uart_putc( 0x0a );  // add LF
     }
 
   } // for (;;) ...
-  
+
   return 0;
 }
 

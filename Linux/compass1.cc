@@ -45,8 +45,8 @@ enum {
   kModeMask = 0xff,
   kCalibrate = 0,
   kMeasure = 1,
-  
-  kDebug = 0x8000 
+
+  kDebug = 0x8000
 
 };
 
@@ -73,16 +73,16 @@ static struct ProgramParameters {
   std::string     fSerialPort;
   int             fOperationMode;
   bool            fDisplayOn;
-  
+
   vector_t        fMinMAG;
   vector_t        fMaxMAG;
-  
+
 } gProgramParameter = {
 
   "/dev/null", /* fSerialPort */
   kMeasure,    /* fOperationMode */
   false,       /* fDisplayOn */
-  
+
   { -474, -257, -257 },  /* fMinMAG */
   {   83,  151,  151 },  /* fMaxMAG */
 };
@@ -120,8 +120,8 @@ int main(int argc, char** argv)
   }
 
   gProgramParameter.fSerialPort = argv[1];
-  
-  // Open the serial port. 
+
+  // Open the serial port.
   //
   SerialPort serial_port( gProgramParameter.fSerialPort );
 
@@ -158,33 +158,33 @@ int main(int argc, char** argv)
   char gps_data[240];
   int gps_data_ptr = 0;
   bool gps_msg_start = false, gps_msg_complete = false;
-  
+
   vector_t p = {0, -1, 0}; // X: to the right, Y: backward, Z: down
 
   vector_t vMin = {  99999,  99999,  99999 };
   vector_t vMax = { -99999, -99999, -99999 };
-  
+
   vector_t m_min = gProgramParameter.fMinMAG;
   vector_t m_max = gProgramParameter.fMaxMAG;
-  
+
   int last_average = 0; // last average
   std::list<int> headings;
-  
+
   char choice;
   bool leave = false;
-  
+
   UiMenu();
-  
+
   while ( !leave ) {
-  
+
     if ( kbhit() ) {
-    
+
       choice = getch();
 
       switch ( choice ) {
 
 	case 'c': // mode 'calibrate'
-	case 'C': 
+	case 'C':
 	          gProgramParameter.fOperationMode = kCalibrate;
                   m_min = vMin; m_max = vMax;
 		  break;
@@ -196,102 +196,102 @@ int main(int argc, char** argv)
 		  break;
 
 	case 'm': // mode 'measure'
-	case 'M': 
+	case 'M':
 	          gProgramParameter.fOperationMode = kMeasure;
-	          
+
 		  // output most recent calibration constants
-		    
+
                   cout << "Reading for magnetic field: " << endl;
-                  cout << "  min= " << setw(5) << m_min.x 
-		       << " " << setw(5) << m_min.y 
-                       << " " << setw(5) << m_min.y << endl; 
-                  cout << "  max= " << setw(5) << m_max.x 
-		       << " " << setw(5) << m_max.y 
-                       << " " << setw(5) << m_max.y << endl; 
+                  cout << "  min= " << setw(5) << m_min.x
+		       << " " << setw(5) << m_min.y
+                       << " " << setw(5) << m_min.y << endl;
+                  cout << "  max= " << setw(5) << m_max.x
+		       << " " << setw(5) << m_max.y
+                       << " " << setw(5) << m_max.y << endl;
 
                   break;
 
         case 'o':
 	case 'O': gProgramParameter.fDisplayOn = !gProgramParameter.fDisplayOn;
                   break;
-	
+
 	case 'x': // exit
         case 'X': leave = true;
                   break;
-	
+
 	default: UiMenu();
       }
-      
+
       cout << endl;
-      
+
     } // if ( kbhit() ) ...
 
     vector_t a, m;
-    
+
     if ( !leave ) {
-      
+
       char data;
-      
+
       if ( serial_port.IsDataAvailable() ) {
-    
+
         data = serial_port.ReadByte( 0 );
-	
+
 	if ( gps_data_ptr == sizeof(gps_data) ) {
-	  cerr << "Input buffer overrun(" << gps_data_ptr 
+	  cerr << "Input buffer overrun(" << gps_data_ptr
 	       << "), discarding message!" << endl;
 	  gps_data_ptr = 0;
 	  gps_msg_start = false;
 	}
-	
+
 //	if ( gProgramParameter.fOperationMode & kDebug ) {
 //	  cout << data;
 //	}
-	
+
 	switch ( data ) {
-	  
+
 	  case '$':  gps_msg_start = true;
 	             gps_data_ptr = 0;
 	             gps_data[gps_data_ptr++] = data;
 	             break;
-	
+
 	  case 0x0d:
 	  case 0x0a: if ( !gps_msg_start ) break;
 	             gps_msg_start = false;
 	             gps_data[gps_data_ptr++] = 0;
 	             gps_msg_complete = true;
 		     break;
-	
+
           default:   gps_data[gps_data_ptr++] = data;
 
         } // switch ( data ) ...
-      
+
       } // if ( serial_port.IsDataAvailable() )
-      
+
     }  // if ( !leave ) ...
-    
+
     if ( gps_msg_complete ) {
-      
+
 //      if ( gProgramParameter.fOperationMode & kDebug ) {
 //        cout << gps_data;
 //      }
-      
+
       gps_msg_complete = false;
-      
+
       if ( gProgramParameter.fOperationMode == kCalibrate || gProgramParameter.fOperationMode & kDebug )
         cout << "ACMSG: " << gps_data << endl;
 
       bool msg_ok = false;
-      
+
       msg_ok = ReadNMEAFormat( gps_data, &a, &m );
-      
+
       if ( (gProgramParameter.fOperationMode & kDebug) && !msg_ok ) {
         cout << "!!!" << endl;
       }
-      
+
       if ( !msg_ok ) continue;
-      
+
       switch ( gProgramParameter.fOperationMode & kModeMask ) {
-      
+
         case kCalibrate:
     	     if ( m.x < m_min.x ) m_min.x = m.x;
     	     if ( m.x > m_max.x ) m_max.x = m.x;
@@ -306,12 +306,12 @@ int main(int argc, char** argv)
              m.x = (m.x - m_min.x) / (m_max.x - m_min.x) * 2 - 1.0;
              m.y = (m.y - m_min.y) / (m_max.y - m_min.y) * 2 - 1.0;
              m.z = (m.z - m_min.z) / (m_max.z - m_min.z) * 2 - 1.0;
-    
+
              int heading3D = GetHeading3D(&a, &m, &p );
-    
+
              if ( gProgramParameter.fDisplayOn )
                cout << "3D-Heading= " << setw(3) << heading3D;
-	     
+
 	     headings.push_back( heading3D );
 
 	     if ( headings.size() == 10 ) {
@@ -320,7 +320,7 @@ int main(int argc, char** argv)
 
 	       for ( std::list<int>::iterator it = headings.begin();
 	                                      it != headings.end(); ++it ) {
-	         
+
 		 if ( last_average > 270 && *it < 90 )
 		   average += *it + 360;
 		 else if ( last_average < 90 && *it > 270 )
@@ -328,31 +328,31 @@ int main(int argc, char** argv)
 		 else
 	           average += *it;
 	       }
-	       
+
 	       average /= 10;
-	       
-	       if ( average >= 360 ) 
+
+	       if ( average >= 360 )
 	         average -= 360;
 	       else if ( average < 0 )
 	         average += 360;
-	       
+
 	       last_average = average;
-	       
+
 	       headings.pop_front();
-	       
+
 	       if ( gProgramParameter.fDisplayOn )
-	         cout << " \t** " << setw(3) << average << " ** \t" 
+	         cout << " \t** " << setw(3) << average << " ** \t"
 	              << setw(3) << 5 * ( average / 5);
 	     }
-	     
+
 	     if ( gProgramParameter.fDisplayOn ) cout << endl;
 
 	     break;
       }
     }
-    
+
     usleep( 100 );
-    
+
   } // while ( !leave )
 
   cout << endl;
@@ -373,7 +373,7 @@ int main(int argc, char** argv)
 
 /** Get a character from the console.
   *
-  * It is not necessary to preee <Enter> to send the character to the 
+  * It is not necessary to preee <Enter> to send the character to the
   * application
   */
 int getch(void)

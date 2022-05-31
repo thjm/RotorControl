@@ -32,7 +32,7 @@ int GetHeading3D(const vector_t *a, const vector_t *m, const vector_t *p) {
   int heading = round(atan2(vector_dot(&E, p), vector_dot(&N, p)) * 180 / M_PI);
   if ( heading < 0 )
     heading += 360;
-  
+
   return heading;
 }
 
@@ -41,31 +41,31 @@ int GetHeading3D(const vector_t *a, const vector_t *m, const vector_t *p) {
 bool ReadNMEAFormat(FILE *file,vector_t *a,vector_t *m)
  {
   if ( feof(file) ) return false;
-  
+
   if ( !a || !m ) return false;
-  
+
   bool status = true;
   char line[250];
 
   do {
-    
+
     fgets( line, sizeof(line)-1, file );
-    
+
     if ( feof(file) ) return false;
-  
+
     const char *acraw;
-    
+
     if ( (acraw = strstr(line,"$ACRAW")) != NULL ) {
-      
+
       if ( sscanf( acraw, "$ACRAW,%f,%f,%f,%f,%f,%f",
                     &a->x, &a->y, &a->z, &m->x, &m->y, &m->z ) == 6 )
         break;
 //      else
 //        status = false;
     }
-    
+
   } while ( !feof(file ) );
-  
+
   return status;
 }
 
@@ -74,20 +74,20 @@ bool ReadNMEAFormat(FILE *file,vector_t *a,vector_t *m)
 bool ReadNMEAFormat(const char *line,vector_t *a,vector_t *m)
  {
   if ( !line || *line == 0 ) return false;
-  
+
   if ( !a || !m ) return false;
-  
+
   bool status = false;
 
   const char *acraw;
-    
+
   if ( (acraw = strstr(line,"$ACRAW")) != NULL ) {
-  
+
     if ( sscanf( acraw, "$ACRAW,%f,%f,%f,%f,%f,%f",
   		  &a->x, &a->y, &a->z, &m->x, &m->y, &m->z ) == 6 )
       status = true;
   }
-  
+
   return status;
 }
 

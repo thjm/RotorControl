@@ -8,7 +8,7 @@ CHANGES file for RotorControl/Linux directory
                     - MAG-sensor calibration off by default
 		    - optional creation of ROOT histograms
 
-2012-06-06 (thjm) - added 3 more data files for 'l'eft, 'r'ight position and 
+2012-06-06 (thjm) - added 3 more data files for 'l'eft, 'r'ight position and
                     360 degrees turn
 		  - UiMenu: 'p' menu option = show parameters
 
@@ -18,8 +18,8 @@ CHANGES file for RotorControl/Linux directory
 
 2012-05-18 (thjm) - compass.cc: one more menu option added
                     + some minor changes (beautification)
-		  - new MAG sensor calibration constants  
- 
+		  - new MAG sensor calibration constants
+
 2012-05-16 (thjm) - file README created
                   - common.cc from ../LSM303 directory
 

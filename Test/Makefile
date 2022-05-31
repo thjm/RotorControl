@@ -7,10 +7,10 @@
 
 MCU = atmega32
 FORMAT = ihex
-TARGET = 
+TARGET =
 HDR = ../global.h
 SRC = uart.c i2cmaster.c get8key4.c
-ASRC = 
+ASRC =
 OPT = s
 
 # Name of this Makefile (used for "make depend").
@@ -42,7 +42,7 @@ CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
 
 
-#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
+#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
 
 
 #Additional libraries.
@@ -53,7 +53,7 @@ PRINTF_LIB_MIN = -Wl,-u,vfprintf -lprintf_min
 # Floating point printf version (requires MATH_LIB = -lm below)
 PRINTF_LIB_FLOAT = -Wl,-u,vfprintf -lprintf_flt
 
-PRINTF_LIB = 
+PRINTF_LIB =
 
 # Minimalistic scanf version
 SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
@@ -61,7 +61,7 @@ SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
 # Floating point + %[ scanf version (requires MATH_LIB = -lm below)
 SCANF_LIB_FLOAT = -Wl,-u,vfscanf -lscanf_flt
 
-SCANF_LIB = 
+SCANF_LIB =
 
 MATH_LIB = -lm
 
@@ -100,7 +100,7 @@ AVRDUDE_ERASE_COUNTER = -y
 #AVRDUDE_NO_VERIFY = -V
 
 # Increase verbosity level.  Please use this when submitting bug
-# reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude> 
+# reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude>
 # to submit bug reports.
 #AVRDUDE_VERBOSE = -v -v
 
@@ -118,7 +118,7 @@ REMOVE = rm -f
 MV = mv -f
 
 # Define all object files.
-OBJ = $(SRC:.c=.o) $(ASRC:.S=.o) 
+OBJ = $(SRC:.c=.o) $(ASRC:.S=.o)
 
 # Define all listing files.
 LST = $(ASRC:.S=.lst) $(SRC:.c=.lst)
@@ -158,7 +158,7 @@ clean::
 	rm -f get8key4.c
 
 
-# # Program the device.  
+# # Program the device.
 # program: $(TARGET).hex $(TARGET).eep
 # 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
@@ -170,16 +170,16 @@ COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .data-0x800000 \
 --change-section-address .bss-0x800000 \
 --change-section-address .noinit-0x800000 \
---change-section-address .eeprom-0x810000 
+--change-section-address .eeprom-0x810000
 
 
 # coff: $(TARGET).elf
 # 	$(COFFCONVERT) -O coff-avr $(TARGET).elf $(TARGET).cof
-# 
-# 
+#
+#
 # extcoff: $(TARGET).elf
 # 	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
-# 
+#
 
 .SUFFIXES: .elf .hex .eep .lss .sym
 
@@ -213,7 +213,7 @@ clean::
 	$(RM) displaytest.elf displaytest.hex displaytest.map displaytest.lss
 	$(RM) $(DISPLAYTESTOBJS)
 
-HDRS += 
+HDRS +=
 SRCS += displaytest.c
 
 # Target: blrtest.elf
@@ -229,7 +229,7 @@ clean::
 	$(RM) blrtest.elf blrtest.hex blrtest.map blrtest.lss
 	$(RM) $(BLRTESTOBJS)
 
-HDRS += 
+HDRS +=
 SRCS += blrtest.c
 
 # Target: uarttest.elf
@@ -245,12 +245,12 @@ clean::
 	$(RM) uarttest.elf uarttest.hex uarttest.map uarttest.lss
 	$(RM) $(UARTTESTOBJS)
 
-HDRS += 
+HDRS +=
 SRCS += uarttest.c
 
 # Compile: create object files from C source files.
 .c.o:
-	$(CC) -c $(ALL_CFLAGS) $< -o $@ 
+	$(CC) -c $(ALL_CFLAGS) $< -o $@
 
 
 # Compile: create assembler files from C source files.
@@ -289,6 +289,3 @@ include .depend
 endif
 
 # --- end of Makefile ---
-
-
-
