@@ -5,17 +5,17 @@ signals from a 3D magnet sensor (and from a 3D accelerometer).
 
 The software is split onto several micro controllers from Atmel's AVR family.
 
-- the software for the display board (hardware design based on ATmega8 from U.Radig) 
+- the software for the display board (hardware design based on ATmega8 from U.Radig)
   is located in the directory ./DisplayUR
-- the software for the ATmega8 at the remote magnetic/accelerometric sensor is 
+- the software for the ATmega8 at the remote magnetic/accelerometric sensor is
   located in the directory ./LSM303
 - the software foreseen to run on the main ATmega32 is in the ./ directory
 - further we have the Eagle circuit drawing of the various boards (my boards are
   all done on prototype boards, thus the eagle design was never verified):
-  - AntennaBoard.sch : board with the mag./acc. sensor attached 
+  - AntennaBoard.sch : board with the mag./acc. sensor attached
     to the boom of the antenna
   - ButtonBoard.sch : board to hold push buttons and LEDs for the front panel
-  - CPUBoard.sch : the board with the main CPU and connectors to the other 
+  - CPUBoard.sch : the board with the main CPU and connectors to the other
     board with a micro controller on them
   - PowerSupply.sch : main power supply, +12V and +5V
   - RelayBoard1.sch : board which holds relays for the direction and the release
@@ -31,7 +31,7 @@ The software is split onto several micro controllers from Atmel's AVR family.
 
 - DisplayUR : parts takes from Ulrich Radig's (http://www.ulrichradig.de)
           PowerSupply project. The display unit presented there seems to be
-          quite usable for a simple display here, just software needs to be 
+          quite usable for a simple display here, just software needs to be
           adopted.
 
 - Eagle : contains drawings and schemes done with the Eagle layout program
@@ -63,7 +63,7 @@ The software is split onto several micro controllers from Atmel's AVR family.
 
 ## Usage
 
-Compile the software in the 3 directories ./LSM303, ./DIsplayUR and ./ by 
+Compile the software in the 3 directories ./LSM303, ./DIsplayUR and ./ by
 typing make in ./ We have then:
 
 - ./LSM303/lsm303read.hex : the software for the mag./acc. controller
@@ -83,7 +83,7 @@ typing make in ./ We have then:
 
 - the main electronics module has the task to
   - receive direction information from the LSM303DLH
-  - calculate/average the direction information and send it to the display 
+  - calculate/average the direction information and send it to the display
     module
   - compare the current direction with the preset value and pass this
     information to the rotator controller (software module)
@@ -104,3 +104,4 @@ longer available, purchased successor LSM303DLHC (GY-511).
 - http://homepage.hispeed.ch/peterfleury/doxygen/avr-gcc-libraries/group__pfleury__ic2master.html, TWI library
 - https://github.com/ryantm/LSM303DLH, Arduini library for LSM303 like sensors
 
+- https://pre-commit.com/
